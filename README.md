@@ -1,4 +1,4 @@
-# Q-Skills
+# q-skills
 
 Skills for academic research workflows with Claude Code.
 
