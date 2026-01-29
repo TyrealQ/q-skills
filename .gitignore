@@ -1,0 +1,21 @@
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Ignore Python cache
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Ignore environment files
+.env
+.env.local
+*.log
