@@ -25,16 +25,32 @@ git clone https://github.com/TyrealQ/q-skills.git
 **Windows (PowerShell):**
 
 ```powershell
-Copy-Item -Recurse -Force q-skills\q-* $env:USERPROFILE\.claude\skills\
+Copy-Item -Recurse -Force q-skills\skills\q-* $env:USERPROFILE\.claude\skills\
 ```
 
 **macOS/Linux:**
 
 ```bash
-cp -r q-skills/q-* ~/.claude/skills/
+cp -r q-skills/skills/q-* ~/.claude/skills/
 ```
 
 > **Note:** The exact skills path depends on your AI assistant. Common locations: `~/.claude/skills/`, `~/.gemini/skills/`
+
+## Update Skills
+
+To update to the latest version:
+
+```bash
+cd q-skills
+git pull
+```
+
+Then re-copy the skills to your skills directory.
+
+**Or reinstall:**
+```bash
+npx skills add TyrealQ/q-skills --force
+```
 
 ---
 
