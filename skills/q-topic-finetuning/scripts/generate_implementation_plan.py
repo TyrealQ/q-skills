@@ -1,13 +1,13 @@
 """
-Esports UGC Topic Consolidation - Implementation Plan Generator
+Esports UGC Topic Consolidation (Example Reference) - Implementation Plan Generator
 ================================================================
 This script generates the complete implementation_plan.md from source data files:
-- topic_esports_ugc_nov16.xlsx: Original 129 BERTopic topics with GPT labels and counts
-- esports_ugc_report_nov16.xlsx: Merge group proposals and independent topic lists
+- input_topics.xlsx: Original topic model outputs with GPT labels and counts
+- merge_report.xlsx: Merge group proposals and independent topic lists
 
 Usage: python generate_implementation_plan.py
 
-Output: implementation_plan.md (and topic_consolidation_plan.md as backup)
+Output: implementation_plan.md (and topic_consolidation.md as backup)
 """
 
 import pandas as pd
@@ -16,11 +16,10 @@ import re
 # =============================================================================
 # CONFIGURATION
 # =============================================================================
-INPUT_TOPICS_FILE = 'topic_esports_ugc_nov16.xlsx'
-INPUT_REPORT_FILE = 'esports_ugc_report_nov16.xlsx'
+INPUT_TOPICS_FILE = 'input_topics.xlsx'
+INPUT_REPORT_FILE = 'merge_report.xlsx'
 OUTPUT_FILE = 'implementation_plan.md'
-BACKUP_FILE = 'topic_consolidation_plan.md'
-ARTIFACT_FILE = r'C:\Users\Q\.gemini\antigravity\brain\28af0040-b354-4d30-b553-9e175f8a8655\implementation_plan.md'
+BACKUP_FILE = 'topic_consolidation.md'
 
 # =============================================================================
 # STEP 1: LOAD SOURCE DATA
@@ -524,14 +523,6 @@ print(f"✓ Saved: {OUTPUT_FILE}")
 with open(BACKUP_FILE, 'w', encoding='utf-8') as f:
     f.write(content)
 print(f"✓ Saved: {BACKUP_FILE}")
-
-# Save to artifact directory
-try:
-    with open(ARTIFACT_FILE, 'w', encoding='utf-8') as f:
-        f.write(content)
-    print(f"✓ Saved: {ARTIFACT_FILE}")
-except Exception as e:
-    print(f"⚠ Could not save artifact: {e}")
 
 # =============================================================================
 # FINAL SUMMARY

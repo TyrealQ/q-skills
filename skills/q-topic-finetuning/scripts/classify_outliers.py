@@ -54,7 +54,7 @@ VALID_TOPICS = [
 
 def load_system_prompt():
     """Load the system prompt."""
-    prompt_path = os.path.join(BASE_DIR, "SP_ESPORTS_OUTLIER.txt") # Update filename
+    prompt_path = os.path.join(BASE_DIR, "SP_OUTLIER_TEMPLATE.txt")  # Update filename as needed
     if not os.path.exists(prompt_path):
          return "You are an expert classifier. Classify the document into one of the valid topics."
     with open(prompt_path, 'r', encoding='utf-8') as f:
@@ -186,8 +186,8 @@ def main():
     MODEL_NAME = args.model
     
     # Input/Output paths - UPDATE THESE
-    input_filename = "ESPORTS_UGC_JAN29.xlsx"
-    output_filename = "ESPORTS_UGC_JAN30.xlsx"
+    input_filename = "output_with_labels.xlsx"
+    output_filename = "output_with_outliers.xlsx"
     
     input_path = os.path.join(BASE_DIR, input_filename)
     if not os.path.exists(input_path):

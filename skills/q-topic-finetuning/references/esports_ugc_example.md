@@ -63,7 +63,7 @@ Multi-category overlap: 13 topics, 7,377 documents
 ## Files Generated
 
 1. `implementation_plan.md` - Complete consolidation plan
-2. `ESPORTS_UGC_JAN29.xlsx` - Updated with columns:
+2. `output_with_labels.xlsx` - Updated with columns:
    - Final_Topic_Code
    - Final_Topic_Label
    - Legitimacy_Theme

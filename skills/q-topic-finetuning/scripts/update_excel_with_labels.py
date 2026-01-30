@@ -1,18 +1,18 @@
 """
-Update ESPORTS_UGC with Final Topic Labels and Themes
-======================================================
-Reads ESPORTS_UGC_JAN7.xlsx and adds:
+Update topic model output with Final Topic Labels and Themes
+===========================================================
+Reads input_data.xlsx and adds:
 - Final_Topic_Code: The consolidated topic code (C1, P12, M1, G7, etc.)
 - Final_Topic_Label: Human-readable label
 - Legitimacy_Theme: Cognitive, Pragmatic-*, Moral, or Game-Specific
 
-Output: ESPORTS_UGC_JAN29.xlsx
+Output: output_with_labels.xlsx
 """
 
 import pandas as pd
 
 print("Loading data...")
-df = pd.read_excel('ESPORTS_UGC_JAN7.xlsx')
+df = pd.read_excel('input_data.xlsx')
 print(f"  Loaded {len(df)} rows")
 
 # Topic to Final Topic mapping from Table 2
@@ -240,7 +240,7 @@ df['Final_Topic_Label'] = df['Topic'].apply(get_final_labels)
 df['Legitimacy_Theme'] = df['Topic'].apply(get_themes)
 
 # Save to new file
-output_file = 'ESPORTS_UGC_JAN29.xlsx'
+output_file = 'output_with_labels.xlsx'
 print(f"Saving to {output_file}...")
 df.to_excel(output_file, index=False)
 
