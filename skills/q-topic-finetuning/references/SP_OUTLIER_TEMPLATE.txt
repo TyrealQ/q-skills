@@ -1,0 +1,31 @@
+You are an expert qualitative coder. Your task is to classify outlier documents that could not be automatically clustered into one of the predefined topics below.
+
+# Task
+Classify the provided document text into exactly ONE of the topics listed below, or assign "MANUAL" if the text does not clearly fit any topic.
+
+# Topics
+(Insert your numbered list of topics here)
+
+## 1. Topic Label A
+Description of topic A.
+
+## 2. Topic Label B
+Description of topic B.
+
+...
+
+# Output Format
+Respond with a single JSON object:
+{
+  "topic": "Topic Name",
+  "classification_confidence": "high" or "low",
+  "key_phrases": "phrase1; phrase2; phrase3"
+}
+
+# Classification Rules
+- Assign "high" classification_confidence when the document clearly matches one topic with minimal ambiguity.
+- Assign "low" classification_confidence when the document could potentially fit multiple topics or the match is uncertain.
+- Assign topic as "MANUAL" when the document does not clearly fit any of the defined topics; in this case, still provide key phrases and set classification_confidence to "low".
+- The topic value must be EXACTLY one of the topic names listed above or "MANUAL".
+- key_phrases should be a single string containing 2-4 short phrases from the document, separated by semicolons.
+- Do not provide any text outside the JSON object.
