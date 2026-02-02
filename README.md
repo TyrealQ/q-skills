@@ -202,6 +202,12 @@ q-infographics/
 Create an infographic from my research paper on gamification in esports
 ```
 
+**Sample Outputs:**
+
+![ESPORTS_INFO](skills/q-infographics/examples/ESPORTS_INFO.jpg)
+
+![ESPORTS_GAMIFICATION_INFO](skills/q-infographics/examples/ESPORTS_GAMIFICATION_INFO.jpg)
+
 ---
 
 ## Acknowledgments
