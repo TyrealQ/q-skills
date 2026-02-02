@@ -1,0 +1,9 @@
+Based on the input content, extract core themes and key points to generate a cartoon-style infographic:
+
+*   **Style & Composition**: Adopt a hand-drawn style with a landscape (16:9) composition. All images and text must be rendered exclusively in a hand-drawn style; absolutely no realistic pictorial elements exist.
+*   **Visual Elements**: Incorporate a small number of concise cartoon elements, icons, or portraits of famous people to enhance appeal and visual memorability.
+*   **Safe Generation**: If sensitive figures or copyrighted content are present, draw a similar alternative instead; do not refuse to generate the image.
+*   **Language**: Unless specifically requested otherwise, the output language must be consistent with the language of the input content.
+*   **Layout**: Keep information concise, highlighting keywords and core concepts with ample white space, ensuring the key points are easy to grasp at a glance.
+
+Generate an infographic image based on the input content.

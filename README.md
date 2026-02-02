@@ -69,6 +69,12 @@ npx skills add TyrealQ/q-skills --force
 | [q-topic-finetuning](#q-topic-finetuning)         | Consolidate topic modeling outputs into theory-driven frameworks |
 | [q_descriptive-analysis](#q_descriptive-analysis) | Comprehensive descriptive analysis of tabular datasets           |
 
+### Research Promotion Skills
+
+| Skill                                | Description                                                  |
+| ------------------------------------ | ------------------------------------------------------------ |
+| [q-infographics](#q-infographics)    | Convert documents into business stories and infographics     |
+
 ---
 
 ## Skill Details
@@ -148,6 +154,52 @@ Comprehensive descriptive analysis of tabular datasets with grouped statistics a
 
 ```
 Analyze my survey data grouped by condition and generate descriptive tables
+```
+
+---
+
+### q-infographics
+
+Convert documents into compelling business stories and cartoon-style infographics using Gemini 3.0 Pro.
+
+**Triggers:**
+
+- "Create an infographic from this document..."
+- "Convert this paper to a visual summary..."
+- "Generate a business story from..."
+
+**Features:**
+
+- Two-stage pipeline: Document → Story → Infographic
+- Business story style (36Kr/Huxiu format) with "golden sentences"
+- Hand-drawn cartoon-style infographics (16:9)
+- Review checkpoints at each stage
+- Supports PDF, DOCX, and text input (via markitdown)
+
+**Requirements:**
+
+- `pip install google-genai markitdown`
+- `GEMINI_API_KEY` environment variable
+
+**Folder Structure:**
+
+```
+q-infographics/
+├── SKILL.md
+├── requirements.txt
+├── prompts/
+│   ├── story.txt      # Story generation prompt
+│   └── image.txt      # Infographic prompt
+├── scripts/
+│   ├── gen_story.py
+│   └── gen_image.py
+└── examples/
+```
+
+**Example:**
+
+```
+Create an infographic from my research paper on gamification in esports
 ```
 
 ---

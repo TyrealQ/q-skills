@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.0] - 2026-02-02
+
+### Added
+- **q-infographics**: New skill for converting documents into business stories and infographics
+  - Two-stage pipeline: Document → Story → Infographic
+  - Powered by Gemini 3.0 Pro (google-genai SDK)
+  - Business story style with "golden sentences" (36Kr/Huxiu format)
+  - Hand-drawn cartoon-style infographics (16:9 aspect ratio)
+  - Review checkpoints at each workflow stage
+  - Organized folder structure: prompts/, scripts/, examples/
+  - Supports PDF, DOCX, and text input via markitdown
+
 ## [1.0.1] - 2026-01-30
 
 ### Changed
