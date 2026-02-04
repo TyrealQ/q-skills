@@ -58,48 +58,80 @@ npx skills add TyrealQ/q-skills --force
 
 ### Academic Writing Skills
 
-| Skill                | Description                                     |
-| -------------------- | ----------------------------------------------- |
-| [q-methods](#q-methods) | Draft methods sections for academic manuscripts |
+| Skill                      | Description                                                   |
+| -------------------------- | ------------------------------------------------------------- |
+| [q-scholar](#q-scholar)    | Academic manuscript writing suite (methods, results, analysis) |
 
 ### Data Analysis Skills
 
-| Skill                                          | Description                                                      |
-| ---------------------------------------------- | ---------------------------------------------------------------- |
-| [q-topic-finetuning](#q-topic-finetuning)         | Consolidate topic modeling outputs into theory-driven frameworks |
-| [q_descriptive-analysis](#q_descriptive-analysis) | Comprehensive descriptive analysis of tabular datasets           |
+| Skill                                     | Description                                                      |
+| ----------------------------------------- | ---------------------------------------------------------------- |
+| [q-topic-finetuning](#q-topic-finetuning) | Consolidate topic modeling outputs into theory-driven frameworks |
 
 ### Research Promotion Skills
 
-| Skill                                | Description                                                  |
-| ------------------------------------ | ------------------------------------------------------------ |
-| [q-infographics](#q-infographics)    | Convert documents into business stories and infographics     |
+| Skill                             | Description                                              |
+| --------------------------------- | -------------------------------------------------------- |
+| [q-infographics](#q-infographics) | Convert documents into business stories and infographics |
 
 ---
 
 ## Skill Details
 
-### q-methods
+### q-scholar
 
-Draft methods sections for academic manuscripts following a structured, narrative style.
+Academic manuscript writing suite for drafting journal-ready prose following APA 7th edition standards. Orchestrates specialized sub-skills for complete manuscript preparation workflows.
+
+**Sub-Skills:**
+
+| Sub-Skill | Description |
+| --------- | ----------- |
+| q-descriptive-analysis | Comprehensive exploratory analysis of tabular datasets |
+| q-methods | Methods section drafting in clear, narrative style |
+| q-results | Results section drafting with APA-compliant tables |
 
 **Triggers:**
 
-- "Write a methods section for..."
-- "Draft the methodology for..."
-- "Help me write the methods for my paper on..."
+- "Help me write the methods and results for my study"
+- "Draft a results section for this analysis"
+- "Analyze this dataset and generate descriptive statistics"
 
 **Features:**
 
-- Flowing paragraph style (no bullet points or em-dashes)
-- Conceptual language over implementation details
-- Standard structure: Data Collection → Analysis → Validation
-- Appendix templates for technical parameters
+- End-to-end manuscript support (data exploration → methods → results)
+- APA 7th edition formatting (tables, statistics, notation)
+- Narrative prose style (no bullet points or em-dashes)
+- Shared style guides and templates
+- Appendix strategies for technical details
+
+**Workflow Phases:**
+
+1. **Data Exploration** - Invoke q-descriptive-analysis for statistics and summaries
+2. **Methods Documentation** - Invoke q-methods for data collection and analysis procedures
+3. **Results Presentation** - Invoke q-results for findings organized by research questions
+
+**Folder Structure:**
+
+```
+q-scholar/
+├── SKILL.md                    # Orchestration skill
+├── references/                 # Shared style guides
+│   ├── apa_style_guide.md
+│   └── table_formatting.md
+├── q-descriptive-analysis/
+│   └── SKILL.md
+├── q-methods/
+│   ├── SKILL.md
+│   └── references/
+└── q-results/
+    ├── SKILL.md
+    └── references/
+```
 
 **Example:**
 
 ```
-Help me write the methods section for my NLP paper analyzing social media discourse
+Help me write the methods and results sections for my topic modeling study on esports discourse
 ```
 
 ---
@@ -129,32 +161,6 @@ Consolidate my 129 BERTopic topics using organizational legitimacy framework
 ```
 
 **Reference:** See `references/esports_ugc_example.md` for complete worked example.
-
----
-
-### q_descriptive-analysis
-
-Comprehensive descriptive analysis of tabular datasets with grouped statistics and publication-ready summaries.
-
-**Triggers:**
-
-- "Analyze this dataset..."
-- "Generate descriptive statistics for..."
-- "Create a summary table for my data..."
-
-**Features:**
-
-- Overall and grouped descriptive statistics
-- Frequency distributions by categorical variables
-- Entity extraction from text columns
-- Temporal dynamics analysis
-- CSV output tables with MD summary reports
-
-**Example:**
-
-```
-Analyze my survey data grouped by condition and generate descriptive tables
-```
 
 ---
 
