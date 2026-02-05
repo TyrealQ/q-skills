@@ -9,6 +9,7 @@ q-skills/
 ├── skills/                    # All skills in subdirectory
 │   ├── q-infographics/        # Document to infographic conversion
 │   ├── q-scholar/             # Academic manuscript writing suite
+│   │   ├── q-intro/
 │   │   ├── q-descriptive-analysis/
 │   │   ├── q-methods/
 │   │   └── q-results/

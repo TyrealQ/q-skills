@@ -86,6 +86,7 @@ Academic manuscript writing suite for drafting journal-ready prose following APA
 
 | Sub-Skill | Description |
 | --------- | ----------- |
+| q-intro | Introduction section drafting with interview-driven workflow |
 | q-descriptive-analysis | Comprehensive exploratory analysis of tabular datasets |
 | q-methods | Methods section drafting in clear, narrative style |
 | q-results | Results section drafting with APA-compliant tables |
@@ -107,8 +108,9 @@ Academic manuscript writing suite for drafting journal-ready prose following APA
 **Workflow Phases:**
 
 1. **Data Exploration** - Invoke q-descriptive-analysis for statistics and summaries
-2. **Methods Documentation** - Invoke q-methods for data collection and analysis procedures
-3. **Results Presentation** - Invoke q-results for findings organized by research questions
+2. **Introduction Drafting** - Invoke q-intro for context, gaps, RQs, and contributions
+3. **Methods Documentation** - Invoke q-methods for data collection and analysis procedures
+4. **Results Presentation** - Invoke q-results for findings organized by research questions
 
 **Folder Structure:**
 
@@ -118,6 +120,9 @@ q-scholar/
 ├── references/                 # Shared style guides
 │   ├── apa_style_guide.md
 │   └── table_formatting.md
+├── q-intro/
+│   ├── SKILL.md
+│   └── references/
 ├── q-descriptive-analysis/
 │   └── SKILL.md
 ├── q-methods/

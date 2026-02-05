@@ -1,6 +1,6 @@
 ---
 name: q-scholar
-description: Comprehensive academic writing skill for drafting journal-ready manuscripts. Orchestrates specialized sub-skills for descriptive analysis (q-descriptive-analysis), methods sections (q-methods), and results sections (q-results). Use when the user needs end-to-end support for academic manuscript preparation, from initial data exploration through publication-ready prose. Follows APA 7th edition formatting standards.
+description: Comprehensive academic writing skill for drafting journal-ready manuscripts. Orchestrates specialized sub-skills for introduction sections (q-intro), descriptive analysis (q-descriptive-analysis), methods sections (q-methods), and results sections (q-results). Use when the user needs end-to-end support for academic manuscript preparation, from initial data exploration through publication-ready prose. Follows APA 7th edition formatting standards.
 ---
 
 # Q-Scholar: Academic Manuscript Writing Suite
@@ -9,15 +9,20 @@ Q-Scholar is an overarching academic writing skill that orchestrates specialized
 
 ## Sub-Skills
 
+### q-intro
+Introduction section drafting using an interview-driven workflow. Produces flowing prose that establishes context, identifies literature gaps, frames research questions, previews methods, and articulates contributions.
+
+Use for: Writing introduction sections that move from phenomenon to theory to empirical contribution, with clear gap articulation and enumerated contributions.
+
 ### q-descriptive-analysis
 Comprehensive exploratory analysis of tabular datasets. Generates grouped statistics, frequency distributions, entity extraction, temporal dynamics, and publication-ready summary reports.
 
 Use for: Initial data exploration, descriptive statistics generation, understanding dataset structure before formal analysis.
 
 ### q-methods
-Methods section drafting in clear, narrative style. Produces flowing paragraphs organized by workflow stages with appropriate appendix cross-references for technical details.
+Methods section drafting in clear, narrative style. Produces flowing paragraphs organized by workflow stages with appropriate appendix cross-references for technical details. Maintains strict separation between methods and results: describes procedures and summarizes data collected, but reserves analysis findings for the results section.
 
-Use for: Writing data collection, preprocessing, analysis procedures, and validation descriptions.
+Use for: Writing data collection, preprocessing, analysis procedures, validation descriptions, and corpus summaries (sample size, date range, category distributions).
 
 ### q-results
 Results section drafting following APA 7th edition guidelines. Produces narrative prose organized by research questions with properly formatted tables.
@@ -33,14 +38,23 @@ Invoke q-descriptive-analysis to:
 - Create CSV tables and markdown summaries
 - Understand grouping variables and key metrics
 
-### Phase 2: Methods Documentation
+### Phase 2: Introduction Drafting
+Invoke q-intro to:
+- Establish phenomenon and theoretical context
+- Articulate literature gaps
+- Frame research questions
+- State contributions with parallel structure
+- Provide article roadmap
+
+### Phase 3: Methods Documentation
 Invoke q-methods to:
-- Document data collection procedures
+- Document data collection procedures and corpus summaries
 - Describe analytical approaches conceptually
 - Reference technical details to appendices
 - Include validation procedures
+- Keep methods separate from results (procedures, not findings)
 
-### Phase 3: Results Presentation
+### Phase 4: Results Presentation
 Invoke q-results to:
 - Organize findings by research questions
 - Write narrative prose integrating statistics
@@ -64,20 +78,20 @@ Across all sub-skills, Q-Scholar maintains consistent standards:
 
 ### Full Manuscript Support
 ```
-User: Help me write the methods and results for my topic modeling study
-Assistant: [Invokes q-methods for methods section, then q-results for results section]
+User: Help me write the introduction, methods, and results for my topic modeling study
+Assistant: [Invokes q-intro, q-methods, then q-results in sequence]
 ```
 
 ### Targeted Section Drafting
 ```
-User: Draft a results section for this analysis
-Assistant: [Invokes q-results specifically]
+User: Draft an introduction for my paper on esports legitimacy
+Assistant: [Invokes q-intro with interview workflow]
 ```
 
 ### Data Exploration First
 ```
 User: I have a new dataset and need to understand it before writing
-Assistant: [Invokes q-descriptive-analysis for exploration, then proceeds to methods/results]
+Assistant: [Invokes q-descriptive-analysis for exploration, then proceeds to writing sections]
 ```
 
 ## Quality Standards
@@ -100,6 +114,11 @@ q-scholar/
 │   └── table_formatting.md               # APA 7th table examples
 ├── q-descriptive-analysis/
 │   └── SKILL.md                          # Data exploration skill
+├── q-intro/
+│   ├── SKILL.md                          # Introduction drafting skill
+│   └── references/
+│       ├── introduction_template.md
+│       └── interview_questions.md
 ├── q-methods/
 │   ├── SKILL.md                          # Methods drafting skill
 │   └── references/
@@ -119,5 +138,6 @@ Shared references (apply to all sub-skills):
 
 Sub-skill specific references:
 - q-descriptive-analysis/SKILL.md: workflow templates, code patterns
+- q-intro/references/: introduction_template.md, interview_questions.md
 - q-methods/references/: methods_template.md, appendix_template.md
 - q-results/references/: results_template.md

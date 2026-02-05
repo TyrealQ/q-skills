@@ -2,21 +2,31 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.2.0] - 2026-02-04
+## [1.2.0] - 2026-02-05
 
 ### Added
 - **q-scholar**: New academic manuscript writing suite that orchestrates sub-skills
   - Consolidated skill bundle for end-to-end manuscript preparation
   - Follows APA 7th edition formatting standards
   - Shared references for style guides and table formatting
+  - q-intro: Introduction section drafting with interview-driven workflow
   - q-descriptive-analysis: Comprehensive exploratory data analysis
   - q-methods: Methods section drafting with appendix templates
   - q-results: Results section drafting with APA-compliant tables
+- **q-intro**: New sub-skill for introduction sections
+  - Interview-driven workflow (5-8 questions before drafting)
+  - Six-component structure: hook, literature, context, RQs, contributions, roadmap
+  - Template patterns for openings, gaps, questions, and contributions
+  - Scope boundaries separating intro from literature review
 
 ### Changed
 - Migrated standalone q-methods into q-scholar sub-skill
 - Renamed q_descriptive-analysis to q-descriptive-analysis (hyphen convention)
 - Moved q_descriptive-analysis into q-scholar sub-skill
+- **q-methods**: Improved clarity and added scope boundaries
+  - Added principle: keep methods strictly separate from results
+  - New section clarifying what belongs in methods vs results (data summaries vs analysis findings)
+  - Converted structure guidelines to flowing prose
 
 ### Removed
 - Standalone q-methods skill (now part of q-scholar)
