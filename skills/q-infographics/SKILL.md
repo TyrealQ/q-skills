@@ -108,8 +108,7 @@ Generates hand-drawn cartoon-style infographics:
 
 Sample infographics generated from academic research papers:
 
-### Esports Online Spectatorship
-![ESPORTS_INFO](examples/ESPORTS_INFO.jpg)
+### Digital Entrepreneurship in Women's Sports
+![DIGITAL_ENTREPRENEURSHIP_INFO1](examples/DIGITAL_ENTREPRENEURSHIP_INFO1.jpg)
 
-### Esports Gamification
-![ESPORTS_GAMIFICATION_INFO](examples/ESPORTS_GAMIFICATION_INFO.jpg)
+![DIGITAL_ENTREPRENEURSHIP_INFO2](examples/DIGITAL_ENTREPRENEURSHIP_INFO2.jpg)
