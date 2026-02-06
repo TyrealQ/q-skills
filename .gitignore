@@ -8,6 +8,7 @@ Thumbs.db
 *~
 .vscode/
 .idea/
+.claude/
 
 # Ignore Python cache
 __pycache__/
