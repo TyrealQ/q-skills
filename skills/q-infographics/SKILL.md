@@ -16,6 +16,8 @@ Transforms documents -> Story -> Infographic.
 q-infographics/
 ├── SKILL.md           # This file
 ├── requirements.txt   # Python dependencies
+├── assets/
+│   └── Logo_Q.png     # Brand logo, auto-overlaid on infographics
 ├── prompts/
 │   ├── story.txt      # Story generation prompt
 │   └── image.txt      # Infographic generation prompt
@@ -70,7 +72,14 @@ python skills/q-infographics/scripts/gen_image.py STORY_OUTPUT.md skills/q-infog
 
 ## Requirements
 *   `pip install -r skills/q-infographics/requirements.txt`
-*   `GEMINI_API_KEY` environment variable set
+*   `GEMINI_API_KEY` environment variable — load from a `.env` file:
+    ```bash
+    export $(cat /path/to/.env | xargs)
+    ```
+
+## Branding
+
+Every generated infographic is automatically branded with a logo in the bottom-right corner, resized to ~6% of the image width. To use your own logo, place it in the `assets/` folder and update `LOGO_FILENAME` in `scripts/gen_image.py`.
 
 ## Customization
 

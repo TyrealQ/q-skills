@@ -184,13 +184,14 @@ Convert documents into compelling business stories and cartoon-style infographic
 - Two-stage pipeline: Document → Story → Infographic
 - Business story style (36Kr/Huxiu format) with "golden sentences"
 - Hand-drawn cartoon-style infographics (16:9)
+- Automatic logo branding on generated infographics
 - Review checkpoints at each stage
 - Supports PDF, DOCX, and text input (via markitdown)
 
 **Requirements:**
 
-- `pip install google-genai markitdown`
-- `GEMINI_API_KEY` environment variable
+- `pip install google-genai Pillow markitdown`
+- `GEMINI_API_KEY` environment variable (load via `export $(cat /path/to/.env | xargs)`)
 
 **Folder Structure:**
 
@@ -198,6 +199,8 @@ Convert documents into compelling business stories and cartoon-style infographic
 q-infographics/
 ├── SKILL.md
 ├── requirements.txt
+├── assets/
+│   └── Logo_Q.png     # Brand logo, auto-overlaid on infographics
 ├── prompts/
 │   ├── story.txt      # Story generation prompt
 │   └── image.txt      # Infographic prompt

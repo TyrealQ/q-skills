@@ -1,18 +1,55 @@
 
 # To run this code you need to install the following dependencies:
-# pip install google-genai
+# pip install google-genai Pillow
 
 import mimetypes
 import os
 import sys
 from google import genai
 from google.genai import types
+from PIL import Image
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+LOGO_FILENAME = 'Logo_Q.png'
+LOGO_PATH = os.path.join(SCRIPT_DIR, '..', 'assets', LOGO_FILENAME)
 
 
 def save_binary_file(file_name, data):
     with open(file_name, "wb") as f:
         f.write(data)
     print(f"File saved to: {file_name}")
+
+
+def apply_logo_overlay(image_path):
+    if not os.path.exists(LOGO_PATH):
+        print(f"Warning: Logo not found at {LOGO_PATH}, skipping overlay.", file=sys.stderr)
+        return
+
+    infographic = Image.open(image_path).convert("RGBA")
+    logo = Image.open(LOGO_PATH).convert("RGBA")
+
+    # Resize logo to 6% of infographic width, preserving aspect ratio
+    target_width = int(infographic.width * 0.06)
+    scale = target_width / logo.width
+    target_height = int(logo.height * scale)
+    logo = logo.resize((target_width, target_height), Image.LANCZOS)
+
+    # Position: bottom-right corner with 1% inward margin, offset for transparent padding
+    pad_offset_x = int(target_width * 0.33)
+    pad_offset_y = int(target_height * 0.33)
+    margin_x = int(infographic.width * 0.005)
+    margin_y = int(infographic.height * 0.005)
+    logo_left = infographic.width - target_width + pad_offset_x - margin_x
+    logo_top = infographic.height - target_height + pad_offset_y - margin_y
+
+    infographic.paste(logo, (logo_left, logo_top), logo)
+
+    # Save back (convert to RGB if saving as JPEG)
+    ext = os.path.splitext(image_path)[1].lower()
+    if ext in ('.jpg', '.jpeg'):
+        infographic = infographic.convert("RGB")
+    infographic.save(image_path)
+    print(f"Logo overlay applied to: {image_path}")
 
 
 def generate(input_text, system_prompt_text, output_prefix):
@@ -82,6 +119,7 @@ def generate(input_text, system_prompt_text, output_prefix):
                     final_filename = f"{file_name_base}.png"
 
                 save_binary_file(final_filename, data_buffer)
+                apply_logo_overlay(final_filename)
             else:
                 print(chunk.text, end="")
                 sys.stdout.flush()

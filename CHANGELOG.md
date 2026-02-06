@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.1] - 2026-02-06
+
+### Added
+- **q-infographics**: Automatic logo branding on generated infographics
+  - Logo overlay via Pillow post-processing (configurable filename, size, position)
+  - Brand logo placed in bottom-right corner of every infographic
+  - Added `assets/` folder with `Logo_Q.png`
+  - Added Pillow dependency to requirements.txt
+  - Updated SKILL.md and README.md with branding documentation and `.env` loading instructions
+
 ## [1.2.0] - 2026-02-05
 
 ### Added
