@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.2] - 2026-02-06
+
+### Added
+- **q-topic-finetuning**: Added folder structure diagram to SKILL.md and README.md
+- Added folder structure diagrams for all skills in README.md
+
+### Fixed
+- **q-descriptive-analysis**: Fixed skill name from `q_descriptive-analysis` to `q-descriptive-analysis` in YAML frontmatter
+- **q-topic-finetuning**: Fixed title to use hyphenated format (`Q-Topic-Finetuning`)
+
 ## [1.2.1] - 2026-02-06
 
 ### Added

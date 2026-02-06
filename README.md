@@ -116,21 +116,21 @@ Academic manuscript writing suite for drafting journal-ready prose following APA
 
 ```
 q-scholar/
-├── SKILL.md                    # Orchestration skill
-├── references/                 # Shared style guides
-│   ├── apa_style_guide.md
-│   └── table_formatting.md
+├── SKILL.md                              # Orchestration skill
+├── references/                           # Shared style guides
+│   ├── apa_style_guide.md                # Numbers, statistics, notation
+│   └── table_formatting.md               # APA 7th table examples
 ├── q-intro/
-│   ├── SKILL.md
-│   └── references/
+│   ├── SKILL.md                          # Introduction drafting skill
+│   └── references/                       # Templates and interview questions
 ├── q-descriptive-analysis/
-│   └── SKILL.md
+│   └── SKILL.md                          # Data exploration skill
 ├── q-methods/
-│   ├── SKILL.md
-│   └── references/
+│   ├── SKILL.md                          # Methods drafting skill
+│   └── references/                       # Methods and appendix templates
 └── q-results/
-    ├── SKILL.md
-    └── references/
+    ├── SKILL.md                          # Results drafting skill
+    └── references/                       # Results template
 ```
 
 **Example:**
@@ -158,6 +158,20 @@ Fine-tune and consolidate topic modeling outputs (BERTopic, LDA, NMF) into theor
 - Preserve domain-specific distinctions (entity, event, geography)
 - Handle multi-category assignments with overlap reconciliation
 - Generate Excel output with classification labels
+
+**Folder Structure:**
+
+```
+q-topic-finetuning/
+├── SKILL.md                                  # Main skill file
+├── scripts/
+│   ├── classify_outliers.py                  # Outlier reclassification via Gemini
+│   ├── generate_implementation_plan.py       # Full plan generation
+│   └── update_excel_with_labels.py           # Excel column updates
+└── references/
+    ├── esports_ugc_example.md                # Worked example
+    └── SP_OUTLIER_TEMPLATE.txt               # Outlier classification prompt template
+```
 
 **Example:**
 
@@ -197,17 +211,17 @@ Convert documents into compelling business stories and cartoon-style infographic
 
 ```
 q-infographics/
-├── SKILL.md
-├── requirements.txt
+├── SKILL.md                              # Main skill file
+├── requirements.txt                      # Python dependencies
 ├── assets/
-│   └── Logo_Q.png     # Brand logo, auto-overlaid on infographics
+│   └── Logo_Q.png                        # Brand logo, auto-overlaid on infographics
 ├── prompts/
-│   ├── story.txt      # Story generation prompt
-│   └── image.txt      # Infographic prompt
+│   ├── story.txt                         # Story generation prompt
+│   └── image.txt                         # Infographic generation prompt
 ├── scripts/
-│   ├── gen_story.py
-│   └── gen_image.py
-└── examples/
+│   ├── gen_story.py                      # Story generator script
+│   └── gen_image.py                      # Image generator script
+└── examples/                             # Sample outputs
 ```
 
 **Example:**

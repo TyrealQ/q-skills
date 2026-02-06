@@ -3,9 +3,23 @@ name: q-topic-finetuning
 description: "Fine-tune and consolidate topic modeling outputs (BERTopic, LDA, etc.) into a theory-driven classification framework for academic manuscripts. Use when processing topic modeling results that need topic consolidation, theoretical classification, domain-specific preservation, multi-category handling, data verification, or Excel updates with final labels."
 ---
 
-# Q Topic Finetuning Skill
+# Q-Topic-Finetuning Skill
 
 Fine-tune topic modeling outputs into consolidated, theory-driven topic frameworks for academic manuscripts.
+
+## Folder Structure
+
+```
+q-topic-finetuning/
+├── SKILL.md                                  # This file
+├── scripts/
+│   ├── classify_outliers.py                  # Outlier reclassification via Gemini
+│   ├── generate_implementation_plan.py       # Full plan generation
+│   └── update_excel_with_labels.py           # Excel column updates
+└── references/
+    ├── esports_ugc_example.md                # Worked example
+    └── SP_OUTLIER_TEMPLATE.txt               # Outlier classification prompt template
+```
 
 ## When to Use
 
