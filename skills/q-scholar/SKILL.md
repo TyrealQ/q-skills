@@ -10,9 +10,9 @@ Q-Scholar is an overarching academic writing skill that orchestrates specialized
 ## Sub-Skills
 
 ### q-intro
-Introduction section drafting using an interview-driven workflow. Produces flowing prose that establishes context, identifies literature gaps, frames research questions, previews methods, and articulates contributions.
+Introduction drafting and refinement with argumentative architecture guidance. Supports two modes: interview-based drafting from scratch, and diagnostic refinement of existing drafts. Produces flowing prose that establishes context through a single narrative arc, identifies literature gaps as natural consequences of the trajectory, motivates theoretical frameworks as resolutions to identified needs, and frames research questions with clear scope progression.
 
-Use for: Writing introduction sections that move from phenomenon to theory to empirical contribution, with clear gap articulation and enumerated contributions.
+Use for: Writing or refining introduction sections that move from phenomenon to theory to empirical contribution, with discipline-first literature grounding, cross-paragraph bridge architecture, and enumerated contributions.
 
 ### q-descriptive-analysis
 Comprehensive exploratory analysis of tabular datasets. Generates grouped statistics, frequency distributions, entity extraction, temporal dynamics, and publication-ready summary reports.
@@ -40,11 +40,11 @@ Invoke q-descriptive-analysis to:
 
 ### Phase 2: Introduction Drafting
 Invoke q-intro to:
-- Establish phenomenon and theoretical context
-- Articulate literature gaps
-- Frame research questions
-- State contributions with parallel structure
-- Provide article roadmap
+- Draft from scratch via interview workflow, or refine existing drafts via diagnostic workflow
+- Ground literature in target discipline's core concerns with narrative-arc progression
+- Motivate theoretical frameworks as resolutions to identified gaps
+- Frame research questions with scope progression (descriptive, relational, conditional)
+- State contributions with parallel structure and provide article roadmap
 
 ### Phase 3: Methods Documentation
 Invoke q-methods to:

@@ -86,7 +86,7 @@ Academic manuscript writing suite for drafting journal-ready prose following APA
 
 | Sub-Skill | Description |
 | --------- | ----------- |
-| q-intro | Introduction section drafting with interview-driven workflow |
+| q-intro | Introduction drafting and refinement with argumentative architecture guidance |
 | q-descriptive-analysis | Comprehensive exploratory analysis of tabular datasets |
 | q-methods | Methods section drafting in clear, narrative style |
 | q-results | Results section drafting with APA-compliant tables |

@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.0] - 2026-02-11
+
+### Changed
+- **q-intro**: Major update adding argumentative architecture principles and refinement mode
+  - New **Argumentative Architecture** section codifying paragraph-level logic, cross-paragraph bridge patterns, and within-paragraph narrative flow
+  - Expanded core principles from 6 to 11 (narrative arc, discipline-first grounding, theory-as-resolution, bridge architecture, RQ scope progression, concept precision)
+  - New **Phase 4: Refinement Mode** with four-step diagnostic workflow (macro restructure, meso revise, micro tighten)
+  - Dual-mode support: interview-based drafting from scratch and diagnostic refinement of existing drafts
+  - Integrated tightening guidance into writing style (cut filler, compress clauses, eliminate redundancy)
+  - Expanded quality checklist from 10 to 16 items
+  - Updated interview protocol: venue-first ordering so disciplinary home anchors all decisions
+  - Updated templates with architectural annotations explaining the logic behind each pattern
+  - Literature template now uses narrative-arc pattern instead of disconnected-streams catalog
+  - RQ template now uses scope-progression pattern (descriptive, relational, conditional)
+
 ## [1.2.2] - 2026-02-06
 
 ### Added
