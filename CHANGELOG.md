@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.4.0] - 2026-02-16
+
+### Added
+- **q-presentations**: New skill for generating branded slide decks from content
+  - Fork of baoyu-slide-deck with organic content positioning (v1→v3 lessons baked in)
+  - 16 style presets + composable dimension system (texture, mood, typography, density)
+  - Video-overlay-aware layout: content anchors away from specified overlay zone
+  - Dr. Q logo branding with configurable placement and auto-invert for dark styles
+  - Gemini 3.0 Pro image generation via Python script
+  - PPTX and PDF export (Python + Bun/TS options)
+  - Partial workflows: outline-only, prompts-only, images-only, regenerate specific slides
+  - Organic Background Principle: concise one-liner specs prevent uneven Gemini backgrounds
+  - 22 style files, 5 dimension files, 28 layout types, full reference documentation
+
 ## [1.3.0] - 2026-02-11
 
 ### Changed

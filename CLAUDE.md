@@ -8,6 +8,7 @@ This file provides guidance to Claude Code when working with this repository.
 q-skills/
 ├── skills/                    # All skills in subdirectory
 │   ├── q-infographics/        # Document to infographic conversion
+│   ├── q-presentations/       # Content to branded slide decks
 │   ├── q-scholar/             # Academic manuscript writing suite
 │   │   ├── q-intro/
 │   │   ├── q-descriptive-analysis/

@@ -70,9 +70,10 @@ npx skills add TyrealQ/q-skills --force
 
 ### Research Promotion Skills
 
-| Skill                             | Description                                              |
-| --------------------------------- | -------------------------------------------------------- |
-| [q-infographics](#q-infographics) | Convert documents into business stories and infographics |
+| Skill                               | Description                                              |
+| ----------------------------------- | -------------------------------------------------------- |
+| [q-infographics](#q-infographics)   | Convert documents into business stories and infographics |
+| [q-presentations](#q-presentations) | Convert content into branded slide decks with style presets |
 
 ---
 
@@ -235,6 +236,64 @@ Create an infographic from my research paper on gamification in esports
 ![DIGITAL_ENTREPRENEURSHIP_INFO1](skills/q-infographics/examples/DIGITAL_ENTREPRENEURSHIP_INFO1.jpg)
 
 ![DIGITAL_ENTREPRENEURSHIP_INFO2](skills/q-infographics/examples/DIGITAL_ENTREPRENEURSHIP_INFO2.jpg)
+
+---
+
+### q-presentations
+
+Convert content into branded slide decks with 16 visual style presets, organic content positioning, and automatic logo branding. Fork of [baoyu-slide-deck](https://github.com/JimLiu/baoyu-skills) with video-overlay-aware layout.
+
+**Triggers:**
+
+- "Create a slide deck from this content..."
+- "Make a presentation about..."
+- "Generate slides for my talk..."
+
+**Features:**
+
+- 16 style presets (blueprint, chalkboard, corporate, minimal, sketch-notes, watercolor, etc.)
+- Composable dimension system (texture + mood + typography + density)
+- Video-overlay-aware layout: content anchors away from a specified overlay zone
+- Automatic Dr. Q logo branding with configurable placement and auto-invert for dark styles
+- Gemini 3.0 Pro image generation
+- PPTX and PDF export
+- Partial workflows (outline-only, prompts-only, regenerate specific slides)
+
+**Requirements:**
+
+- `pip install google-genai Pillow python-pptx python-dotenv`
+- `GEMINI_API_KEY` environment variable
+
+**Folder Structure:**
+
+```
+q-presentations/
+├── SKILL.md                              # Main skill file
+├── requirements.txt                      # Python dependencies
+├── assets/
+│   └── Logo_Q.png                        # Brand logo, auto-overlaid on slides
+├── references/
+│   ├── base-prompt.md                    # Image generation base prompt
+│   ├── organic-positioning.md            # Content positioning rules
+│   ├── design-guidelines.md              # Typography, colors, visual hierarchy
+│   ├── layouts.md                        # 28 layout types
+│   ├── outline-template.md              # Outline structure template
+│   ├── config/preferences-schema.md     # EXTEND.md user preferences
+│   ├── dimensions/                       # Composable style dimensions (5 files)
+│   └── styles/                           # 22 style definitions
+└── scripts/
+    ├── gen_slide.py                      # Gemini API image generation
+    ├── overlay_logo.py                   # Logo overlay with auto-invert
+    ├── merge_slides.py                   # PPTX merge (Python)
+    ├── merge-to-pptx.ts                  # PPTX merge (Bun/TS)
+    └── merge-to-pdf.ts                   # PDF merge (Bun/TS)
+```
+
+**Example:**
+
+```
+Create a chalkboard-style slide deck from my research paper on AI agents
+```
 
 ---
 
