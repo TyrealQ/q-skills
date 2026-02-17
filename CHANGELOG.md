@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.4.1] - 2026-02-16
+
+### Fixed
+- **q-infographics**: Removed `allowed-tools` from SKILL.md frontmatter to match standard format (name + description only)
+
 ## [1.4.0] - 2026-02-16
 
 ### Added
