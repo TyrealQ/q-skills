@@ -1,4 +1,4 @@
-# q-skills
+﻿# q-skills
 
 Skills for academic research workflows with Claude Code.
 
@@ -68,6 +68,12 @@ npx skills add TyrealQ/q-skills --force
 | ----------------------------------------- | ---------------------------------------------------------------- |
 | [q-topic-finetuning](#q-topic-finetuning) | Consolidate topic modeling outputs into theory-driven frameworks |
 
+### Education Skills
+
+| Skill                         | Description                                                                 |
+| ----------------------------- | --------------------------------------------------------------------------- |
+| [q-educator](#q-educator)     | Course content development for lectures, demos, assignments, and feedback   |
+
 ### Research Promotion Skills
 
 | Skill                               | Description                                              |
@@ -100,7 +106,7 @@ Academic manuscript writing suite for drafting journal-ready prose following APA
 
 **Features:**
 
-- End-to-end manuscript support (data exploration → methods → results)
+- End-to-end manuscript support (data exploration â†’ methods â†’ results)
 - APA 7th edition formatting (tables, statistics, notation)
 - Narrative prose style (no bullet points or em-dashes)
 - Shared style guides and templates
@@ -117,21 +123,21 @@ Academic manuscript writing suite for drafting journal-ready prose following APA
 
 ```
 q-scholar/
-├── SKILL.md                              # Orchestration skill
-├── references/                           # Shared style guides
-│   ├── apa_style_guide.md                # Numbers, statistics, notation
-│   └── table_formatting.md               # APA 7th table examples
-├── q-intro/
-│   ├── SKILL.md                          # Introduction drafting skill
-│   └── references/                       # Templates and interview questions
-├── q-descriptive-analysis/
-│   └── SKILL.md                          # Data exploration skill
-├── q-methods/
-│   ├── SKILL.md                          # Methods drafting skill
-│   └── references/                       # Methods and appendix templates
-└── q-results/
-    ├── SKILL.md                          # Results drafting skill
-    └── references/                       # Results template
+â”œâ”€â”€ SKILL.md                              # Orchestration skill
+â”œâ”€â”€ references/                           # Shared style guides
+â”‚   â”œâ”€â”€ apa_style_guide.md                # Numbers, statistics, notation
+â”‚   â””â”€â”€ table_formatting.md               # APA 7th table examples
+â”œâ”€â”€ q-intro/
+â”‚   â”œâ”€â”€ SKILL.md                          # Introduction drafting skill
+â”‚   â””â”€â”€ references/                       # Templates and interview questions
+â”œâ”€â”€ q-descriptive-analysis/
+â”‚   â””â”€â”€ SKILL.md                          # Data exploration skill
+â”œâ”€â”€ q-methods/
+â”‚   â”œâ”€â”€ SKILL.md                          # Methods drafting skill
+â”‚   â””â”€â”€ references/                       # Methods and appendix templates
+â””â”€â”€ q-results/
+    â”œâ”€â”€ SKILL.md                          # Results drafting skill
+    â””â”€â”€ references/                       # Results template
 ```
 
 **Example:**
@@ -164,14 +170,14 @@ Fine-tune and consolidate topic modeling outputs (BERTopic, LDA, NMF) into theor
 
 ```
 q-topic-finetuning/
-├── SKILL.md                                  # Main skill file
-├── scripts/
-│   ├── classify_outliers.py                  # Outlier reclassification via Gemini
-│   ├── generate_implementation_plan.py       # Full plan generation
-│   └── update_excel_with_labels.py           # Excel column updates
-└── references/
-    ├── esports_ugc_example.md                # Worked example
-    └── SP_OUTLIER_TEMPLATE.txt               # Outlier classification prompt template
+â”œâ”€â”€ SKILL.md                                  # Main skill file
+â”œâ”€â”€ scripts/
+â”‚   â”œâ”€â”€ classify_outliers.py                  # Outlier reclassification via Gemini
+â”‚   â”œâ”€â”€ generate_implementation_plan.py       # Full plan generation
+â”‚   â””â”€â”€ update_excel_with_labels.py           # Excel column updates
+â””â”€â”€ references/
+    â”œâ”€â”€ esports_ugc_example.md                # Worked example
+    â””â”€â”€ SP_OUTLIER_TEMPLATE.txt               # Outlier classification prompt template
 ```
 
 **Example:**
@@ -196,7 +202,7 @@ Convert documents into compelling business stories and cartoon-style infographic
 
 **Features:**
 
-- Two-stage pipeline: Document → Story → Infographic
+- Two-stage pipeline: Document â†’ Story â†’ Infographic
 - Business story style (36Kr/Huxiu format) with "golden sentences"
 - Hand-drawn cartoon-style infographics (16:9)
 - Automatic logo branding on generated infographics
@@ -212,17 +218,17 @@ Convert documents into compelling business stories and cartoon-style infographic
 
 ```
 q-infographics/
-├── SKILL.md                              # Main skill file
-├── requirements.txt                      # Python dependencies
-├── assets/
-│   └── Logo_Q.png                        # Brand logo, auto-overlaid on infographics
-├── prompts/
-│   ├── story.txt                         # Story generation prompt
-│   └── image.txt                         # Infographic generation prompt
-├── scripts/
-│   ├── gen_story.py                      # Story generator script
-│   └── gen_image.py                      # Image generator script
-└── examples/                             # Sample outputs
+â”œâ”€â”€ SKILL.md                              # Main skill file
+â”œâ”€â”€ requirements.txt                      # Python dependencies
+â”œâ”€â”€ assets/
+â”‚   â””â”€â”€ Logo_Q.png                        # Brand logo, auto-overlaid on infographics
+â”œâ”€â”€ prompts/
+â”‚   â”œâ”€â”€ story.txt                         # Story generation prompt
+â”‚   â””â”€â”€ image.txt                         # Infographic generation prompt
+â”œâ”€â”€ scripts/
+â”‚   â”œâ”€â”€ gen_story.py                      # Story generator script
+â”‚   â””â”€â”€ gen_image.py                      # Image generator script
+â””â”€â”€ examples/                             # Sample outputs
 ```
 
 **Example:**
@@ -253,7 +259,7 @@ Convert content into branded slide decks with 16 visual style presets, layout-dr
 
 - 16 style presets (blueprint, chalkboard, corporate, minimal, sketch-notes, watercolor, etc.)
 - Composable dimension system (texture + mood + typography + density)
-- Video-overlay-aware layout: content anchors away from a specified overlay zone
+- Video-overlay-aware layout: internal layout-driven overlay-safe selection
 - Automatic Dr. Q logo branding with configurable placement and auto-invert for dark styles
 - Gemini 3.0 Pro image generation
 - PPTX and PDF export
@@ -269,24 +275,23 @@ Convert content into branded slide decks with 16 visual style presets, layout-dr
 
 ```
 q-presentations/
-├── SKILL.md                              # Main skill file
-├── requirements.txt                      # Python dependencies
-├── assets/
-│   └── Logo_Q.png                        # Brand logo, auto-overlaid on slides
-├── references/
-│   ├── base-prompt.md                    # Image generation base prompt
-│   ├── organic-positioning.md            # Content positioning rules
-│   ├── design-guidelines.md              # Typography, colors, visual hierarchy
-│   ├── layouts.md                        # 28 layout types
-│   ├── outline-template.md              # Outline structure template
-│   ├── config/preferences-schema.md     # EXTEND.md user preferences
-│   ├── dimensions/                       # Composable style dimensions (5 files)
-│   └── styles/                           # 22 style definitions
-└── scripts/
-    ├── gen_slide.py                      # Gemini API image generation
-    ├── overlay_logo.py                   # Logo overlay with auto-invert
-    ├── merge-to-pptx.ts                  # PPTX merge (Bun/TS)
-    └── merge-to-pdf.ts                   # PDF merge (Bun/TS)
+â”œâ”€â”€ SKILL.md                              # Main skill file
+â”œâ”€â”€ requirements.txt                      # Python dependencies
+â”œâ”€â”€ assets/
+â”‚   â””â”€â”€ Logo_Q.png                        # Brand logo, auto-overlaid on slides
+â”œâ”€â”€ references/
+â”‚   â”œâ”€â”€ base-prompt.md                    # Image generation base prompt
+â”‚   â”œâ”€â”€ design-guidelines.md              # Typography, colors, visual hierarchy
+â”‚   â”œâ”€â”€ layouts.md                        # 28 layout types
+â”‚   â”œâ”€â”€ outline-template.md              # Outline structure template
+â”‚   â”œâ”€â”€ config/preferences-schema.md     # EXTEND.md user preferences
+â”‚   â”œâ”€â”€ dimensions/                       # Composable style dimensions (5 files)
+â”‚   â””â”€â”€ styles/                           # 22 style definitions
+â””â”€â”€ scripts/
+    â”œâ”€â”€ gen_slide.py                      # Gemini API image generation
+    â”œâ”€â”€ overlay_logo.py                   # Logo overlay with auto-invert
+    â”œâ”€â”€ merge-to-pptx.ts                  # PPTX merge (Bun/TS)
+    â””â”€â”€ merge-to-pdf.ts                   # PDF merge (Bun/TS)
 ```
 
 **Example:**
@@ -297,6 +302,44 @@ Create a chalkboard-style slide deck from my research paper on AI agents
 
 ---
 
+### q-educator
+
+Course content development skill for university teaching workflows. Produces interview-driven lecture outlines, demo plans, follow-up emails, assignment prompts, and per-group feedback.
+
+**Triggers:**
+
+- "Help me design next week's lecture..."
+- "Draft an assignment prompt for this module..."
+- "Write feedback for each student group..."
+
+**Features:**
+
+- Interview-first planning workflow before drafting
+- Projects-first teaching philosophy with domain-specific analogies
+- Structured deliverables for lecture, demo, email, assignment, and feedback
+- Iterative review checkpoints after each deliverable
+- Reference examples for assignments, lectures, emails, demos, and feedback
+
+**Folder Structure:**
+
+```text
+q-educator/
+|-- SKILL.md
+`-- references/
+    |-- assignment_example.md
+    |-- demo_example.md
+    |-- email_example.md
+    |-- feedback_example.md
+    `-- lecture_example.md
+```
+
+**Example:**
+
+```
+Help me build a week 6 lecture + demo + assignment plan for a graduate analytics course
+```
+
+---
 ## Acknowledgments
 
 - Inspired by [baoyu-skills](https://github.com/JimLiu/baoyu-skills) by Jim Liu
@@ -309,3 +352,4 @@ MIT License - see [LICENSE](LICENSE) for details.
 ## Contributing
 
 Contributions welcome! Please submit issues or pull requests.
+

@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.4.3] - 2026-02-18
+
+### Added
+- **q-educator**: New course content development skill for university teaching workflows
+  - Interview-driven planning process before drafting content
+  - Deliverable templates for lecture outlines, demo outlines, follow-up emails, assignment prompts, and per-group feedback
+  - Reference examples for assignment, demo, email, feedback, and lecture outputs
+
+### Changed
+- **README/CLAUDE docs**: Added `q-educator` to skill listings and repository structure
+- **README**: Synchronized `q-presentations` wording with layout-driven overlay safety and removed stale organic-positioning reference
+
 ## [1.4.2] - 2026-02-18
 
 ### Changed

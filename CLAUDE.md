@@ -1,4 +1,4 @@
-# CLAUDE.md
+﻿# CLAUDE.md
 
 This file provides guidance to Claude Code when working with this repository.
 
@@ -6,18 +6,19 @@ This file provides guidance to Claude Code when working with this repository.
 
 ```
 q-skills/
-├── skills/                    # All skills in subdirectory
-│   ├── q-infographics/        # Document to infographic conversion
-│   ├── q-presentations/       # Content to branded slide decks
-│   ├── q-scholar/             # Academic manuscript writing suite
-│   │   ├── q-intro/
-│   │   ├── q-descriptive-analysis/
-│   │   ├── q-methods/
-│   │   └── q-results/
-│   └── q-topic-finetuning/    # Topic modeling consolidation
-├── README.md
-├── CHANGELOG.md
-└── LICENSE
+|-- skills/                    # All skills in subdirectory
+|   |-- q-infographics/        # Document to infographic conversion
+|   |-- q-educator/            # Course content development toolkit
+|   |-- q-presentations/       # Content to branded slide decks
+|   |-- q-scholar/             # Academic manuscript writing suite
+|   |   |-- q-intro/
+|   |   |-- q-descriptive-analysis/
+|   |   |-- q-methods/
+|   |   `-- q-results/
+|   `-- q-topic-finetuning/    # Topic modeling consolidation
+|-- README.md
+|-- CHANGELOG.md
+`-- LICENSE
 ```
 
 ## Skill Guidelines
