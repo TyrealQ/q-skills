@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.4.4] - 2026-02-18
+
+### Changed
+- **q-presentations**: Corrected H1 title capitalization to `# Q-Presentations: AI-Powered Slide Deck Generator`
+- **q-educator**: Removed 11 `---` horizontal rule dividers between sections; header hierarchy provides sufficient structure
+- **q-educator**: Added `## Reference Files` section listing all 5 reference examples
+- **q-infographics**: Added "Use when…" trigger phrase to frontmatter description
+- **q-infographics**: Replaced informal ASCII-arrow opening line with a proper sentence
+- **q-scholar**: Renamed `## Directory Structure` to `## Folder Structure` for consistency with other skills
+
 ## [1.4.3] - 2026-02-18
 
 ### Added

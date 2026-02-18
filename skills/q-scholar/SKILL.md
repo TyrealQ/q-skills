@@ -104,7 +104,7 @@ All output should meet these criteria:
 - Logical organization and flow
 - Objective reporting without premature interpretation
 
-## Directory Structure
+## Folder Structure
 
 ```
 q-scholar/
