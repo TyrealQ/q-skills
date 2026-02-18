@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.4.2] - 2026-02-18
+
+### Changed
+- **q-presentations**: Refactored workflow to use layout-driven overlay safety
+  - Removed organic-positioning guidance and related reference file
+  - Added `primary_content_bias` + exceptions/fallback rules in `references/layouts.md`
+  - Updated outline and prompt templates to enforce internal overlay-safe layout selection
+  - Clarified `video_overlay` semantics in preferences schema (internal layout logic, not explicit prompt text)
+
+- **q-presentations**: Standardized slide merge pipeline to TypeScript only
+  - Removed `scripts/merge_slides.py` (Python PPTX merge)
+  - Updated skill docs and README to Bun/TS merge flow
+  - Removed `python-pptx` dependency from `skills/q-presentations/requirements.txt`
+
 ## [1.4.1] - 2026-02-16
 
 ### Fixed
