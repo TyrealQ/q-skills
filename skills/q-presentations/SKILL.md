@@ -32,7 +32,6 @@ Agent execution instructions:
 | `scripts/merge_slides.py` | Merge slides into PowerPoint (Python) |
 | `scripts/merge-to-pptx.ts` | Merge slides into PowerPoint (Bun/TS) |
 | `scripts/merge-to-pdf.ts` | Merge slides into PDF (Bun/TS) |
-| `scripts/validate_skill_consistency.py` | Validate skill consistency after edits |
 
 ## Options
 
