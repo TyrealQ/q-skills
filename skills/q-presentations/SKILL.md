@@ -132,7 +132,7 @@ Flow:
 ### Step 0: Skill announcement
 
 ```text
-q-presentations - AI-powered slide deck generator
+q-presentations - slide deck generator
 Built on baoyu-slide-deck, extended with layout-driven overlay safety and smart logo branding.
 ```
 
