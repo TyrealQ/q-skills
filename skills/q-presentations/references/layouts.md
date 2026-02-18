@@ -1,65 +1,88 @@
 # Layout Gallery
 
-Optional layout hints for individual slides. Specify in outline's `// LAYOUT` section.
+Use this file as the single source of truth for layout selection and overlay-safe placement.
 
-## Slide-Specific Layouts
+## How To Use
 
-| Layout | Description | Best For |
-|--------|-------------|----------|
-| `title-hero` | Large centered title + subtitle | Cover slides, section breaks |
-| `quote-callout` | Featured quote with attribution | Testimonials, key insights |
-| `key-stat` | Single large number as focal point | Impact statistics, metrics |
-| `split-screen` | Half image, half text | Feature highlights, comparisons |
-| `icon-grid` | Grid of icons with labels | Features, capabilities, benefits |
-| `two-columns` | Content in balanced columns | Paired information, dual points |
-| `three-columns` | Content in three columns | Triple comparisons, categories |
-| `image-caption` | Full-bleed image + text overlay | Visual storytelling, emotional |
-| `agenda` | Numbered list with highlights | Session overview, roadmap |
-| `bullet-list` | Structured bullet points | Simple content, lists |
+1. Infer content-fit candidates from the `Best For` column.
+2. Read `primary_content_bias` for each candidate.
+3. Derive the default safe side from bias:
+   - `left -> right`
+   - `right -> left`
+   - `top -> bottom`
+   - `center -> none`
+4. Apply explicit overrides from the **Exceptions Table**.
+5. Filter by requested `video_overlay` side (`right|left|bottom|none`).
+6. Rank remaining layouts by content fit and diversity.
+7. If no layout remains, use fallback layouts listed below.
 
-## Infographic-Derived Layouts
+Do not mention video-overlay or reserved zones in prompts. Only emit the chosen layout composition.
 
-| Layout | Description | Best For |
-|--------|-------------|----------|
-| `linear-progression` | Sequential flow left-to-right | Timelines, step-by-step |
-| `binary-comparison` | Side-by-side A vs B | Before/after, pros-cons |
-| `comparison-matrix` | Multi-factor grid | Feature comparisons |
-| `hierarchical-layers` | Pyramid or stacked levels | Priority, importance |
-| `hub-spoke` | Central node with radiating items | Concept maps, ecosystems |
-| `bento-grid` | Varied-size tiles | Overview, summary |
-| `funnel` | Narrowing stages | Conversion, filtering |
-| `dashboard` | Metrics with charts/numbers | KPIs, data display |
-| `venn-diagram` | Overlapping circles | Relationships, intersections |
-| `circular-flow` | Continuous cycle | Recurring processes |
-| `winding-roadmap` | Curved path with milestones | Journey, timeline |
-| `tree-branching` | Parent-child hierarchy | Org charts, taxonomies |
-| `iceberg` | Visible vs hidden layers | Surface vs depth |
-| `bridge` | Gap with connection | Problem-solution |
+## Layout Catalog
 
-**Usage**: Add `Layout: <name>` in slide's `// LAYOUT` section.
+| Layout | Description | Best For | primary_content_bias |
+|--------|-------------|----------|----------------------|
+| `title-hero` | Large centered title + subtitle | Cover slides, section breaks | `top` |
+| `quote-callout` | Featured quote with attribution | Testimonials, key insights | `center` |
+| `key-stat` | Single large number as focal point | Impact statistics, metrics | `center` |
+| `split-screen` | Half image, half text | Feature highlights, comparisons | `left` |
+| `icon-grid` | Grid of icons with labels | Features, capabilities, benefits | `center` |
+| `two-columns` | Content in balanced columns | Paired information, dual points | `center` |
+| `three-columns` | Content in three columns | Triple comparisons, categories | `center` |
+| `image-caption` | Full-bleed image + text overlay | Visual storytelling, emotional | `center` |
+| `agenda` | Numbered list with highlights | Session overview, roadmap | `left` |
+| `bullet-list` | Structured bullet points | Simple content, lists | `left` |
+| `linear-progression` | Sequential flow left-to-right | Timelines, step-by-step | `left` |
+| `binary-comparison` | Side-by-side A vs B | Before/after, pros-cons | `center` |
+| `comparison-matrix` | Multi-factor grid | Feature comparisons | `center` |
+| `hierarchical-layers` | Pyramid or stacked levels | Priority, importance | `top` |
+| `hub-spoke` | Central node with radiating items | Concept maps, ecosystems | `center` |
+| `bento-grid` | Varied-size tiles | Overview, summary | `center` |
+| `funnel` | Narrowing stages | Conversion, filtering | `top` |
+| `dashboard` | Metrics with charts/numbers | KPIs, data display | `center` |
+| `venn-diagram` | Overlapping circles | Relationships, intersections | `center` |
+| `circular-flow` | Continuous cycle | Recurring processes | `center` |
+| `winding-roadmap` | Curved path with milestones | Journey, timeline | `left` |
+| `tree-branching` | Parent-child hierarchy | Org charts, taxonomies | `top` |
+| `iceberg` | Visible vs hidden layers | Surface vs depth | `top` |
+| `bridge` | Gap with connection | Problem-solution | `center` |
 
-## Layout Selection Tips
+## Exceptions Table
 
-**Match Layout to Content**:
-| Content Type | Recommended Layouts |
+Use this table to override derived safe sides when the layout supports controlled variants or must be constrained.
+
+| Layout | Override safe sides | Reason |
+|--------|---------------------|--------|
+| `split-screen` | `right,left` | Text-image sides can be swapped while keeping hierarchy. |
+| `two-columns` | `right,left` | Columns can be weighted toward one side when composing. |
+| `binary-comparison` | `right,left` | Side A/B can be mirrored without changing semantics. |
+| `agenda` | `right,bottom` | List can stay in upper-left stack, leaving lower band clear. |
+| `bullet-list` | `right,bottom` | Bullets can be upper-left aligned with conservative line length. |
+| `linear-progression` | `right,bottom` | Sequence can run in top band with compact nodes. |
+| `image-caption` | `none` | Full-bleed treatment is not reliably side-safe. |
+| `comparison-matrix` | `none` | Matrix spans canvas; side-safe guarantees are weak. |
+| `dashboard` | `none` | KPI cards/charts typically need full-width readability. |
+| `bento-grid` | `none` | Tile layout distributes weight across the full frame. |
+
+## Fallback Layouts By Overlay Side
+
+Use these only when content-fit filtering produces no valid layout.
+
+| Video Overlay Side | Fallback Layouts |
+|--------------------|------------------|
+| `right` | `agenda`, `bullet-list`, `split-screen` |
+| `left` | `split-screen`, `two-columns`, `binary-comparison` |
+| `bottom` | `title-hero`, `hierarchical-layers`, `tree-branching` |
+| `none` | Content-fit default ranking only |
+
+## Content Fit Guide
+
+| Content Type | Preferred Layouts |
 |--------------|-------------------|
-| Single narrative | `bullet-list`, `image-caption` |
-| Two concepts | `split-screen`, `binary-comparison` |
+| Single narrative | `bullet-list`, `quote-callout`, `image-caption` |
+| Two concepts | `split-screen`, `binary-comparison`, `two-columns` |
 | Three items | `three-columns`, `icon-grid` |
-| Process/Steps | `linear-progression`, `winding-roadmap` |
-| Data/Metrics | `dashboard`, `key-stat` |
-| Relationships | `hub-spoke`, `venn-diagram` |
-| Hierarchy | `hierarchical-layers`, `tree-branching` |
-
-**Layout Flow Patterns**:
-| Position | Recommended Layouts |
-|----------|-------------------|
-| Opening | `title-hero`, `agenda` |
-| Middle | Content-specific layouts |
-| Closing | `quote-callout`, `key-stat` |
-
-**Common Mistakes to Avoid**:
-- Using 3-column layout for 2 items (leaves columns empty)
-- Stacking charts/tables below text (use side-by-side instead)
-- Image layouts without actual images
-- Quote layouts for emphasis (use only for real quotes with attribution)
+| Process / steps | `linear-progression`, `winding-roadmap`, `funnel` |
+| Data / metrics | `key-stat`, `dashboard`, `comparison-matrix` |
+| Relationships | `hub-spoke`, `venn-diagram`, `bridge` |
+| Hierarchy | `hierarchical-layers`, `tree-branching`, `iceberg` |

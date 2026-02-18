@@ -50,7 +50,7 @@ custom_styles:
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `logo_position` | string | `top-right` | Logo placement: top-right, bottom-right, top-left, bottom-left, none |
-| `video_overlay` | string | `right` | Side reserved for video overlay: right, left, bottom, none |
+| `video_overlay` | string | `right` | Side reserved for video overlay: right, left, bottom, none. Used internally for overlay-safe layout selection from `references/layouts.md`; not stated explicitly in prompts. |
 
 ### Custom Dimensions
 

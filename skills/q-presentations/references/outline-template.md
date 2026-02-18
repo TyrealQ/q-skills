@@ -13,7 +13,6 @@ Standard structure for slide deck outlines with style instructions.
 **Audience**: [target audience]
 **Language**: [output language]
 **Slide Count**: N slides
-**Content Anchor**: [left/right/top/center]
 **Video Overlay**: [right/left/bottom/none]
 **Logo**: [top-right/bottom-right/none]
 **Generated**: YYYY-MM-DD HH:mm
@@ -157,7 +156,7 @@ Sub-headline: [supporting tagline]
 [Detailed visual description - specific elements, composition, mood]
 
 // LAYOUT
-Layout: [optional: layout name from gallery, e.g., title-hero]
+Layout: [required: layout name from gallery, e.g., title-hero]
 [Composition, hierarchy, spatial arrangement]
 ```
 
@@ -184,7 +183,7 @@ Body:
 [Detailed visual description]
 
 // LAYOUT
-Layout: [optional: layout name from gallery]
+Layout: [required: layout name from gallery]
 [Composition, hierarchy, spatial arrangement]
 ```
 
@@ -207,9 +206,23 @@ Body: [optional summary points or next steps]
 [Visual that reinforces the core message]
 
 // LAYOUT
-Layout: [optional: layout name from gallery]
+Layout: [required: layout name from gallery]
 [Clean, impactful composition]
 ```
+
+## Overlay-Safe Layout Selection
+
+Always choose layouts from `references/layouts.md` using this order:
+
+1. Infer slide content type (narrative, comparison, process, hierarchy, metrics, relationship).
+2. Pick content-fit candidates from the layout catalog.
+3. Derive safe side from `primary_content_bias` using the mapping in `layouts.md`.
+4. Apply exception overrides from the Exceptions Table.
+5. Keep only layouts compatible with `Video Overlay`.
+6. Rank by content fit and avoid repeating the same layout pattern too often.
+7. If no layout remains, use fallback layouts from `layouts.md`.
+
+Do not mention overlay constraints explicitly in prompt text. Use only the chosen layout composition.
 
 ## STYLE_INSTRUCTIONS Block
 
