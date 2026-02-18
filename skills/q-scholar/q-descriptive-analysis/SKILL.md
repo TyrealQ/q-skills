@@ -3,7 +3,7 @@ name: q-descriptive-analysis
 description: "Comprehensive descriptive analysis of tabular datasets with grouped statistics, entity extraction, and publication-ready summaries. Use when analyzing Excel/CSV datasets requiring: (1) Overall and grouped descriptive statistics, (2) Frequency distributions by categorical variables, (3) Entity extraction from text fields, (4) Temporal dynamics analysis, (5) CSV output tables with MD summary reports. Supports SDT scores, engagement metrics, or any continuous/categorical variables."
 ---
 
-# Descriptive Analysis Skill
+# Q-Descriptive-Analysis
 
 Generate comprehensive exploratory descriptive analysis of tabular datasets with grouped statistics, frequency tables, entity extraction, and publication-ready markdown summaries.
 

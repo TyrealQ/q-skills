@@ -3,7 +3,7 @@ name: q-infographics
 description: Converts documents into business stories and infographics using Gemini 3.0 Pro (Python SDK). Use when the user wants to convert a document, report, or text into a visual business story or infographic.
 ---
 
-# Q-Infographics Skill
+# Q-Infographics
 
 Q-Infographics transforms source documents into business stories and infographic images using the Gemini API.
 

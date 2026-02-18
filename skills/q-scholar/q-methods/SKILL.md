@@ -3,7 +3,7 @@ name: q-methods
 description: Draft methods sections for academic manuscripts following a structured, narrative style. Use when the user needs to write or refine a methods section for research papers involving computational methods (machine learning, statistical modeling, text analysis, simulation, network analysis, image processing, or other computational approaches). Produces clear, accessible prose without em-dashes or bullet points, with appropriate appendix cross-references for technical details.
 ---
 
-# Methods Section Drafting
+# Q-Methods
 
 This skill guides drafting of methods sections for academic manuscripts in a clear, narrative style suitable for broad scholarly audiences.
 

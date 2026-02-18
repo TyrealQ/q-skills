@@ -3,7 +3,7 @@ name: q-scholar
 description: Comprehensive academic writing skill for drafting journal-ready manuscripts. Orchestrates specialized sub-skills for introduction sections (q-intro), descriptive analysis (q-descriptive-analysis), methods sections (q-methods), and results sections (q-results). Use when the user needs end-to-end support for academic manuscript preparation, from initial data exploration through publication-ready prose. Follows APA 7th edition formatting standards.
 ---
 
-# Q-Scholar: Academic Manuscript Writing Suite
+# Q-Scholar
 
 Q-Scholar is an overarching academic writing skill that orchestrates specialized sub-skills to support the complete manuscript preparation workflow. It produces journal-ready prose following APA 7th edition standards.
 

@@ -3,7 +3,7 @@ name: q-intro
 description: Draft or refine introduction sections for academic manuscripts using an interview-driven workflow. Use when the user needs to write or refine an introduction for research papers. Produces clear, flowing prose that establishes context, identifies gaps, frames research questions, previews methods, and articulates contributions. Follows a structured approach from phenomenon to theory to empirical contribution.
 ---
 
-# Introduction Section Drafting
+# Q-Intro
 
 This skill guides drafting and refinement of introduction sections for academic manuscripts. It supports two modes: an interview-based workflow for drafting from scratch, and a diagnostic workflow for refining existing drafts.
 

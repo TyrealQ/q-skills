@@ -3,7 +3,7 @@ name: q-presentations
 description: Generates professional slide deck images from content with smart logo branding and video-overlay-aware layout selection. Use when user asks to "create slides", "make a presentation", "generate deck", "slide deck", or "PPT".
 ---
 
-# Q-Presentations: AI-Powered Slide Deck Generator
+# Q-Presentations
 
 Built on the foundation of [baoyu-slide-deck](https://github.com/nicepkg/baoyu-slide-deck) by baoyu, extended with layout-driven overlay safety and smart logo branding.
 

@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.4.5] - 2026-02-18
+
+### Changed
+- **All skills**: Standardized H1 titles to skill name only (`# Q-[Name]`) — removed subtitles and colons from all 9 SKILL.md files for uniform formatting
+
 ## [1.4.4] - 2026-02-18
 
 ### Changed

@@ -3,7 +3,7 @@ name: q-educator
 description: Course content development skill. Produces lecture outlines, demo outlines, student emails, assignment prompts, and per-group feedback using an interview-driven, projects-first teaching philosophy with domain-specific analogies. Use when developing or iterating on university course materials.
 ---
 
-# Q-Educator: Course Content Development Skill
+# Q-Educator
 
 Q-Educator encodes a teaching philosophy and facilitation workflow for graduate-level, projects-first courses. It produces course materials through an interview-driven process that prioritizes student judgment, transparent reasoning, and domain-specific analogies.
 
