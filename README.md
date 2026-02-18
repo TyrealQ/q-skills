@@ -106,7 +106,7 @@ Academic manuscript writing suite for drafting journal-ready prose following APA
 
 **Features:**
 
-- End-to-end manuscript support (data exploration â†’ methods â†’ results)
+- End-to-end manuscript support (data exploration -> methods -> results)
 - APA 7th edition formatting (tables, statistics, notation)
 - Narrative prose style (no bullet points or em-dashes)
 - Shared style guides and templates
@@ -121,23 +121,23 @@ Academic manuscript writing suite for drafting journal-ready prose following APA
 
 **Folder Structure:**
 
-```
+```text
 q-scholar/
-â”œâ”€â”€ SKILL.md                              # Orchestration skill
-â”œâ”€â”€ references/                           # Shared style guides
-â”‚   â”œâ”€â”€ apa_style_guide.md                # Numbers, statistics, notation
-â”‚   â””â”€â”€ table_formatting.md               # APA 7th table examples
-â”œâ”€â”€ q-intro/
-â”‚   â”œâ”€â”€ SKILL.md                          # Introduction drafting skill
-â”‚   â””â”€â”€ references/                       # Templates and interview questions
-â”œâ”€â”€ q-descriptive-analysis/
-â”‚   â””â”€â”€ SKILL.md                          # Data exploration skill
-â”œâ”€â”€ q-methods/
-â”‚   â”œâ”€â”€ SKILL.md                          # Methods drafting skill
-â”‚   â””â”€â”€ references/                       # Methods and appendix templates
-â””â”€â”€ q-results/
-    â”œâ”€â”€ SKILL.md                          # Results drafting skill
-    â””â”€â”€ references/                       # Results template
+|-- SKILL.md                              # Orchestration skill
+|-- references/                           # Shared style guides
+|   |-- apa_style_guide.md                # Numbers, statistics, notation
+|   `-- table_formatting.md               # APA 7th table examples
+|-- q-intro/
+|   |-- SKILL.md                          # Introduction drafting skill
+|   `-- references/                       # Templates and interview questions
+|-- q-descriptive-analysis/
+|   `-- SKILL.md                          # Data exploration skill
+|-- q-methods/
+|   |-- SKILL.md                          # Methods drafting skill
+|   `-- references/                       # Methods and appendix templates
+`-- q-results/
+    |-- SKILL.md                          # Results drafting skill
+    `-- references/                       # Results template
 ```
 
 **Example:**
@@ -168,16 +168,16 @@ Fine-tune and consolidate topic modeling outputs (BERTopic, LDA, NMF) into theor
 
 **Folder Structure:**
 
-```
+```text
 q-topic-finetuning/
-â”œâ”€â”€ SKILL.md                                  # Main skill file
-â”œâ”€â”€ scripts/
-â”‚   â”œâ”€â”€ classify_outliers.py                  # Outlier reclassification via Gemini
-â”‚   â”œâ”€â”€ generate_implementation_plan.py       # Full plan generation
-â”‚   â””â”€â”€ update_excel_with_labels.py           # Excel column updates
-â””â”€â”€ references/
-    â”œâ”€â”€ esports_ugc_example.md                # Worked example
-    â””â”€â”€ SP_OUTLIER_TEMPLATE.txt               # Outlier classification prompt template
+|-- SKILL.md                                  # Main skill file
+|-- scripts/
+|   |-- classify_outliers.py                  # Outlier reclassification via Gemini
+|   |-- generate_implementation_plan.py       # Full plan generation
+|   `-- update_excel_with_labels.py           # Excel column updates
+`-- references/
+    |-- esports_ugc_example.md                # Worked example
+    `-- SP_OUTLIER_TEMPLATE.txt               # Outlier classification prompt template
 ```
 
 **Example:**
@@ -202,7 +202,7 @@ Convert documents into compelling business stories and cartoon-style infographic
 
 **Features:**
 
-- Two-stage pipeline: Document â†’ Story â†’ Infographic
+- Two-stage pipeline: Document -> Story -> Infographic
 - Business story style (36Kr/Huxiu format) with "golden sentences"
 - Hand-drawn cartoon-style infographics (16:9)
 - Automatic logo branding on generated infographics
@@ -212,23 +212,25 @@ Convert documents into compelling business stories and cartoon-style infographic
 **Requirements:**
 
 - `pip install google-genai Pillow markitdown`
-- `GEMINI_API_KEY` environment variable (load via `export $(cat /path/to/.env | xargs)`)
+- `GEMINI_API_KEY` environment variable
+- PowerShell (Windows): `$env:GEMINI_API_KEY = (Get-Content path\to\.env | Where-Object { $_ -match '^GEMINI_API_KEY=' } | Select-Object -First 1).Split('=',2)[1]`
+- Bash (macOS/Linux): `export $(cat /path/to/.env | xargs)`
 
 **Folder Structure:**
 
-```
-q-infographics/
-â”œâ”€â”€ SKILL.md                              # Main skill file
-â”œâ”€â”€ requirements.txt                      # Python dependencies
-â”œâ”€â”€ assets/
-â”‚   â””â”€â”€ Logo_Q.png                        # Brand logo, auto-overlaid on infographics
-â”œâ”€â”€ prompts/
-â”‚   â”œâ”€â”€ story.txt                         # Story generation prompt
-â”‚   â””â”€â”€ image.txt                         # Infographic generation prompt
-â”œâ”€â”€ scripts/
-â”‚   â”œâ”€â”€ gen_story.py                      # Story generator script
-â”‚   â””â”€â”€ gen_image.py                      # Image generator script
-â””â”€â”€ examples/                             # Sample outputs
+```text
+skills/q-infographics/
+|-- SKILL.md                              # Main skill file
+|-- requirements.txt                      # Python dependencies
+|-- assets/
+|   `-- Logo_Q.png                        # Brand logo, auto-overlaid on infographics
+|-- prompts/
+|   |-- story.txt                         # Story generation prompt
+|   `-- image.txt                         # Infographic generation prompt
+|-- scripts/
+|   |-- gen_story.py                      # Story generator script
+|   `-- gen_image.py                      # Image generator script
+`-- examples/                             # Sample outputs
 ```
 
 **Example:**
@@ -273,25 +275,25 @@ Convert content into branded slide decks with 16 visual style presets, layout-dr
 
 **Folder Structure:**
 
-```
+```text
 q-presentations/
-â”œâ”€â”€ SKILL.md                              # Main skill file
-â”œâ”€â”€ requirements.txt                      # Python dependencies
-â”œâ”€â”€ assets/
-â”‚   â””â”€â”€ Logo_Q.png                        # Brand logo, auto-overlaid on slides
-â”œâ”€â”€ references/
-â”‚   â”œâ”€â”€ base-prompt.md                    # Image generation base prompt
-â”‚   â”œâ”€â”€ design-guidelines.md              # Typography, colors, visual hierarchy
-â”‚   â”œâ”€â”€ layouts.md                        # 28 layout types
-â”‚   â”œâ”€â”€ outline-template.md              # Outline structure template
-â”‚   â”œâ”€â”€ config/preferences-schema.md     # EXTEND.md user preferences
-â”‚   â”œâ”€â”€ dimensions/                       # Composable style dimensions (5 files)
-â”‚   â””â”€â”€ styles/                           # 22 style definitions
-â””â”€â”€ scripts/
-    â”œâ”€â”€ gen_slide.py                      # Gemini API image generation
-    â”œâ”€â”€ overlay_logo.py                   # Logo overlay with auto-invert
-    â”œâ”€â”€ merge-to-pptx.ts                  # PPTX merge (Bun/TS)
-    â””â”€â”€ merge-to-pdf.ts                   # PDF merge (Bun/TS)
+|-- SKILL.md                              # Main skill file
+|-- requirements.txt                      # Python dependencies
+|-- assets/
+|   `-- Logo_Q.png                        # Brand logo, auto-overlaid on slides
+|-- references/
+|   |-- base-prompt.md                    # Image generation base prompt
+|   |-- design-guidelines.md              # Typography, colors, visual hierarchy
+|   |-- layouts.md                        # 28 layout types
+|   |-- outline-template.md               # Outline structure template
+|   |-- config/preferences-schema.md      # EXTEND.md user preferences
+|   |-- dimensions/                       # Composable style dimensions (5 files)
+|   `-- styles/                           # 22 style definitions
+`-- scripts/
+    |-- gen_slide.py                      # Gemini API image generation
+    |-- overlay_logo.py                   # Logo overlay with auto-invert
+    |-- merge-to-pptx.ts                  # PPTX merge (Bun/TS)
+    `-- merge-to-pdf.ts                   # PDF merge (Bun/TS)
 ```
 
 **Example:**

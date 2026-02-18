@@ -1,4 +1,4 @@
----
+﻿---
 name: q-infographics
 description: Converts documents into business stories and infographics using Gemini 3.0 Pro (Python SDK).
 ---
@@ -11,19 +11,19 @@ Transforms documents -> Story -> Infographic.
 
 ## Folder Structure
 
-```
-q-infographics/
-├── SKILL.md           # This file
-├── requirements.txt   # Python dependencies
-├── assets/
-│   └── Logo_Q.png     # Brand logo, auto-overlaid on infographics
-├── prompts/
-│   ├── story.txt      # Story generation prompt
-│   └── image.txt      # Infographic generation prompt
-├── scripts/
-│   ├── gen_story.py   # Story generator script
-│   └── gen_image.py   # Image generator script
-└── examples/          # Sample outputs
+```text
+skills/q-infographics/
+|-- SKILL.md           # This file
+|-- requirements.txt   # Python dependencies
+|-- assets/
+|   `-- Logo_Q.png     # Brand logo, auto-overlaid on infographics
+|-- prompts/
+|   |-- story.txt      # Story generation prompt
+|   `-- image.txt      # Infographic generation prompt
+|-- scripts/
+|   |-- gen_story.py   # Story generator script
+|   `-- gen_image.py   # Image generator script
+`-- examples/          # Sample outputs
 ```
 
 ## When to Use
@@ -62,7 +62,7 @@ python skills/q-infographics/scripts/gen_story.py <INPUT.md> skills/q-infographi
 python skills/q-infographics/scripts/gen_image.py STORY_OUTPUT.md skills/q-infographics/prompts/image.txt <SOURCE_NAME>_INFO
 ```
 
-**Naming convention**: Output files use the source filename with `_INFO` suffix (e.g., `MY_REPORT.pdf` → `MY_REPORT_INFO.jpg`).
+**Naming convention**: Output files use the source filename with `_INFO` suffix (e.g., `MY_REPORT.pdf` -> `MY_REPORT_INFO.jpg`).
 
 **Review checkpoint**:
 1. Show the image prompt being used: `cat skills/q-infographics/prompts/image.txt`
@@ -71,7 +71,12 @@ python skills/q-infographics/scripts/gen_image.py STORY_OUTPUT.md skills/q-infog
 
 ## Requirements
 *   `pip install -r skills/q-infographics/requirements.txt`
-*   `GEMINI_API_KEY` environment variable — load from a `.env` file:
+*   `GEMINI_API_KEY` environment variable. Load from a `.env` file:
+    **PowerShell (Windows):**
+    ```powershell
+    $env:GEMINI_API_KEY = (Get-Content path\to\.env | Where-Object { $_ -match '^GEMINI_API_KEY=' } | Select-Object -First 1).Split('=',2)[1]
+    ```
+    **Bash (macOS/Linux):**
     ```bash
     export $(cat /path/to/.env | xargs)
     ```
@@ -111,3 +116,4 @@ Sample infographics generated from academic research papers:
 ![DIGITAL_ENTREPRENEURSHIP_INFO1](examples/DIGITAL_ENTREPRENEURSHIP_INFO1.jpg)
 
 ![DIGITAL_ENTREPRENEURSHIP_INFO2](examples/DIGITAL_ENTREPRENEURSHIP_INFO2.jpg)
+
