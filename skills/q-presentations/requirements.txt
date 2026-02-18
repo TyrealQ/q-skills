@@ -1,4 +1,3 @@
 google-genai
 Pillow
-python-pptx
 python-dotenv

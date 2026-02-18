@@ -13,7 +13,7 @@ Built on the foundation of [baoyu-slide-deck](https://github.com/nicepkg/baoyu-s
 /q-presentations path/to/content.md
 /q-presentations path/to/content.md --style sketch-notes
 /q-presentations path/to/content.md --audience executives
-/q-presentations path/to/content.md --lang zh
+/q-presentations path/to/content.md --lang en
 /q-presentations path/to/content.md --slides 10
 /q-presentations path/to/content.md --outline-only
 /q-presentations  # Then paste content
@@ -29,7 +29,6 @@ Agent execution instructions:
 |--------|---------|
 | `scripts/gen_slide.py` | Generate slide images via Gemini API |
 | `scripts/overlay_logo.py` | Apply Dr. Q logo overlay |
-| `scripts/merge_slides.py` | Merge slides into PowerPoint (Python) |
 | `scripts/merge-to-pptx.ts` | Merge slides into PowerPoint (Bun/TS) |
 | `scripts/merge-to-pdf.ts` | Merge slides into PDF (Bun/TS) |
 
@@ -252,12 +251,7 @@ If logo is `none`, add `--skip`.
 
 ### Step 8: Merge to PPTX/PDF
 
-Option A (Python, PPTX):
-```bash
-python ${SKILL_DIR}/scripts/merge_slides.py <slide-deck-dir>
-```
-
-Option B (Bun/TS, PPTX + PDF):
+Use Bun/TypeScript tools:
 ```bash
 npx -y bun ${SKILL_DIR}/scripts/merge-to-pptx.ts <slide-deck-dir>
 npx -y bun ${SKILL_DIR}/scripts/merge-to-pdf.ts <slide-deck-dir>

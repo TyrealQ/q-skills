@@ -241,7 +241,7 @@ Create an infographic from my research paper on gamification in esports
 
 ### q-presentations
 
-Convert content into branded slide decks with 16 visual style presets, organic content positioning, and automatic logo branding. Fork of [baoyu-slide-deck](https://github.com/JimLiu/baoyu-skills) with video-overlay-aware layout.
+Convert content into branded slide decks with 16 visual style presets, layout-driven overlay safety, and automatic logo branding. Fork of [baoyu-slide-deck](https://github.com/JimLiu/baoyu-skills) with video-overlay-aware layout.
 
 **Triggers:**
 
@@ -261,8 +261,9 @@ Convert content into branded slide decks with 16 visual style presets, organic c
 
 **Requirements:**
 
-- `pip install google-genai Pillow python-pptx python-dotenv`
+- `pip install google-genai Pillow python-dotenv`
 - `GEMINI_API_KEY` environment variable
+- Bun available for PPTX/PDF merge scripts (`npx -y bun ...`)
 
 **Folder Structure:**
 
@@ -284,7 +285,6 @@ q-presentations/
 └── scripts/
     ├── gen_slide.py                      # Gemini API image generation
     ├── overlay_logo.py                   # Logo overlay with auto-invert
-    ├── merge_slides.py                   # PPTX merge (Python)
     ├── merge-to-pptx.ts                  # PPTX merge (Bun/TS)
     └── merge-to-pdf.ts                   # PDF merge (Bun/TS)
 ```
