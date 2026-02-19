@@ -299,6 +299,19 @@ PDF: {topic-slug}.pdf
 | `references/styles/<style>.md` | Full style specifications |
 | `references/config/preferences-schema.md` | EXTEND.md structure |
 
+## Examples
+
+Sample slide deck generated from a presentation on AI agents:
+
+### AI Agents: From Answers to Outcomes
+![01-slide-cover](examples/01-slide-cover.png)
+
+![02-slide-from-answers-to-outcomes](examples/02-slide-from-answers-to-outcomes.png)
+
+![03-slide-chatbot-vs-agent](examples/03-slide-chatbot-vs-agent.png)
+
+![04-slide-what-it-does-what-you-do](examples/04-slide-what-it-does-what-you-do.png)
+
 ## Notes
 
 - Image generation usually takes 10-30 seconds per slide.

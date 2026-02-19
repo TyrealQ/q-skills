@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.4.6] - 2026-02-19
+
+### Added
+- **q-presentations**: Added example output slides (4-slide AI agents deck) to SKILL.md and README.md
+- **q-presentations**: Added `examples/` directory to README folder structure tree
+
 ## [1.4.5] - 2026-02-18
 
 ### Changed

@@ -294,6 +294,7 @@ q-presentations/
     |-- overlay_logo.py                   # Logo overlay with auto-invert
     |-- merge-to-pptx.ts                  # PPTX merge (Bun/TS)
     `-- merge-to-pdf.ts                   # PDF merge (Bun/TS)
+`-- examples/                             # Sample outputs
 ```
 
 **Example:**
@@ -301,6 +302,16 @@ q-presentations/
 ```
 Create a chalkboard-style slide deck from my research paper on AI agents
 ```
+
+**Sample Outputs:**
+
+![01-slide-cover](skills/q-presentations/examples/01-slide-cover.png)
+
+![02-slide-from-answers-to-outcomes](skills/q-presentations/examples/02-slide-from-answers-to-outcomes.png)
+
+![03-slide-chatbot-vs-agent](skills/q-presentations/examples/03-slide-chatbot-vs-agent.png)
+
+![04-slide-what-it-does-what-you-do](skills/q-presentations/examples/04-slide-what-it-does-what-you-do.png)
 
 ---
 
