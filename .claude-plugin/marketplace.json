@@ -1,0 +1,61 @@
+{
+  "name": "q-skills",
+  "owner": {
+    "name": "Tyreal Q"
+  },
+  "metadata": {
+    "description": "End-to-end skills for academic writing, data analysis, teaching, and research communication",
+    "version": "1.4.7"
+  },
+  "plugins": [
+    {
+      "name": "q-scholar",
+      "description": "Academic manuscript writing suite (intro, methods, results, descriptive analysis)",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/q-scholar",
+        "./skills/q-scholar/q-intro",
+        "./skills/q-scholar/q-descriptive-analysis",
+        "./skills/q-scholar/q-methods",
+        "./skills/q-scholar/q-results"
+      ]
+    },
+    {
+      "name": "q-educator",
+      "description": "Course content development for lectures, demos, assignments, and feedback",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/q-educator"
+      ]
+    },
+    {
+      "name": "q-infographics",
+      "description": "Convert documents into business stories and infographics",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/q-infographics"
+      ]
+    },
+    {
+      "name": "q-presentations",
+      "description": "Convert content into branded slide decks with style presets",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/q-presentations"
+      ]
+    },
+    {
+      "name": "q-topic-finetuning",
+      "description": "Consolidate topic modeling outputs into theory-driven frameworks",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/q-topic-finetuning"
+      ]
+    }
+  ]
+}
