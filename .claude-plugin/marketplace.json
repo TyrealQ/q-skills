@@ -10,13 +10,13 @@
   "plugins": [
     {
       "name": "q-scholar",
-      "description": "Academic manuscript writing suite (intro, methods, results, descriptive analysis)",
+      "description": "Academic manuscript writing suite (intro, methods, results, exploratory analysis)",
       "source": "./",
       "strict": false,
       "skills": [
         "./skills/q-scholar",
         "./skills/q-scholar/q-intro",
-        "./skills/q-scholar/q-descriptive-analysis",
+        "./skills/q-scholar/q-exploratory-analysis",
         "./skills/q-scholar/q-methods",
         "./skills/q-scholar/q-results"
       ]

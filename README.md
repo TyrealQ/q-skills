@@ -158,7 +158,7 @@ Academic manuscript writing suite for drafting journal-ready prose following APA
 | Sub-Skill | Description |
 | --------- | ----------- |
 | q-intro | Introduction drafting and refinement with argumentative architecture guidance |
-| q-descriptive-analysis | Comprehensive exploratory analysis of tabular datasets |
+| q-exploratory-analysis | Universal EDA with auto-detected column types and measurement-appropriate statistics |
 | q-methods | Methods section drafting in clear, narrative style |
 | q-results | Results section drafting with APA-compliant tables |
 
@@ -178,7 +178,7 @@ Academic manuscript writing suite for drafting journal-ready prose following APA
 
 **Workflow Phases:**
 
-1. **Data Exploration** - Invoke q-descriptive-analysis for statistics and summaries
+1. **Data Exploration** - Invoke q-exploratory-analysis for statistics and summaries
 2. **Introduction Drafting** - Invoke q-intro for context, gaps, RQs, and contributions
 3. **Methods Documentation** - Invoke q-methods for data collection and analysis procedures
 4. **Results Presentation** - Invoke q-results for findings organized by research questions
@@ -194,8 +194,9 @@ q-scholar/
 |-- q-intro/
 |   |-- SKILL.md                          # Introduction drafting skill
 |   `-- references/                       # Templates and interview questions
-|-- q-descriptive-analysis/
-|   `-- SKILL.md                          # Data exploration skill
+|-- q-exploratory-analysis/
+|   |-- SKILL.md                          # Data exploration skill
+|   `-- scripts/                          # run_eda.py + requirements.txt
 |-- q-methods/
 |   |-- SKILL.md                          # Methods drafting skill
 |   `-- references/                       # Methods and appendix templates

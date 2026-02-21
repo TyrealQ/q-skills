@@ -12,7 +12,7 @@ q-skills/
 |   |-- q-presentations/       # Content to branded slide decks
 |   |-- q-scholar/             # Academic manuscript writing suite
 |   |   |-- q-intro/
-|   |   |-- q-descriptive-analysis/
+|   |   |-- q-exploratory-analysis/
 |   |   |-- q-methods/
 |   |   `-- q-results/
 |   `-- q-topic-finetuning/    # Topic modeling consolidation

@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.4.9] - 2026-02-21
+
+### Changed
+- **q-scholar**: Renamed sub-skill `q-descriptive-analysis` to `q-exploratory-analysis` to reflect broader exploratory intent
+- **q-exploratory-analysis**: Complete redesign around Stevens' levels of measurement (Nominal, Ordinal, Discrete, Continuous, Temporal, Text, ID/key)
+  - Auto-detects column measurement level; flags ambiguous integers (e.g., Likert scales) for interactive user confirmation
+  - Six-phase pipeline: Dataset Profile, Data Quality, Univariate, Bivariate/Multivariate, Specialized, Summary Report
+  - Measurement-appropriate bivariate analysis: Pearson for Continuous x Continuous, Spearman for Ordinal x Ordinal, grouped descriptives for Continuous/Discrete x Nominal, contingency tables for Nominal x Nominal
+  - Full APA-compatible quantitative metrics (M, Mdn, SD, Variance, IQR, CV, SE, 95% CI, skewness, kurtosis, outlier counts) for Ordinal, Discrete, and Continuous columns
+  - Ordinal mean labeled as M (quasi-interval) in all outputs
+  - Binary variable analysis with proportion and 95% CI (normal approximation)
+  - Text analysis: top unigrams/bigrams, vocab size, avg word count (built-in EN stopword list)
+  - Temporal analysis: range, gap detection, trend by month/year
+  - Holistic EXPLORATORY_SUMMARY.md with flagged insights (missing data, distribution shape, strong correlations, coverage)
+  - Extracted all code from SKILL.md inline blocks into `scripts/run_eda.py` (self-contained, runnable)
+  - Added `scripts/requirements.txt` with pinned dependencies
+- **README**: Updated sub-skill name and folder structure diagram
+- **q-scholar/SKILL.md**: Updated sub-skill name, description, folder diagram, and all cross-references
+
 ## [1.4.8] - 2026-02-21
 
 ### Added

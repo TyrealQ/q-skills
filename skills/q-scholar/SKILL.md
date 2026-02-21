@@ -1,6 +1,6 @@
 ---
 name: q-scholar
-description: Comprehensive academic writing skill for drafting journal-ready manuscripts. Orchestrates specialized sub-skills for introduction sections (q-intro), descriptive analysis (q-descriptive-analysis), methods sections (q-methods), and results sections (q-results). Use when the user needs end-to-end support for academic manuscript preparation, from initial data exploration through publication-ready prose. Follows APA 7th edition formatting standards.
+description: Comprehensive academic writing skill for drafting journal-ready manuscripts. Orchestrates specialized sub-skills for introduction sections (q-intro), exploratory analysis (q-exploratory-analysis), methods sections (q-methods), and results sections (q-results). Use when the user needs end-to-end support for academic manuscript preparation, from initial data exploration through publication-ready prose. Follows APA 7th edition formatting standards.
 ---
 
 # Q-Scholar
@@ -14,10 +14,10 @@ Introduction drafting and refinement with argumentative architecture guidance. S
 
 Use for: Writing or refining introduction sections that move from phenomenon to theory to empirical contribution, with discipline-first literature grounding, cross-paragraph bridge architecture, and enumerated contributions.
 
-### q-descriptive-analysis
-Comprehensive exploratory analysis of tabular datasets. Generates grouped statistics, frequency distributions, entity extraction, temporal dynamics, and publication-ready summary reports.
+### q-exploratory-analysis
+Universal exploratory data analysis for tabular datasets. Auto-detects column measurement levels (Nominal, Ordinal, Discrete, Continuous, Temporal, Text) and applies statistically appropriate analysis for each type. Produces a structured TABLE/ folder of CSV outputs and a holistic EXPLORATORY_SUMMARY.md with flagged insights.
 
-Use for: Initial data exploration, descriptive statistics generation, understanding dataset structure before formal analysis.
+Use for: Initial data exploration, measurement-level-appropriate descriptive statistics, understanding dataset structure before formal analysis.
 
 ### q-methods
 Methods section drafting in clear, narrative style. Produces flowing paragraphs organized by workflow stages with appropriate appendix cross-references for technical details. Maintains strict separation between methods and results: describes procedures and summarizes data collected, but reserves analysis findings for the results section.
@@ -32,11 +32,11 @@ Use for: Presenting findings, formatting statistical results, creating APA-compl
 ## Workflow Integration
 
 ### Phase 1: Data Exploration
-Invoke q-descriptive-analysis to:
-- Generate comprehensive descriptive statistics
-- Identify patterns and distributions
-- Create CSV tables and markdown summaries
-- Understand grouping variables and key metrics
+Invoke q-exploratory-analysis to:
+- Auto-detect column types and apply measurement-appropriate analysis
+- Generate comprehensive descriptive statistics and flagged insights
+- Create CSV tables and EXPLORATORY_SUMMARY.md
+- Understand grouping variables, distributions, and key metrics
 
 ### Phase 2: Introduction Drafting
 Invoke q-intro to:
@@ -91,7 +91,7 @@ Assistant: [Invokes q-intro with interview workflow]
 ### Data Exploration First
 ```
 User: I have a new dataset and need to understand it before writing
-Assistant: [Invokes q-descriptive-analysis for exploration, then proceeds to writing sections]
+Assistant: [Invokes q-exploratory-analysis for exploration, then proceeds to writing sections]
 ```
 
 ## Quality Standards
@@ -112,8 +112,11 @@ q-scholar/
 ├── references/                           # Shared style guides
 │   ├── apa_style_guide.md                # Numbers, statistics, notation
 │   └── table_formatting.md               # APA 7th table examples
-├── q-descriptive-analysis/
-│   └── SKILL.md                          # Data exploration skill
+├── q-exploratory-analysis/
+│   ├── SKILL.md                          # Data exploration skill
+│   └── scripts/
+│       ├── run_eda.py                    # Six-phase EDA runner
+│       └── requirements.txt              # Python dependencies
 ├── q-intro/
 │   ├── SKILL.md                          # Introduction drafting skill
 │   └── references/
@@ -137,7 +140,8 @@ Shared references (apply to all sub-skills):
 - references/table_formatting.md: APA 7th table examples
 
 Sub-skill specific references:
-- q-descriptive-analysis/SKILL.md: workflow templates, code patterns
+- q-exploratory-analysis/SKILL.md: workflow templates, script invocation
+- q-exploratory-analysis/scripts/run_eda.py: six-phase EDA pipeline
 - q-intro/references/: introduction_template.md, interview_questions.md
 - q-methods/references/: methods_template.md, appendix_template.md
 - q-results/references/: results_template.md
