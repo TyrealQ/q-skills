@@ -17,9 +17,8 @@ Choose **one** of the methods below.
 | ------ | -------- |
 | [Ask the Agent](#option-1-ask-the-agent-beginner-friendly) | **No coding experience needed** — just talk to Claude |
 | [Quick Install](#option-2-quick-install) | Command-line users — installs all skills at once |
-| [Plugin Marketplace](#option-3-plugin-marketplace) | Claude Code plugin UI workflow |
-| [Specific Skills](#option-4-install-specific-skills) | Pick only the skills you need |
-| [Manual](#option-5-manual-clone-and-copy) | Offline or restricted environments |
+| [Plugin Marketplace](#option-3-plugin-marketplace) | Register once, then install all or specific skills |
+| [Manual](#option-4-manual-clone-and-copy) | Offline or restricted environments |
 
 ---
 
@@ -47,17 +46,19 @@ npx skills add TyrealQ/q-skills
 
 ### Option 3: Plugin Marketplace
 
-Run inside Claude Code:
+Register q-skills as a plugin source in Claude Code, then install all or selected skills.
+
+**Step 1 — Register** (run once inside Claude Code):
 
 ```
 /plugin marketplace add TyrealQ/q-skills
 ```
 
----
+**Step 2 — Install:**
 
-### Option 4: Install Specific Skills
+To install all skills at once, use [Option 2](#option-2-quick-install) or browse via the Claude Code plugin UI after Step 1.
 
-Pick only the skills you need:
+To install specific skills only:
 
 ```
 /plugin install q-scholar@q-skills
@@ -69,7 +70,7 @@ Pick only the skills you need:
 
 ---
 
-### Option 5: Manual (Clone and Copy)
+### Option 4: Manual (Clone and Copy)
 
 ```bash
 git clone https://github.com/TyrealQ/q-skills.git
