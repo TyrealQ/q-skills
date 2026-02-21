@@ -294,7 +294,7 @@ skills/q-infographics/
 |-- scripts/
 |   |-- gen_story.py                      # Story generator script
 |   `-- gen_image.py                      # Image generator script
-`-- examples/                             # Sample outputs
+# Sample outputs → see illustrations/q-infographics/ at repo root
 ```
 
 **Example:**
@@ -305,9 +305,9 @@ Create an infographic from my research paper on gamification in esports
 
 **Sample Outputs:**
 
-![DIGITAL_ENTREPRENEURSHIP_INFO1](skills/q-infographics/examples/DIGITAL_ENTREPRENEURSHIP_INFO1.jpg)
+![DIGITAL_ENTREPRENEURSHIP_INFO1](illustrations/q-infographics/DIGITAL_ENTREPRENEURSHIP_INFO1.jpg)
 
-![DIGITAL_ENTREPRENEURSHIP_INFO2](skills/q-infographics/examples/DIGITAL_ENTREPRENEURSHIP_INFO2.jpg)
+![DIGITAL_ENTREPRENEURSHIP_INFO2](illustrations/q-infographics/DIGITAL_ENTREPRENEURSHIP_INFO2.jpg)
 
 ---
 
@@ -358,7 +358,7 @@ q-presentations/
     |-- overlay_logo.py                   # Logo overlay with auto-invert
     |-- merge-to-pptx.ts                  # PPTX merge (Bun/TS)
     `-- merge-to-pdf.ts                   # PDF merge (Bun/TS)
-`-- examples/                             # Sample outputs
+# Sample outputs → see illustrations/q-presentations/ at repo root
 ```
 
 **Example:**
@@ -369,13 +369,13 @@ Create a chalkboard-style slide deck from my research paper on AI agents
 
 **Sample Outputs:**
 
-![01-slide-cover](skills/q-presentations/examples/01-slide-cover.png)
+![01-slide-cover](illustrations/q-presentations/01-slide-cover.png)
 
-![02-slide-from-answers-to-outcomes](skills/q-presentations/examples/02-slide-from-answers-to-outcomes.png)
+![02-slide-from-answers-to-outcomes](illustrations/q-presentations/02-slide-from-answers-to-outcomes.png)
 
-![03-slide-chatbot-vs-agent](skills/q-presentations/examples/03-slide-chatbot-vs-agent.png)
+![03-slide-chatbot-vs-agent](illustrations/q-presentations/03-slide-chatbot-vs-agent.png)
 
-![04-slide-what-it-does-what-you-do](skills/q-presentations/examples/04-slide-what-it-does-what-you-do.png)
+![04-slide-what-it-does-what-you-do](illustrations/q-presentations/04-slide-what-it-does-what-you-do.png)
 
 ---
 

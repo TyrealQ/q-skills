@@ -304,13 +304,13 @@ PDF: {topic-slug}.pdf
 Sample slide deck generated from a presentation on AI agents:
 
 ### AI Agents: From Answers to Outcomes
-![01-slide-cover](examples/01-slide-cover.png)
+![01-slide-cover](../../illustrations/q-presentations/01-slide-cover.png)
 
-![02-slide-from-answers-to-outcomes](examples/02-slide-from-answers-to-outcomes.png)
+![02-slide-from-answers-to-outcomes](../../illustrations/q-presentations/02-slide-from-answers-to-outcomes.png)
 
-![03-slide-chatbot-vs-agent](examples/03-slide-chatbot-vs-agent.png)
+![03-slide-chatbot-vs-agent](../../illustrations/q-presentations/03-slide-chatbot-vs-agent.png)
 
-![04-slide-what-it-does-what-you-do](examples/04-slide-what-it-does-what-you-do.png)
+![04-slide-what-it-does-what-you-do](../../illustrations/q-presentations/04-slide-what-it-does-what-you-do.png)
 
 ## Notes
 
