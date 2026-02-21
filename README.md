@@ -1,6 +1,6 @@
 ﻿# q-skills
 
-Skills for academic research workflows with Claude Code.
+End-to-end skills for academic writing, data analysis, teaching, and research communication.
 
 ## Prerequisites
 
