@@ -11,7 +11,31 @@ Skills for academic research workflows with Claude Code.
 
 ## Installation
 
-### Quick Install (Recommended)
+Choose **one** of the methods below.
+
+| Method | Best for |
+| ------ | -------- |
+| [Ask the Agent](#option-1-ask-the-agent-beginner-friendly) | **No coding experience needed** — just talk to Claude |
+| [Quick Install](#option-2-quick-install) | Command-line users — installs all skills at once |
+| [Plugin Marketplace](#option-3-plugin-marketplace) | Claude Code plugin UI workflow |
+| [Specific Skills](#option-4-install-specific-skills) | Pick only the skills you need |
+| [Manual](#option-5-manual-clone-and-copy) | Offline or restricted environments |
+
+---
+
+### Option 1: Ask the Agent (Beginner-Friendly)
+
+> **No coding experience required.** If you are new to Claude Code or not comfortable with the command line, this is the easiest way to get started. Just open Claude Code and type:
+
+```
+Please install skills from github.com/TyrealQ/q-skills
+```
+
+Claude will handle the installation for you — no terminal, no commands.
+
+---
+
+### Option 2: Quick Install
 
 Requires [Node.js](https://nodejs.org/) for `npx`:
 
@@ -19,7 +43,9 @@ Requires [Node.js](https://nodejs.org/) for `npx`:
 npx skills add TyrealQ/q-skills
 ```
 
-### Register as Plugin Marketplace
+---
+
+### Option 3: Plugin Marketplace
 
 Run inside Claude Code:
 
@@ -27,7 +53,11 @@ Run inside Claude Code:
 /plugin marketplace add TyrealQ/q-skills
 ```
 
-### Install Specific Skills
+---
+
+### Option 4: Install Specific Skills
+
+Pick only the skills you need:
 
 ```
 /plugin install q-scholar@q-skills
@@ -37,15 +67,9 @@ Run inside Claude Code:
 /plugin install q-topic-finetuning@q-skills
 ```
 
-### Ask the Agent
+---
 
-Tell Claude Code:
-
-```
-Please install skills from github.com/TyrealQ/q-skills
-```
-
-### Manual: Clone and Copy
+### Option 5: Manual (Clone and Copy)
 
 ```bash
 git clone https://github.com/TyrealQ/q-skills.git
