@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.4.8] - 2026-02-21
+
+### Added
+- **`.claude-plugin/marketplace.json`**: Enables `/plugin marketplace add TyrealQ/q-skills` and `/plugin install <skill>@q-skills` commands in Claude Code — each skill registered as a named plugin
+
+### Changed
+- **README**: Broadened tagline from "academic research workflows" to reflect full collection scope (academic writing, data analysis, teaching, research communication)
+
 ## [1.4.7] - 2026-02-21
 
 ### Changed
