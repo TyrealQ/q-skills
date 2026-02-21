@@ -23,7 +23,6 @@ skills/q-infographics/
 |-- scripts/
 |   |-- gen_story.py   # Story generator script
 |   `-- gen_image.py   # Image generator script
-# Sample outputs → see illustrations/q-infographics/ at repo root
 ```
 
 ## When to Use
@@ -108,12 +107,4 @@ Generates hand-drawn cartoon-style infographics:
 - Ample white space for readability
 - Language matches input content
 
-## Examples
-
-Sample infographics generated from academic research papers:
-
-### Digital Entrepreneurship in Women's Sports
-![DIGITAL_ENTREPRENEURSHIP_INFO1](../../illustrations/q-infographics/DIGITAL_ENTREPRENEURSHIP_INFO1.jpg)
-
-![DIGITAL_ENTREPRENEURSHIP_INFO2](../../illustrations/q-infographics/DIGITAL_ENTREPRENEURSHIP_INFO2.jpg)
 
