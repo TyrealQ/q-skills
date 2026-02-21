@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.4.7] - 2026-02-21
+
+### Changed
+- **README**: Expanded installation and update documentation
+  - Added Node.js to Prerequisites (required for `npx`-based install)
+  - Added `/plugin marketplace add` method for registering as a plugin marketplace
+  - Added `/plugin install` commands for installing individual skills by name
+  - Added "Ask the Agent" natural language install method
+  - Renamed "Alternative: Clone and Copy" to "Manual: Clone and Copy" for clarity
+  - Replaced flat Update Skills section with three sub-sections: Via Plugin UI (with auto-update note), Force Reinstall, and Manual Update
+
 ## [1.4.6] - 2026-02-19
 
 ### Added

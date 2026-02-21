@@ -7,16 +7,45 @@ Skills for academic research workflows with Claude Code.
 - [Claude Code](https://claude.ai/code) or compatible AI coding assistant
 - Python 3.8+ (for script-based skills)
 - pandas, openpyxl (for data processing skills)
+- [Node.js](https://nodejs.org/) (for `npx`-based installation)
 
 ## Installation
 
 ### Quick Install (Recommended)
 
+Requires [Node.js](https://nodejs.org/) for `npx`:
+
 ```bash
 npx skills add TyrealQ/q-skills
 ```
 
-### Alternative: Clone and Copy
+### Register as Plugin Marketplace
+
+Run inside Claude Code:
+
+```
+/plugin marketplace add TyrealQ/q-skills
+```
+
+### Install Specific Skills
+
+```
+/plugin install q-scholar@q-skills
+/plugin install q-educator@q-skills
+/plugin install q-infographics@q-skills
+/plugin install q-presentations@q-skills
+/plugin install q-topic-finetuning@q-skills
+```
+
+### Ask the Agent
+
+Tell Claude Code:
+
+```
+Please install skills from github.com/TyrealQ/q-skills
+```
+
+### Manual: Clone and Copy
 
 ```bash
 git clone https://github.com/TyrealQ/q-skills.git
@@ -38,19 +67,29 @@ cp -r q-skills/skills/q-* ~/.claude/skills/
 
 ## Update Skills
 
-To update to the latest version:
+### Via Plugin UI (Recommended)
+
+1. Run `/plugin` in Claude Code
+2. Switch to the **Marketplaces** tab (arrow keys or Tab)
+3. Select **q-skills**
+4. Choose **Update marketplace**
+
+You can also enable **auto-update** to receive the latest versions automatically.
+
+### Force Reinstall
+
+```bash
+npx skills add TyrealQ/q-skills --force
+```
+
+### Manual Update
 
 ```bash
 cd q-skills
 git pull
 ```
 
-Then re-copy the skills to your skills directory.
-
-**Or reinstall:**
-```bash
-npx skills add TyrealQ/q-skills --force
-```
+Then re-copy the skills to your skills directory (see Manual install above).
 
 ---
 
