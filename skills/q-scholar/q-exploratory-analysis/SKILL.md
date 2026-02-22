@@ -24,28 +24,37 @@ Ask 2 questions before loading data:
 
 ### Stage B: Column Classification Review
 
-After the context questions, load the dataset and present suggested types for user confirmation:
+After the context questions, **auto-detect column types and present for confirmation**:
 
-1. **Load and preview** - Use the Read tool or a quick Python snippet (`df.head(5).to_markdown()` + `df.dtypes`) to inspect the dataset.
-2. **Auto-suggest types** - Apply the heuristic rules from Section 3 to generate suggested measurement levels for every column. These are suggestions, not final decisions.
-3. **Present classification table** - Show a grouped table (organized by suggested type):
+1. **Load and preview** - Read the file with a quick Python snippet to get `df.head()`, `df.dtypes`, `df.nunique()`.
+2. **Auto-classify** - Apply the heuristic rules from Section 3 to generate suggested types.
+   **Pay special attention to:**
+   - High-cardinality numeric integers (views, revenue, duration) — these should be **Continuous**, not ID
+   - Low-cardinality integers (1-5, 1-7 scales) — ask whether Ordinal (scale) or Discrete (count)
+   - Columns with >40% missing — flag for user awareness
+3. **Present classification table** - Show all columns organized by suggested type:
 
    | # | Column | Sample Values | Unique | Suggested Type | Notes |
    |---|--------|---------------|--------|----------------|-------|
-   | 1 | id | 1, 2, 3 | 768 | ID | nunique > 95% of n |
-   | 2 | platform | YouTube, Twitch | 5 | Nominal (Group) | grouping variable |
-   | 3 | rating | 1, 2, 3, 4, 5 | 5 | Ordinal | low-cardinality integer - scale or count? |
+   | 1 | id | 1, 2, 3 | 768 | ID | nunique > 95% of n, non-numeric |
+   | 2 | views | 100, 5000, 1M | 1885 | Continuous | high-cardinality integer metric |
+   | 3 | platform | YouTube, Twitch | 5 | Nominal (Group) | grouping variable |
+   | 4 | rating | 1, 2, 3, 4, 5 | 5 | Ordinal | low-cardinality integer - scale or count? |
    | ... | ... | ... | ... | ... | ... |
 
-4. **Ask for confirmation** - "If these all look correct, reply **confirm all**. Otherwise, list corrections (e.g., *rating -> Discrete*, *comments -> Text*)."
-5. **Record confirmed types** - Map each confirmed type to the appropriate script argument:
+4. **Ask for confirmation** - Use AskUserQuestion to present the table and ask:
+   "If these all look correct, select **Confirm all**. Otherwise, select **Corrections needed**."
+5. **Record confirmed types** and map to script arguments.
+6. **Invoke the script immediately** — Do NOT write inline Python. Run `run_eda.py` per Section 2.
 
    | Confirmed Type | Script Argument |
    |----------------|-----------------|
-   | Ordinal | `--ordinal_cols` |
-   | Text | `--text_cols` |
-   | Nominal (Group) | `--group` |
-   | ID, Binary, Discrete, Continuous, Temporal | Auto-detected (no flag needed; `--no_interactive` prevents ambiguity prompts) |
+   | Ordinal | `--ordinal_cols col1 col2` |
+   | Text | `--text_cols col1 col2` |
+   | Nominal (Group) | `--group col1 col2` |
+   | Continuous | `--continuous_cols col1 col2` |
+   | ID | `--id_cols col1 col2` |
+   | Binary, Discrete, Temporal | Auto-detected (no flag needed; `--no_interactive` prevents ambiguity prompts) |
 
 ## 2. Script Invocation
 
@@ -59,6 +68,9 @@ python scripts/run_eda.py data.xlsx \
   --no_interactive \
   --top_n 10
 ```
+
+> **Windows note:** Use `python` (not `python3`). If the system has both Python 2 and 3,
+> use `py -3` or the full path (e.g., `C:\Python312\python.exe`).
 
 **Lightweight run (no Excel output):**
 ```bash
@@ -77,6 +89,8 @@ python scripts/run_eda.py data.xlsx \
 | Ordinal | `--ordinal_cols col1 col2` |
 | Text | `--text_cols col1 col2` |
 | Nominal (Group) | `--group col1 col2` |
+| Continuous | `--continuous_cols col1 col2` |
+| ID | `--id_cols col1 col2` |
 | All other types | Auto-detected; no flag needed |
 | (always) | `--no_interactive` (skip ambiguity prompts when Claude drives the workflow) |
 
@@ -89,6 +103,8 @@ python scripts/run_eda.py data.xlsx \
 | `--group` | No | Nominal columns for grouped analysis |
 | `--text_cols` | No | Text columns for n-gram analysis |
 | `--ordinal_cols` | No | Columns confirmed as ordinal during interview |
+| `--continuous_cols` | No | Force-classify columns as continuous (overrides auto-detection) |
+| `--id_cols` | No | Force-classify columns as ID/excluded (overrides auto-detection) |
 | `--top_n` | No | Top-N items in frequency tables (default: 10) |
 | `--no_interactive` | No | Skip ambiguity prompts (always used when Claude drives the workflow) |
 | `--no_excel` | No | Skip Phase 7 (Excel report); produce CSVs and markdown only |
@@ -99,14 +115,16 @@ Claude presents suggested types during the interview; the user confirms or corre
 
 | Level | Detection Rule | Analysis Applied |
 |-------|---------------|-----------------|
-| **ID/key** | nunique > 95% of n | Excluded from analysis; flagged in profile |
+| **ID/key** | nunique > 95% of n AND non-numeric dtype | Excluded from analysis; flagged in profile |
 | **Binary** | Exactly 2 unique values (any dtype) | Count, proportion, 95% CI |
 | **Nominal** | object/string dtype, avg length <= 50 chars | Frequency table, mode, top-N |
 | **Ordinal** | User-confirmed low-cardinality integer | Ordered freq table + cumulative % + full quantitative metrics (M labeled quasi-interval) |
 | **Discrete** | integer dtype, meaningful count/quantity | Frequency distribution + full quantitative metrics |
-| **Continuous** | float dtype or high-cardinality integer | Full quantitative metrics + outlier flags + distribution shape |
+| **Continuous** | float dtype, OR numeric dtype with nunique > 95% of n | Full quantitative metrics + outlier flags + distribution shape |
 | **Temporal** | datetime dtype or parseable date string | Range, gap detection, trend by month/year |
 | **Text** | object dtype, avg length > 50 chars | Top unigrams/bigrams, avg word count, vocabulary richness |
+
+**Numeric high-uniqueness:** Integer columns with >95% unique values (e.g., views, revenue) are classified as Continuous, not ID. Only non-numeric columns (strings, mixed types) with >95% uniqueness are treated as identifiers. Use `--id_cols` to force-classify a numeric column as ID if needed.
 
 **Ordinal vs. Discrete ambiguity:** Claude flags low-cardinality integers (e.g., 1-5, 1-7 scales) prominently during the interview and asks whether each is a scale (Ordinal) or count (Discrete).
 
@@ -134,7 +152,7 @@ Measurement-level-appropriate analysis for each column:
 ### Phase 4: Bivariate & Multivariate Analysis
 Measurement-appropriate pairing analysis:
 
-- `09_pearson_correlation.csv` - Continuous x Continuous (r + p-value)
+- `09_pearson_correlation.csv` - Ratio-scale x Ratio-scale (Continuous + Discrete; r + p-value)
 - `10_spearman_correlation.csv` - Ordinal x Ordinal (rho + p-value)
 - `11_grouped_by_{groupvar}.csv` - Continuous/Discrete descriptives per Nominal group
 - `12_crosstab_{nom1}_x_{nom2}.csv` - Nominal x Nominal contingency tables
@@ -160,21 +178,15 @@ all `11_grouped_by_*.csv`, all `12_crosstab_*.csv`, all `13_text_*.csv`,
 
 **Content requirements:**
 Thematic sections (not one-per-CSV). Required structure:
-1. Dataset Overview — dimensions, column type breakdown (from 01, 14)
-2. Data Quality — missing %, duplicates, constant cols, outlier counts (from 02)
-3. Categorical Variables — top-N frequency tables (nominal), proportion+CI
-   (binary), ordered distribution+cumulative% (ordinal) (from 03, 04, 05, 06)
-4. Quantitative Variables — M/Mdn/SD/skewness/CI95 tables; distribution shape
-   commentary (from 07, 08)
-5. Bivariate Relationships — Pearson r table; Spearman rho table; flag
-   |r|/|rho| > 0.5 (from 09, 10)
-6. Group Comparisons — per-group M/Mdn/SD tables; note largest group diff
-   (from 11_grouped_by_* files)
-7. Cross-Tabulations — cell-count tables with row totals (from 12_crosstab_*)
-8. Text Analysis — avg word count, vocab size, top-5 unigrams+bigrams per col
-   (from 13_text_*; omit section if no text columns)
-9. Temporal Trends — date range, upload trend direction, peak period
-   (from 14; omit section if no temporal column)
+1. Dataset Overview *(Source: `01_dataset_profile.csv`, `14_temporal_trends.csv`)*
+2. Data Quality *(Source: `02_data_quality.csv`)*
+3. Categorical Variables *(Source: `03_nominal_frequencies.csv`, `04_binary_summary.csv`, `05_ordinal_distribution.csv`, `06_ordinal_descriptives.csv`)*
+4. Quantitative Variables *(Source: `07_discrete_descriptives.csv`, `08_continuous_descriptives.csv`)*
+5. Bivariate Relationships *(Source: `09_pearson_correlation.csv`, `10_spearman_correlation.csv`)*
+6. Group Comparisons *(Source: `11_grouped_by_*.csv`)*
+7. Cross-Tabulations *(Source: `12_crosstab_*.csv`)*
+8. Text Analysis *(Source: `13_text_*.csv`; omit section if no text columns)*
+9. Temporal Trends *(Source: `14_temporal_trends.csv`; omit section if no temporal column)*
 10. Output Files — bullet list of all files in the output directory
 
 Rules:
@@ -182,6 +194,9 @@ Rules:
 - Do not round further than the CSV already rounds.
 - End each section with 1–3 sentences of interpretation.
 - Style reference: `TABLE/DESCRIPTIVE_SUMMARY.md` in the active DEMO directory.
+- **Every section heading must include a `Source:` annotation** citing the CSV file(s) it draws from.
+- **NEVER derive findings from ad-hoc Python**. If a CSV is missing or empty, state "No data available (file skipped by script)" rather than computing supplementary statistics.
+- If a section's source CSV was skipped, omit the section entirely.
 
 ### Phase 7: Excel Report
 `EXPLORATORY_REPORT.xlsx` - APA-7th formatted workbook (B&W, no color fills). Sheet 0 "Summary" contains dataset dimensions and quality highlights. Sheets 1-N contain one sheet per generated CSV (skipped if absent). All sheets use Calibri 11 pt, table-number bold rows, title italic rows, bold column headers with bottom border, and data rows with top/bottom rules only. Skip with `--no_excel`.
@@ -245,6 +260,11 @@ Flags use this severity scheme: high missing% -> review flag; high skewness -> d
 - [ ] `EXPLORATORY_REPORT.xlsx` present with "Summary" as first sheet + one sheet per CSV (unless `--no_excel`)
 - [ ] Excel workbook is B&W only (no color fills; no gridlines)
 - [ ] Bivariate outputs use correct method for each level pairing
+- [ ] High-cardinality numeric columns classified as Continuous, not ID (check `01_dataset_profile.csv`)
+- [ ] Pearson correlations include both continuous and discrete ratio-scale columns
+- [ ] Every `EXPLORATORY_SUMMARY.md` section cites its source CSV file(s) in the heading
+- [ ] No ad-hoc Python used to derive findings outside the script pipeline
+- [ ] Script invoked with `python` (not `python3`) on Windows
 
 ## Future Roadmap
 

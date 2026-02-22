@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.1] - 2026-02-22
+
+### Fixed
+- **q-exploratory-analysis/run_eda.py**: Fixed ID heuristic misclassifying numeric metrics
+  - High-cardinality numeric columns (e.g., views, revenue) now classified as Continuous, not ID
+  - Added dtype guard: only non-numeric columns with >95% uniqueness are treated as identifiers
+- **q-exploratory-analysis/run_eda.py**: Pearson correlation now includes both Continuous and Discrete columns
+  - Previously only used Continuous columns, producing empty correlations when all numeric columns were Discrete
+- **q-exploratory-analysis/run_eda.py**: Added `--continuous_cols` and `--id_cols` CLI flags
+  - Users can force-classify columns as continuous or ID, overriding auto-detection
+
+### Changed
+- **q-exploratory-analysis/SKILL.md**: Strengthened interview workflow (Stage B)
+  - Added high-cardinality numeric awareness (views, revenue should be Continuous, not ID)
+  - Added mandatory "invoke the script immediately" step to prevent inline Python
+  - Updated argument mapping table with `--continuous_cols` and `--id_cols`
+- **q-exploratory-analysis/SKILL.md**: Mandated source-file citations in EXPLORATORY_SUMMARY.md
+  - Every section heading must include `Source:` annotation citing CSV file(s)
+  - Explicitly forbids ad-hoc Python for deriving findings
+  - Sections with missing source CSVs should be omitted entirely
+- **q-exploratory-analysis/SKILL.md**: Added Windows `python` compatibility note
+- **q-exploratory-analysis/SKILL.md**: Updated Column-Type Coverage table
+  - ID detection rule now specifies "AND non-numeric dtype"
+  - Continuous detection rule now includes "OR numeric dtype with nunique > 95%"
+  - Added numeric high-uniqueness explanation note
+- **q-exploratory-analysis/SKILL.md**: Expanded verification checklist with 5 new items
+
 ## [1.5.0] - 2026-02-21
 
 ### Changed

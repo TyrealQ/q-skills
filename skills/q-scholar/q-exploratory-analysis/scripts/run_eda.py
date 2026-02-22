@@ -48,7 +48,9 @@ LOW_CARD_MAX = 20  # integers with <= this many unique values are flagged as amb
 # ---------------------------------------------------------------------------
 
 def classify_columns(df: pd.DataFrame, user_ordinal_cols: list = None,
-                     user_text_cols: list = None) -> dict:
+                     user_text_cols: list = None,
+                     user_continuous_cols: list = None,
+                     user_id_cols: list = None) -> dict:
     """
     Auto-detect measurement level for each column.
     Returns dict {col_name: type_string}.
@@ -58,11 +60,23 @@ def classify_columns(df: pd.DataFrame, user_ordinal_cols: list = None,
     """
     user_ordinal_cols = set(user_ordinal_cols or [])
     user_text_cols = set(user_text_cols or [])
+    user_continuous_cols = set(user_continuous_cols or [])
+    user_id_cols = set(user_id_cols or [])
     col_types = {}
     n = len(df)
 
     for col in df.columns:
         series = df[col]
+
+        # User-flagged continuous columns (highest priority)
+        if col in user_continuous_cols:
+            col_types[col] = "continuous"
+            continue
+
+        # User-flagged id columns
+        if col in user_id_cols:
+            col_types[col] = "id"
+            continue
 
         # User-flagged text columns
         if col in user_text_cols:
@@ -91,7 +105,11 @@ def classify_columns(df: pd.DataFrame, user_ordinal_cols: list = None,
 
         # ID/key: nearly all unique values
         if nunique > 0.95 * n and n > 10:
-            col_types[col] = "id"
+            if pd.api.types.is_numeric_dtype(series):
+                # Numeric columns with near-unique values are metrics, not IDs
+                col_types[col] = "continuous"
+            else:
+                col_types[col] = "id"
             continue
 
         # Binary: exactly 2 unique values
@@ -396,13 +414,14 @@ def ordinal_frequency(df: pd.DataFrame, col_types: dict) -> pd.DataFrame:
 # ---------------------------------------------------------------------------
 
 def pearson_correlation_matrix(df: pd.DataFrame, col_types: dict) -> pd.DataFrame:
-    cont_cols = [c for c, t in col_types.items() if t == "continuous"]
-    if len(cont_cols) < 2:
+    # Include both continuous AND discrete for Pearson (both are ratio-scale)
+    ratio_cols = [c for c, t in col_types.items() if t in ("continuous", "discrete")]
+    if len(ratio_cols) < 2:
         return pd.DataFrame()
 
-    sub = df[cont_cols].dropna()
+    sub = df[ratio_cols].dropna()
     rows = []
-    for c1, c2 in combinations(cont_cols, 2):
+    for c1, c2 in combinations(ratio_cols, 2):
         s1, s2 = sub[c1], sub[c2]
         n = len(s1)
         if n < 3:
@@ -677,7 +696,7 @@ def generate_excel_report(output_dir: str) -> str:
         ("08_continuous_descriptives.csv", "08 Continuous",
          "Continuous variable descriptive statistics"),
         ("09_pearson_correlation.csv", "09 Pearson",
-         "Pearson product-moment correlations (continuous x continuous)"),
+         "Pearson product-moment correlations (continuous and discrete)"),
         ("10_spearman_correlation.csv", "10 Spearman",
          "Spearman rank correlations (ordinal x ordinal)"),
     ]
@@ -773,6 +792,10 @@ def main():
     parser.add_argument("--text_cols", nargs="*", default=[], help="Text columns for n-gram analysis")
     parser.add_argument("--ordinal_cols", nargs="*", default=[],
                         help="Pre-specify ordinal columns (skips interactive prompt)")
+    parser.add_argument("--continuous_cols", nargs="*", default=[],
+                        help="Force-classify columns as continuous (overrides auto-detection)")
+    parser.add_argument("--id_cols", nargs="*", default=[],
+                        help="Force-classify columns as ID/excluded (overrides auto-detection)")
     parser.add_argument("--top_n", type=int, default=10, help="Top-N for frequency tables")
     parser.add_argument(
         "--no_interactive", action="store_true",
@@ -802,7 +825,9 @@ def main():
 
     # --- Phase 0: Classification ---
     col_types = classify_columns(df, user_ordinal_cols=args.ordinal_cols,
-                                 user_text_cols=args.text_cols)
+                                 user_text_cols=args.text_cols,
+                                 user_continuous_cols=args.continuous_cols,
+                                 user_id_cols=args.id_cols)
     col_types = resolve_ambiguous_columns(col_types, df,
                                           no_interactive=args.no_interactive)
     print_schema_summary(df, col_types)
