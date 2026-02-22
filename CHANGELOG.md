@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.3] - 2026-02-22
+
+### Fixed
+- **q-exploratory-analysis/SKILL.md**: Resolved contradictory section omission rules (line 159 "state No data" vs line 160 "omit entirely")
+  - New two-tier rule: all source CSVs absent → omit section; some absent → include section with note
+- **q-exploratory-analysis/SKILL.md**: Fixed unreadable 22-24 column descriptive tables in summary
+  - Split into core table (8 cols: variable, N_valid, M, Mdn, SD, IQR, Skewness, Kurtosis) and detail table (11 cols: Range, Min, Max, Q1/Q3, CV, SE, CI, outliers)
+  - Narrow CSVs (frequencies, binary, correlations, crosstabs) keep full columns as-is
+- **q-exploratory-analysis/SKILL.md**: Replaced vague flagging severity scheme with explicit thresholds
+  - Missing >10%, skewness abs>2, kurtosis abs>7, correlation abs>0.7, CV >100%, ID-like >95% uniqueness
+- **q-exploratory-analysis/SKILL.md**: Fixed ordinal variables misplaced under "Categorical Variables" section
+  - Restructured from 10 thematic sections to 13 measurement-level sections (Nominal, Binary, Ordinal, Discrete, Continuous each separate)
+- **q-exploratory-analysis/SKILL.md**: Fixed temporal data referenced in two sections without scope guidance
+  - Section 1 (Dataset Overview): temporal range and period count only
+  - Section 12 (Temporal Trends): full trend table and pattern interpretation
+- **q-exploratory-analysis/SKILL.md**: Fixed output directory listing order (summary now last as final deliverable)
+
+### Added
+- **q-exploratory-analysis/SKILL.md**: Table sizing rules for frequency, correlation, and cross-tab tables
+- **q-exploratory-analysis/SKILL.md**: Two new verification checklist items (13-section count, split-table format)
+- **q-exploratory-analysis/references/summary_template.md**: Reference template with 13-section skeleton and worked example rows per table type
+
+### Changed
+- **README**: Updated q-exploratory-analysis folder structure to include `references/` directory
+
 ## [1.5.2] - 2026-02-22
 
 ### Changed

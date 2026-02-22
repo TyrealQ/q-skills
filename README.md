@@ -196,7 +196,8 @@ q-scholar/
 |   `-- references/                       # Templates and interview questions
 |-- q-exploratory-analysis/
 |   |-- SKILL.md                          # Data exploration skill
-|   `-- scripts/                          # run_eda.py + requirements.txt
+|   |-- scripts/                          # run_eda.py + requirements.txt
+|   `-- references/                       # Summary template and examples
 |-- q-methods/
 |   |-- SKILL.md                          # Methods drafting skill
 |   `-- references/                       # Methods and appendix templates
