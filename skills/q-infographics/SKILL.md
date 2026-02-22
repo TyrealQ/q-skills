@@ -25,6 +25,20 @@ skills/q-infographics/
 |   `-- gen_image.py   # Image generator script
 ```
 
+## Script Directory
+
+Agent execution instructions:
+1. Determine this SKILL.md file's directory path as `SKILL_DIR`.
+2. Script path = `${SKILL_DIR}/scripts/<script-name>`.
+3. Prompt path = `${SKILL_DIR}/prompts/<prompt-name>`.
+
+| Resource | Purpose |
+|----------|---------|
+| `scripts/gen_story.py` | Generate business story from document via Gemini API |
+| `scripts/gen_image.py` | Generate infographic image from story via Gemini API |
+| `prompts/story.txt` | Story generation prompt template |
+| `prompts/image.txt` | Infographic generation prompt template |
+
 ## When to Use
 
 Use this skill when the user wants to:
@@ -48,28 +62,28 @@ markitdown <input_file> -o <OUTPUT.md>
 
 ### Step 2: Generate Story
 ```bash
-python skills/q-infographics/scripts/gen_story.py <INPUT.md> skills/q-infographics/prompts/story.txt > STORY_OUTPUT.md
+python "${SKILL_DIR}/scripts/gen_story.py" <INPUT.md> "${SKILL_DIR}/prompts/story.txt" > STORY_OUTPUT.md
 ```
 
 **Review checkpoint**:
-1. Show the prompt being used: `cat skills/q-infographics/prompts/story.txt`
+1. Show the prompt being used: `cat "${SKILL_DIR}/prompts/story.txt"`
 2. After generation, show the full story output: `cat STORY_OUTPUT.md`
 3. Ask user: "Story generated. Review above and confirm to proceed with infographic generation, or request edits."
 
 ### Step 3: Generate Infographic
 ```bash
-python skills/q-infographics/scripts/gen_image.py STORY_OUTPUT.md skills/q-infographics/prompts/image.txt <SOURCE_NAME>_INFO
+python "${SKILL_DIR}/scripts/gen_image.py" STORY_OUTPUT.md "${SKILL_DIR}/prompts/image.txt" <SOURCE_NAME>_INFO
 ```
 
 **Naming convention**: Output files use the source filename with `_INFO` suffix (e.g., `MY_REPORT.pdf` -> `MY_REPORT_INFO.jpg`).
 
 **Review checkpoint**:
-1. Show the image prompt being used: `cat skills/q-infographics/prompts/image.txt`
+1. Show the image prompt being used: `cat "${SKILL_DIR}/prompts/image.txt"`
 2. After generation, display the infographic image
 3. Ask user: "Infographic generated. Would you like to regenerate with different settings?"
 
 ## Requirements
-*   `pip install -r skills/q-infographics/requirements.txt`
+*   `pip install -r "${SKILL_DIR}/requirements.txt"`
 *   `GEMINI_API_KEY` environment variable. Load from a `.env` file:
     **PowerShell (Windows):**
     ```powershell
@@ -86,8 +100,8 @@ Every generated infographic is automatically branded with a logo in the bottom-r
 
 ## Customization
 
-*   **Story Style**: Edit `skills/q-infographics/prompts/story.txt` to change the writing persona
-*   **Infographic Style**: Edit `skills/q-infographics/prompts/image.txt` to change the visual art style
+*   **Story Style**: Edit `${SKILL_DIR}/prompts/story.txt` to change the writing persona
+*   **Infographic Style**: Edit `${SKILL_DIR}/prompts/image.txt` to change the visual art style
 
 ## Prompts Reference
 
@@ -106,5 +120,3 @@ Generates hand-drawn cartoon-style infographics:
 - Highlights keywords and core concepts
 - Ample white space for readability
 - Language matches input content
-
-

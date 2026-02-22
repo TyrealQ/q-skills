@@ -2,9 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.4] - 2026-02-22
+
+### Fixed
+
+- **q-infographics/SKILL.md**: Replaced hardcoded `skills/q-infographics/` paths with `${SKILL_DIR}` — scripts, prompts, requirements, and customization paths now resolve from the skill cache
+- **q-topic-finetuning/SKILL.md**: Replaced hardcoded `scripts/` and `references/` paths with `${SKILL_DIR}` — classify_outliers.py, template references, and CLI examples now resolve from the skill cache
+- **q-exploratory-analysis/SKILL.md**: Replaced `<skill-base-dir>` placeholder with `${SKILL_DIR}` pattern matching q-presentations convention
+- **q-infographics/SKILL.md**: Removed trailing blank lines
+
+### Added
+
+- **q-infographics/SKILL.md**: Script Directory section with resource table (gen_story.py, gen_image.py, story.txt, image.txt)
+- **q-topic-finetuning/SKILL.md**: Script Directory section with resource table (3 scripts, 2 references)
+- **q-exploratory-analysis/SKILL.md**: Script Directory section with `${SKILL_DIR}` agent instructions and deploy command
+- **CLAUDE.md**: Script Path Convention section documenting the `${SKILL_DIR}` pattern as the standard for all skills with scripts
+
+### Changed
+
+- **q-exploratory-analysis/scripts/requirements.txt**: Removed unused matplotlib and seaborn dependencies
+
 ## [1.5.3] - 2026-02-22
 
 ### Fixed
+
 - **q-exploratory-analysis/SKILL.md**: Resolved contradictory section omission rules (line 159 "state No data" vs line 160 "omit entirely")
   - New two-tier rule: all source CSVs absent → omit section; some absent → include section with note
 - **q-exploratory-analysis/SKILL.md**: Fixed unreadable 22-24 column descriptive tables in summary
@@ -20,11 +41,13 @@ All notable changes to this project will be documented in this file.
 - **q-exploratory-analysis/SKILL.md**: Fixed output directory listing order (summary now last as final deliverable)
 
 ### Added
+
 - **q-exploratory-analysis/SKILL.md**: Table sizing rules for frequency, correlation, and cross-tab tables
 - **q-exploratory-analysis/SKILL.md**: Two new verification checklist items (13-section count, split-table format)
 - **q-exploratory-analysis/references/summary_template.md**: Reference template with 13-section skeleton and worked example rows per table type
 
 ### Changed
+
 - **README**: Updated q-exploratory-analysis folder structure to include `references/` directory
 - **q-topic-finetuning**: Moved from top-level skill into q-scholar as sub-skill (data analysis feeds methods/results)
 - **marketplace.json**: Reorganized from 5 one-per-skill plugins to 2 category plugins (academic-skills, visual-content-skills); bumped version to 1.5.3
@@ -34,6 +57,7 @@ All notable changes to this project will be documented in this file.
 ## [1.5.2] - 2026-02-22
 
 ### Changed
+
 - **q-exploratory-analysis/run_eda.py**: Consolidated 4 type-override flags (`--ordinal_cols`, `--text_cols`, `--continuous_cols`, `--id_cols`) into single `--col_types col=type` pairs
 - **q-exploratory-analysis/run_eda.py**: Inverted `--no_interactive` to `--interactive` (non-interactive is now the default)
 - **q-exploratory-analysis/run_eda.py**: Renamed Phase 7 (Excel Report) to Phase 6 to match actual pipeline order
@@ -46,6 +70,7 @@ All notable changes to this project will be documented in this file.
 ## [1.5.1] - 2026-02-22
 
 ### Fixed
+
 - **q-exploratory-analysis/run_eda.py**: Fixed ID heuristic misclassifying numeric metrics
   - High-cardinality numeric columns (e.g., views, revenue) now classified as Continuous, not ID
   - Added dtype guard: only non-numeric columns with >95% uniqueness are treated as identifiers
@@ -55,6 +80,7 @@ All notable changes to this project will be documented in this file.
   - Users can force-classify columns as continuous or ID, overriding auto-detection
 
 ### Changed
+
 - **q-exploratory-analysis/SKILL.md**: Strengthened interview workflow (Stage B)
   - Added high-cardinality numeric awareness (views, revenue should be Continuous, not ID)
   - Added mandatory "invoke the script immediately" step to prevent inline Python
@@ -73,6 +99,7 @@ All notable changes to this project will be documented in this file.
 ## [1.5.0] - 2026-02-21
 
 ### Changed
+
 - **q-exploratory-analysis**: Replaced auto-classification with interview-driven column type confirmation
   - Claude now previews the dataset and presents a classification table with suggested types for user review
   - Two-stage interview: context questions (research goals, temporal column) then column classification review
@@ -91,6 +118,7 @@ All notable changes to this project will be documented in this file.
 ## [1.4.9] - 2026-02-21
 
 ### Changed
+
 - **q-scholar**: Renamed sub-skill `q-descriptive-analysis` to `q-exploratory-analysis` to reflect broader exploratory intent
 - **q-exploratory-analysis**: Complete redesign around Stevens' levels of measurement (Nominal, Ordinal, Discrete, Continuous, Temporal, Text, ID/key)
   - Auto-detects column measurement level; flags ambiguous integers (e.g., Likert scales) for interactive user confirmation
@@ -110,14 +138,17 @@ All notable changes to this project will be documented in this file.
 ## [1.4.8] - 2026-02-21
 
 ### Added
-- **`.claude-plugin/marketplace.json`**: Enables `/plugin marketplace add TyrealQ/q-skills` and `/plugin install <skill>@q-skills` commands in Claude Code — each skill registered as a named plugin
+
+- `**.claude-plugin/marketplace.json`**: Enables `/plugin marketplace add TyrealQ/q-skills` and `/plugin install <skill>@q-skills` commands in Claude Code — each skill registered as a named plugin
 
 ### Changed
+
 - **README**: Broadened tagline from "academic research workflows" to reflect full collection scope (academic writing, data analysis, teaching, research communication)
 
 ## [1.4.7] - 2026-02-21
 
 ### Changed
+
 - **README**: Expanded installation and update documentation
   - Added Node.js to Prerequisites (required for `npx`-based install)
   - Added `/plugin marketplace add` method for registering as a plugin marketplace
@@ -129,17 +160,20 @@ All notable changes to this project will be documented in this file.
 ## [1.4.6] - 2026-02-19
 
 ### Added
+
 - **q-presentations**: Added example output slides (4-slide AI agents deck) to SKILL.md and README.md
 - **q-presentations**: Added `examples/` directory to README folder structure tree
 
 ## [1.4.5] - 2026-02-18
 
 ### Changed
+
 - **All skills**: Standardized H1 titles to skill name only (`# Q-[Name]`) — removed subtitles and colons from all 9 SKILL.md files for uniform formatting
 
 ## [1.4.4] - 2026-02-18
 
 ### Changed
+
 - **q-presentations**: Corrected H1 title capitalization to `# Q-Presentations: AI-Powered Slide Deck Generator`
 - **q-educator**: Removed 11 `---` horizontal rule dividers between sections; header hierarchy provides sufficient structure
 - **q-educator**: Added `## Reference Files` section listing all 5 reference examples
@@ -150,24 +184,26 @@ All notable changes to this project will be documented in this file.
 ## [1.4.3] - 2026-02-18
 
 ### Added
+
 - **q-educator**: New course content development skill for university teaching workflows
   - Interview-driven planning process before drafting content
   - Deliverable templates for lecture outlines, demo outlines, follow-up emails, assignment prompts, and per-group feedback
   - Reference examples for assignment, demo, email, feedback, and lecture outputs
 
 ### Changed
+
 - **README/CLAUDE docs**: Added `q-educator` to skill listings and repository structure
 - **README**: Synchronized `q-presentations` wording with layout-driven overlay safety and removed stale organic-positioning reference
 
 ## [1.4.2] - 2026-02-18
 
 ### Changed
+
 - **q-presentations**: Refactored workflow to use layout-driven overlay safety
   - Removed organic-positioning guidance and related reference file
   - Added `primary_content_bias` + exceptions/fallback rules in `references/layouts.md`
   - Updated outline and prompt templates to enforce internal overlay-safe layout selection
   - Clarified `video_overlay` semantics in preferences schema (internal layout logic, not explicit prompt text)
-
 - **q-presentations**: Standardized slide merge pipeline to TypeScript only
   - Removed `scripts/merge_slides.py` (Python PPTX merge)
   - Updated skill docs and README to Bun/TS merge flow
@@ -176,11 +212,13 @@ All notable changes to this project will be documented in this file.
 ## [1.4.1] - 2026-02-16
 
 ### Fixed
+
 - **q-infographics**: Removed `allowed-tools` from SKILL.md frontmatter to match standard format (name + description only)
 
 ## [1.4.0] - 2026-02-16
 
 ### Added
+
 - **q-presentations**: New skill for generating branded slide decks from content
   - Fork of baoyu-slide-deck with organic content positioning (v1→v3 lessons baked in)
   - 16 style presets + composable dimension system (texture, mood, typography, density)
@@ -195,6 +233,7 @@ All notable changes to this project will be documented in this file.
 ## [1.3.0] - 2026-02-11
 
 ### Changed
+
 - **q-intro**: Major update adding argumentative architecture principles and refinement mode
   - New **Argumentative Architecture** section codifying paragraph-level logic, cross-paragraph bridge patterns, and within-paragraph narrative flow
   - Expanded core principles from 6 to 11 (narrative arc, discipline-first grounding, theory-as-resolution, bridge architecture, RQ scope progression, concept precision)
@@ -210,16 +249,19 @@ All notable changes to this project will be documented in this file.
 ## [1.2.2] - 2026-02-06
 
 ### Added
+
 - **q-topic-finetuning**: Added folder structure diagram to SKILL.md and README.md
 - Added folder structure diagrams for all skills in README.md
 
 ### Fixed
+
 - **q-descriptive-analysis**: Fixed skill name from `q_descriptive-analysis` to `q-descriptive-analysis` in YAML frontmatter
 - **q-topic-finetuning**: Fixed title to use hyphenated format (`Q-Topic-Finetuning`)
 
 ## [1.2.1] - 2026-02-06
 
 ### Added
+
 - **q-infographics**: Automatic logo branding on generated infographics
   - Logo overlay via Pillow post-processing (configurable filename, size, position)
   - Brand logo placed in bottom-right corner of every infographic
@@ -230,6 +272,7 @@ All notable changes to this project will be documented in this file.
 ## [1.2.0] - 2026-02-05
 
 ### Added
+
 - **q-scholar**: New academic manuscript writing suite that orchestrates sub-skills
   - Consolidated skill bundle for end-to-end manuscript preparation
   - Follows APA 7th edition formatting standards
@@ -245,6 +288,7 @@ All notable changes to this project will be documented in this file.
   - Scope boundaries separating intro from literature review
 
 ### Changed
+
 - Migrated standalone q-methods into q-scholar sub-skill
 - Renamed q_descriptive-analysis to q-descriptive-analysis (hyphen convention)
 - Moved q_descriptive-analysis into q-scholar sub-skill
@@ -254,12 +298,14 @@ All notable changes to this project will be documented in this file.
   - Converted structure guidelines to flowing prose
 
 ### Removed
+
 - Standalone q-methods skill (now part of q-scholar)
 - Standalone q_descriptive-analysis skill (now part of q-scholar)
 
 ## [1.1.0] - 2026-02-02
 
 ### Added
+
 - **q-infographics**: New skill for converting documents into business stories and infographics
   - Two-stage pipeline: Document → Story → Infographic
   - Powered by Gemini 3.0 Pro (google-genai SDK)
@@ -272,6 +318,7 @@ All notable changes to this project will be documented in this file.
 ## [1.0.1] - 2026-01-30
 
 ### Changed
+
 - **q-topic-finetuning**: Marked Esports UGC plan generator as example reference and standardized input/output filenames
 - **q-topic-finetuning**: Removed artifact output block and renamed backup file to topic_consolidation.md
 - **q-topic-finetuning**: Updated outlier classification script to use template prompt and generic input/output names
@@ -280,8 +327,10 @@ All notable changes to this project will be documented in this file.
 ## [1.0.0] - 2025-01-29
 
 ### Added
+
 - **q-methods**: Draft methods sections for academic manuscripts
 - **q-topic-finetuning**: Consolidate topic modeling outputs into theory-driven frameworks
 - **q_descriptive-analysis**: Comprehensive descriptive analysis of tabular datasets
 - Initial README with installation instructions
 - MIT License
+

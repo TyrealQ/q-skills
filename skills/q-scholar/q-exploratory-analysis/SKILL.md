@@ -7,9 +7,29 @@ description: "Universal exploratory data analysis for tabular datasets. Intervie
 
 Universal exploratory data analysis (EDA) for tabular datasets. Previews the dataset, interviews the user to confirm column measurement levels, and applies statistically appropriate analysis for each variable type, producing a structured TABLE/ folder and a holistic EXPLORATORY_SUMMARY.md with flagged insights.
 
-> **IMPORTANT:** Run the script (Phases 0-6) for CSVs and the Excel report. Then write
-> `EXPLORATORY_SUMMARY.md` yourself (Post-Script step) by reading the CSVs and using the
-> Write tool directly. Do **NOT** write inline Python for analysis.
+> **IMPORTANT:** The skill includes a pre-built `scripts/run_eda.py`. Copy it from
+> `${SKILL_DIR}/scripts/` — do **NOT** write a new script from scratch. Run it (Phases 0-6)
+> for CSVs and the Excel report. Then write `EXPLORATORY_SUMMARY.md` yourself (Post-Script
+> step) by reading the CSVs, consulting `${SKILL_DIR}/references/summary_template.md` for
+> structure, and using the Write tool directly. Do **NOT** write inline Python for analysis.
+
+## 0. Script Deployment
+
+Agent execution instructions:
+1. Determine this SKILL.md file's directory path as `SKILL_DIR`.
+2. Script path = `${SKILL_DIR}/scripts/run_eda.py`.
+3. Reference path = `${SKILL_DIR}/references/summary_template.md`.
+
+The skill ships a pre-built `scripts/run_eda.py` (949 lines). **Do NOT write a new script.**
+
+**Deploy the script to the project before first run:**
+```bash
+mkdir -p scripts
+cp "${SKILL_DIR}/scripts/run_eda.py" scripts/run_eda.py
+```
+
+If the project already has `scripts/run_eda.py`, verify it matches the skill version
+before running (the skill version is authoritative).
 
 ## 1. Requirements Gathering (Interview)
 
@@ -127,6 +147,11 @@ Measurement-appropriate pairing analysis:
 
 IMPORTANT: This step is performed by Claude after the script finishes. `EXPLORATORY_SUMMARY.md` is
 produced by Claude reading the generated CSVs and writing a formatted document with the Write tool.
+
+**Before writing**, read `${SKILL_DIR}/references/summary_template.md`.
+This template shows the exact expected structure, table formats, and narrative style for
+each section. Use it as the structural blueprint — populate it with actual data from the
+generated CSVs. The template includes worked example rows for every table type.
 
 **Step 1 — Read the CSVs** using the Read tool:
 `01_dataset_profile.csv`, `02_data_quality.csv`, `03_nominal_frequencies.csv`,

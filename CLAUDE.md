@@ -33,6 +33,21 @@ Skill bundles (like q-scholar) can contain sub-skills:
 - Shared `references/` at parent level
 - Sub-skill folders with their own `SKILL.md` and `references/`
 
+## Script Path Convention
+
+Skills with scripts or references MUST include a **Script Directory** section that uses the `${SKILL_DIR}` pattern:
+
+```markdown
+## Script Directory
+
+Agent execution instructions:
+1. Determine this SKILL.md file's directory path as `SKILL_DIR`.
+2. Script path = `${SKILL_DIR}/scripts/<script-name>`.
+3. Reference path = `${SKILL_DIR}/references/<ref-name>`.
+```
+
+All script, prompt, and reference paths in the skill MUST use `${SKILL_DIR}/...` — never hardcode cache-relative paths like `skills/q-foo/scripts/...`. This ensures skills work correctly when loaded from the Claude Code plugin cache.
+
 ## Adding New Skills
 
 1. Create folder in `skills/` with lowercase name using hyphens
