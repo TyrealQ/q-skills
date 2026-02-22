@@ -2,16 +2,18 @@
 run_eda.py — Universal Exploratory Data Analysis (EDA) Runner
 q-exploratory-analysis sub-skill of q-scholar
 
-Six-phase pipeline applying measurement-level-appropriate analysis
+Seven-phase pipeline applying measurement-level-appropriate analysis
 based on Stevens' levels (Nominal, Ordinal, Discrete, Continuous)
 plus Temporal, Text, and ID/key.
 
 Usage:
     python scripts/run_eda.py data.xlsx --output TABLE/
     python scripts/run_eda.py data.xlsx --group platform tier --text_cols description --output TABLE/
+    python scripts/run_eda.py data.xlsx --no_interactive --no_excel --output TABLE/
 """
 
 import argparse
+import glob
 import os
 import re
 import sys
@@ -108,7 +110,7 @@ def classify_columns(df: pd.DataFrame, user_ordinal_cols: list = None,
 
         # Numeric types
         if pd.api.types.is_integer_dtype(series) or (
-            pd.api.types.is_float_dtype(series) and series.dropna().apply(float.is_integer).all()
+            pd.api.types.is_float_dtype(series) and (series.dropna() % 1 == 0).all()
         ):
             if nunique <= LOW_CARD_MAX:
                 # Ambiguous: could be ordinal (Likert) or discrete (small count)
@@ -127,13 +129,29 @@ def classify_columns(df: pd.DataFrame, user_ordinal_cols: list = None,
     return col_types
 
 
-def resolve_ambiguous_columns(col_types: dict, df: pd.DataFrame) -> dict:
+def resolve_ambiguous_columns(col_types: dict, df: pd.DataFrame,
+                               no_interactive: bool = False) -> dict:
     """
-    Interactively prompt the user to classify ambiguous integer columns
-    as 'ordinal' or 'discrete'.
+    Classify ambiguous integer columns as 'ordinal' or 'discrete'.
+
+    If no_interactive=True or stdin is not a TTY, auto-classifies as 'discrete'
+    (conservative default) with a printed notice. Use --ordinal_cols to
+    pre-specify known ordinal columns and avoid this auto-classification.
+    Interactive prompt fires only when no_interactive=False and stdin is a TTY.
     """
     ambiguous = [c for c, t in col_types.items() if t == "ambiguous_integer"]
     if not ambiguous:
+        return col_types
+
+    if no_interactive or not sys.stdin.isatty():
+        print("\n--- Ambiguous Integer Columns: Auto-Classification ---")
+        for col in ambiguous:
+            col_types[col] = "discrete"
+            vals = sorted(df[col].dropna().unique().tolist())
+            print(
+                f"  Column '{col}' ({len(vals)} unique values) -> classified as 'discrete'. "
+                f"Use --ordinal_cols '{col}' to override."
+            )
         return col_types
 
     print("\n--- Ambiguous Integer Columns Detected ---")
@@ -161,7 +179,6 @@ def resolve_ambiguous_columns(col_types: dict, df: pd.DataFrame) -> dict:
 
 def print_schema_summary(df: pd.DataFrame, col_types: dict) -> None:
     """Print schema summary table to stdout."""
-    n = len(df)
     print("\n=== Phase 0: Column Classification ===")
     print(f"{'Column':<30} {'Type':<14} {'Nunique':>8} {'Missing%':>9}")
     print("-" * 65)
@@ -249,6 +266,11 @@ def quantitative_summary(series: pd.Series, name: str, level: str) -> dict:
     n = len(s)
     if n == 0:
         return {"variable": name, "level": level, "N_valid": 0}
+    if n == 1:
+        mean_label = "M_quasi_interval" if level == "ordinal" else "M"
+        return {"variable": name, "level": level, "N_valid": 1,
+                mean_label: s.iloc[0], "Mdn": s.iloc[0],
+                "note": "n=1; dispersion metrics unavailable"}
 
     mean = s.mean()
     median = s.median()
@@ -273,10 +295,8 @@ def quantitative_summary(series: pd.Series, name: str, level: str) -> dict:
     missing = series.isna().sum()
     missing_pct = round(series.isna().mean() * 100, 2)
 
-    q1_val = s.quantile(0.25)
-    q3_val = s.quantile(0.75)
-    mild_outliers = int(((s < q1_val - 1.5 * iqr) | (s > q3_val + 1.5 * iqr)).sum())
-    extreme_outliers = int(((s < q1_val - 3.0 * iqr) | (s > q3_val + 3.0 * iqr)).sum())
+    mild_outliers = int(((s < q1 - 1.5 * iqr) | (s > q3 + 1.5 * iqr)).sum())
+    extreme_outliers = int(((s < q1 - 3.0 * iqr) | (s > q3 + 3.0 * iqr)).sum())
 
     mean_label = "M_quasi_interval" if level == "ordinal" else "M"
 
@@ -339,14 +359,14 @@ def binary_summary(df: pd.DataFrame, col_types: dict) -> pd.DataFrame:
         vals = s.value_counts()
         for val, count in vals.items():
             p = count / n
-            se = np.sqrt(p * (1 - p) / n) if n > 0 else np.nan
+            se = np.sqrt(p * (1 - p) / n)
             rows.append({
                 "column": col,
                 "value": val,
                 "count": count,
                 "proportion": round(p, 4),
-                "CI95_lower": round(p - 1.96 * se, 4) if not np.isnan(se) else np.nan,
-                "CI95_upper": round(p + 1.96 * se, 4) if not np.isnan(se) else np.nan,
+                "CI95_lower": round(max(0.0, p - 1.96 * se), 4),
+                "CI95_upper": round(min(1.0, p + 1.96 * se), 4),
             })
     return pd.DataFrame(rows)
 
@@ -513,110 +533,218 @@ def temporal_trends(df: pd.DataFrame, col_types: dict,
 
 
 # ---------------------------------------------------------------------------
-# Phase 6: Summary Report
+# Phase 7: Excel Report
 # ---------------------------------------------------------------------------
 
-def generate_summary_report(df: pd.DataFrame, col_types: dict,
-                             results: dict) -> str:
-    n_rows, n_cols = df.shape
-    lines = [
-        "# Exploratory Analysis Summary",
-        "",
-        f"**Dataset:** {n_rows:,} rows x {n_cols} columns",
-        "",
+def generate_excel_report(output_dir: str) -> str:
+    """
+    Generate EXPLORATORY_REPORT.xlsx with APA-7 formatting (B&W, no color fills).
+    Returns path to the generated file.
+
+    Structure:
+    - Sheet 0 "Summary": dataset dimensions, type counts, quality highlights
+    - Sheets 1-N: one per generated CSV (only files that exist are included)
+    """
+    from openpyxl import Workbook
+    from openpyxl.styles import Font, Border, Side, Alignment
+    from openpyxl.utils import get_column_letter
+
+    thin = Side(border_style="thin", color="000000")
+
+    def _set_col_widths(ws, df: pd.DataFrame) -> None:
+        for col_idx, col_name in enumerate(df.columns, start=1):
+            col_letter = get_column_letter(col_idx)
+            header_len = len(str(col_name))
+            max_data_len = (int(df[col_name].astype(str).str.len().max())
+                            if len(df) > 0 else 0)
+            width = min(max(header_len, max_data_len) + 2, 40)
+            ws.column_dimensions[col_letter].width = width
+
+    def _write_apa_table(ws, table_num: int, title: str,
+                          df: pd.DataFrame, note: str = "") -> None:
+        ws.sheet_view.showGridLines = False
+        row_cursor = 1
+
+        # "Table N" row -- bold
+        cell = ws.cell(row=row_cursor, column=1, value=f"Table {table_num}")
+        cell.font = Font(name="Calibri", size=11, bold=True)
+        row_cursor += 1
+
+        # Title row -- sentence-case italic
+        cell = ws.cell(row=row_cursor, column=1, value=title)
+        cell.font = Font(name="Calibri", size=11, italic=True)
+        row_cursor += 2  # blank separator row
+
+        # Column header row -- bold, single bottom border
+        for col_idx, col_name in enumerate(df.columns, start=1):
+            cell = ws.cell(row=row_cursor, column=col_idx, value=str(col_name))
+            cell.font = Font(name="Calibri", size=11, bold=True)
+            cell.border = Border(bottom=thin)
+            is_numeric = pd.api.types.is_numeric_dtype(df[col_name])
+            cell.alignment = Alignment(horizontal="right" if is_numeric else "left")
+        row_cursor += 1
+
+        # Data rows -- plain; thin top on first row, thin bottom on last row only
+        for ridx, (_, data_row) in enumerate(df.iterrows()):
+            is_first = ridx == 0
+            is_last = ridx == len(df) - 1
+            for col_idx, col_name in enumerate(df.columns, start=1):
+                val = data_row[col_name]
+                if pd.isna(val):
+                    val = ""
+                cell = ws.cell(row=row_cursor, column=col_idx, value=val)
+                cell.font = Font(name="Calibri", size=11)
+                if is_first and is_last:
+                    cell.border = Border(top=thin, bottom=thin)
+                elif is_first:
+                    cell.border = Border(top=thin)
+                elif is_last:
+                    cell.border = Border(bottom=thin)
+                is_numeric_val = isinstance(val, (int, float)) and val != ""
+                cell.alignment = Alignment(
+                    horizontal="right" if is_numeric_val else "left"
+                )
+            row_cursor += 1
+
+        # Note row -- "Note." italic
+        if note:
+            row_cursor += 1
+            note_cell = ws.cell(row=row_cursor, column=1, value=f"Note. {note}")
+            note_cell.font = Font(name="Calibri", size=11, italic=True)
+
+        _set_col_widths(ws, df)
+
+    wb = Workbook()
+    wb.remove(wb.active)  # remove default sheet
+
+    # ---- Sheet 0: Summary ----
+    ws_summary = wb.create_sheet(title="Summary")
+    summary_rows: list = []
+
+    profile_path = os.path.join(output_dir, "01_dataset_profile.csv")
+    dq_path = os.path.join(output_dir, "02_data_quality.csv")
+
+    if os.path.isfile(profile_path):
+        df_profile = pd.read_csv(profile_path)
+        if not df_profile.empty:
+            n_rows_val = int(df_profile["n_rows"].iloc[0])
+            n_cols_val = int(df_profile["n_cols"].iloc[0])
+            summary_rows.append({"Metric": "Total rows", "Value": f"{n_rows_val:,}"})
+            summary_rows.append({"Metric": "Total columns", "Value": str(n_cols_val)})
+            for t, cnt in df_profile["detected_type"].value_counts().items():
+                summary_rows.append({"Metric": f"Columns ({t})", "Value": str(cnt)})
+
+    if os.path.isfile(dq_path):
+        df_dq = pd.read_csv(dq_path)
+        if not df_dq.empty:
+            dup = (int(df_dq["duplicate_rows"].iloc[0])
+                   if "duplicate_rows" in df_dq.columns else 0)
+            summary_rows.append({"Metric": "Duplicate rows", "Value": str(dup)})
+            for _, r in df_dq[df_dq["missing_pct"] > 20].iterrows():
+                summary_rows.append({
+                    "Metric": f"High missing: {r['column']}",
+                    "Value": f"{r['missing_pct']:.1f}%",
+                })
+
+    summary_df = (pd.DataFrame(summary_rows) if summary_rows
+                  else pd.DataFrame([{"Metric": "No profile data", "Value": ""}]))
+    _write_apa_table(
+        ws_summary, 1,
+        "Dataset summary and data quality highlights",
+        summary_df,
+        note=(
+            "Column types: nominal, ordinal, discrete, continuous, binary, "
+            "temporal, text, id. High missing = >20% missing values."
+        ),
+    )
+
+    # ---- Sheets 1-N: one per static CSV ----
+    static_sheets = [
+        ("01_dataset_profile.csv", "01 Profile",
+         "Dataset column profile"),
+        ("02_data_quality.csv", "02 Quality",
+         "Data quality assessment per column"),
+        ("03_nominal_frequencies.csv", "03 Nominal",
+         "Nominal variable frequency distributions (top-N values)"),
+        ("04_binary_summary.csv", "04 Binary",
+         "Binary variable proportions and 95% confidence intervals"),
+        ("05_ordinal_distribution.csv", "05 Ordinal Dist",
+         "Ordinal variable ordered frequency distributions"),
+        ("06_ordinal_descriptives.csv", "06 Ordinal Desc",
+         "Ordinal variable descriptive statistics (quasi-interval mean)"),
+        ("07_discrete_descriptives.csv", "07 Discrete",
+         "Discrete variable descriptive statistics"),
+        ("08_continuous_descriptives.csv", "08 Continuous",
+         "Continuous variable descriptive statistics"),
+        ("09_pearson_correlation.csv", "09 Pearson",
+         "Pearson product-moment correlations (continuous x continuous)"),
+        ("10_spearman_correlation.csv", "10 Spearman",
+         "Spearman rank correlations (ordinal x ordinal)"),
     ]
 
-    # Coverage
-    type_counts = {}
-    for t in col_types.values():
-        type_counts[t] = type_counts.get(t, 0) + 1
-    type_summary = ", ".join(f"{v} {k}" for k, v in sorted(type_counts.items()))
-    lines += [f"**Column types:** {type_summary}", ""]
+    table_num = 2
+    for csv_fname, sheet_name, title in static_sheets:
+        csv_path = os.path.join(output_dir, csv_fname)
+        if not os.path.isfile(csv_path):
+            continue
+        df_sheet = pd.read_csv(csv_path)
+        if df_sheet.empty:
+            continue
+        ws = wb.create_sheet(title=sheet_name)
+        _write_apa_table(ws, table_num, title, df_sheet,
+                         note="Values rounded to 4 decimal places where applicable.")
+        table_num += 1
 
-    # Data quality flags
-    lines += ["## Data Quality Flags", ""]
-    dq = results.get("data_quality")
-    if dq is not None and not dq.empty:
-        high_missing = dq[dq["missing_pct"] > 20]
-        for _, row in high_missing.iterrows():
-            lines.append(
-                f"- **WARNING:** Column `{row['column']}` has {row['missing_pct']:.1f}% missing "
-                f"-- review before analysis."
-            )
-        constant_cols = dq[dq["is_constant"]]
-        for _, row in constant_cols.iterrows():
-            lines.append(f"- **WARNING:** Column `{row['column']}` is constant -- no variance.")
-        high_outliers = dq[dq["mild_outliers_iqr1.5"] > 0]
-        for _, row in high_outliers.iterrows():
-            lines.append(
-                f"- **NOTE:** Column `{row['column']}` has {row['mild_outliers_iqr1.5']} "
-                f"mild outliers (IQR x1.5)."
-            )
-    if not any("WARNING" in l or "NOTE" in l for l in lines):
-        lines.append("- No major data quality issues detected.")
-    lines.append("")
+    # Dynamic sheets: grouped, crosstab, text
+    dynamic_patterns = [
+        ("11_grouped_by_*.csv", "Grouped descriptive statistics: "),
+        ("12_crosstab_*.csv", "Cross-tabulation: "),
+        ("13_text_*.csv", "Text frequency analysis: "),
+    ]
+    used_sheet_names: set = {ws.title for ws in wb.worksheets}
 
-    # Nominal coverage
-    nominal_cols = [c for c, t in col_types.items() if t == "nominal"]
-    if nominal_cols:
-        lines += ["## Nominal Variable Coverage", ""]
-        nf = results.get("nominal_frequencies")
-        if nf is not None and not nf.empty:
-            for col in nominal_cols:
-                sub = nf[nf["column"] == col].head(3)
-                if not sub.empty:
-                    top_val = sub.iloc[0]
-                    lines.append(
-                        f"- `{col}`: top value is '{top_val['value']}' "
-                        f"({top_val['count']:,} records, {top_val['pct']:.1f}%)."
-                    )
-        lines.append("")
+    def _unique_sheet_name(candidate: str) -> str:
+        """Truncate to 31 chars and deduplicate with a counter suffix."""
+        name = candidate[:31]
+        if name not in used_sheet_names:
+            used_sheet_names.add(name)
+            return name
+        counter = 2
+        while True:
+            suffix = f"_{counter}"
+            trimmed = candidate[:31 - len(suffix)] + suffix
+            if trimmed not in used_sheet_names:
+                used_sheet_names.add(trimmed)
+                return trimmed
+            counter += 1
 
-    # Continuous distributions
-    cont_cols = [c for c, t in col_types.items() if t == "continuous"]
-    if cont_cols:
-        lines += ["## Continuous Variable Highlights", ""]
-        cd = results.get("continuous_descriptives")
-        if cd is not None and not cd.empty:
-            for _, row in cd.iterrows():
-                skew = row.get("Skewness", 0)
-                m = row.get("M", row.get("M_quasi_interval", "?"))
-                mdn = row.get("Mdn", "?")
-                flag = ""
-                if abs(skew) > 1:
-                    direction = "right" if skew > 0 else "left"
-                    flag = (f" Distribution is {direction}-skewed (skewness={skew:.2f}) "
-                            f"-- median ({mdn}) better represents typical values.")
-                lines.append(
-                    f"- `{row['variable']}`: M={m}, Mdn={mdn}, SD={row.get('SD', '?')}.{flag}"
-                )
-        lines.append("")
+    for pattern, title_prefix in dynamic_patterns:
+        for match_path in sorted(glob.glob(os.path.join(output_dir, pattern))):
+            df_match = pd.read_csv(match_path)
+            if df_match.empty:
+                continue
+            base = os.path.splitext(os.path.basename(match_path))[0]
+            sheet_name = _unique_sheet_name(base)
+            suffix = base.split("_", 2)[-1] if base.count("_") >= 2 else base
+            title = title_prefix + suffix.replace("_", " ")
+            ws = wb.create_sheet(title=sheet_name)
+            _write_apa_table(ws, table_num, title, df_match,
+                             note="Values rounded to 4 decimal places where applicable.")
+            table_num += 1
 
-    # Bivariate: strong correlations
-    pearson = results.get("pearson_correlation")
-    if pearson is not None and not pearson.empty:
-        lines += ["## Notable Correlations (Continuous)", ""]
-        strong = pearson[pearson["r"].abs() > 0.5]
-        if not strong.empty:
-            for _, row in strong.iterrows():
-                direction = "positive" if row["r"] > 0 else "negative"
-                sig = "p<.001" if row["p_value"] < 0.001 else f"p={row['p_value']:.3f}"
-                lines.append(
-                    f"- Strong {direction} correlation between `{row['col1']}` and "
-                    f"`{row['col2']}` (r={row['r']:.2f}, {sig}, N={row['N']})."
-                )
-        else:
-            lines.append("- No strong Pearson correlations (|r| > 0.5) detected.")
-        lines.append("")
+    # Temporal
+    temporal_path = os.path.join(output_dir, "14_temporal_trends.csv")
+    if os.path.isfile(temporal_path):
+        df_temporal = pd.read_csv(temporal_path)
+        if not df_temporal.empty:
+            ws = wb.create_sheet(title="14 Temporal")
+            _write_apa_table(ws, table_num, "Temporal trends by calendar month",
+                             df_temporal, note="Period aggregated by calendar month.")
+            table_num += 1
 
-    # Output files
-    lines += ["## Output Files", ""]
-    output_files = results.get("output_files", [])
-    for f in output_files:
-        lines.append(f"- `{f}`")
-    lines.append("")
-
-    return "\n".join(lines)
+    out_path = os.path.join(output_dir, "EXPLORATORY_REPORT.xlsx")
+    wb.save(out_path)
+    return out_path
 
 
 # ---------------------------------------------------------------------------
@@ -637,7 +765,7 @@ def save_csv(df: pd.DataFrame, path: str) -> None:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Universal EDA runner — q-exploratory-analysis"
+        description="Universal EDA runner -- q-exploratory-analysis"
     )
     parser.add_argument("data", help="Path to input file (.xlsx or .csv)")
     parser.add_argument("--output", default="TABLE/", help="Output directory (default: TABLE/)")
@@ -646,6 +774,17 @@ def main():
     parser.add_argument("--ordinal_cols", nargs="*", default=[],
                         help="Pre-specify ordinal columns (skips interactive prompt)")
     parser.add_argument("--top_n", type=int, default=10, help="Top-N for frequency tables")
+    parser.add_argument(
+        "--no_interactive", action="store_true",
+        help=(
+            "Auto-classify ambiguous integers as 'discrete' without prompting. "
+            "Use --ordinal_cols to pre-specify known ordinal columns."
+        ),
+    )
+    parser.add_argument(
+        "--no_excel", action="store_true",
+        help="Skip Phase 7 (Excel report). CSVs and markdown only.",
+    )
     args = parser.parse_args()
 
     os.makedirs(args.output, exist_ok=True)
@@ -664,10 +803,10 @@ def main():
     # --- Phase 0: Classification ---
     col_types = classify_columns(df, user_ordinal_cols=args.ordinal_cols,
                                  user_text_cols=args.text_cols)
-    col_types = resolve_ambiguous_columns(col_types, df)
+    col_types = resolve_ambiguous_columns(col_types, df,
+                                          no_interactive=args.no_interactive)
     print_schema_summary(df, col_types)
 
-    results = {}
     output_files = []
 
     # --- Phase 1: Dataset Profile ---
@@ -680,7 +819,6 @@ def main():
     # --- Phase 2: Data Quality ---
     print("\n=== Phase 2: Data Quality ===")
     dq = check_data_quality(df, col_types)
-    results["data_quality"] = dq
     path = os.path.join(args.output, "02_data_quality.csv")
     save_csv(dq, path)
     output_files.append(path)
@@ -689,7 +827,6 @@ def main():
     print("\n=== Phase 3: Univariate Analysis ===")
 
     nf = nominal_frequencies(df, col_types, top_n=args.top_n)
-    results["nominal_frequencies"] = nf
     path = os.path.join(args.output, "03_nominal_frequencies.csv")
     save_csv(nf, path)
     output_files.append(path)
@@ -721,7 +858,6 @@ def main():
     cont_cols = [c for c, t in col_types.items() if t == "continuous"]
     if cont_cols:
         cont_desc = pd.DataFrame([quantitative_summary(df[c], c, "continuous") for c in cont_cols])
-        results["continuous_descriptives"] = cont_desc
         path = os.path.join(args.output, "08_continuous_descriptives.csv")
         save_csv(cont_desc, path)
         output_files.append(path)
@@ -730,7 +866,6 @@ def main():
     print("\n=== Phase 4: Bivariate & Multivariate Analysis ===")
 
     pearson = pearson_correlation_matrix(df, col_types)
-    results["pearson_correlation"] = pearson
     path = os.path.join(args.output, "09_pearson_correlation.csv")
     save_csv(pearson, path)
     output_files.append(path)
@@ -746,7 +881,7 @@ def main():
 
     for group_col in group_cols:
         if group_col not in df.columns:
-            print(f"  WARNING: group column '{group_col}' not found — skipping.")
+            print(f"  WARNING: group column '{group_col}' not found -- skipping.")
             continue
         measure_target_cols = [c for c, t in col_types.items()
                                 if t in measure_types and c != group_col]
@@ -755,8 +890,9 @@ def main():
             mt = col_types[mc]
             grp = grouped_stats_by_nominal(df, mc, group_col, mt)
             all_grouped.append(grp)
-        if all_grouped:
-            combined = pd.concat(all_grouped, ignore_index=True)
+        non_empty = [g for g in all_grouped if not g.empty]
+        if non_empty:
+            combined = pd.concat(non_empty, ignore_index=True)
             safe_name = re.sub(r"[^\w]", "_", group_col)
             path = os.path.join(args.output, f"11_grouped_by_{safe_name}.csv")
             save_csv(combined, path)
@@ -791,16 +927,22 @@ def main():
         save_csv(tt, path)
         output_files.append(path)
 
-    # --- Phase 6: Summary ---
-    print("\n=== Phase 6: Summary Report ===")
-    results["output_files"] = [os.path.basename(f) for f in output_files]
-    summary_md = generate_summary_report(df, col_types, results)
-    summary_path = os.path.join(args.output, "EXPLORATORY_SUMMARY.md")
-    with open(summary_path, "w", encoding="utf-8") as fh:
-        fh.write(summary_md)
-    print(f"  Saved: {summary_path}")
+    # --- Phase 7: Excel Report ---
+    if not args.no_excel:
+        print("\n=== Phase 7: Excel Report ===")
+        try:
+            excel_path = generate_excel_report(args.output)
+            print(f"  Saved: {excel_path}")
+        except ImportError:
+            print(
+                "  WARNING: openpyxl not installed -- skipping Excel report. "
+                "Run: pip install 'openpyxl>=3.1'"
+            )
 
-    print(f"\nDone. {len(output_files)} CSV files + summary written to: {args.output}\n")
+    total = len(output_files)
+    suffix = "" if args.no_excel else " + EXPLORATORY_REPORT.xlsx"
+    print(f"\nDone. {total} CSV file(s){suffix} written to: {args.output}")
+    print(f"Run Phase 6 (see SKILL.md) to generate EXPLORATORY_SUMMARY.md.\n")
 
 
 if __name__ == "__main__":

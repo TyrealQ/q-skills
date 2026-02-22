@@ -1,38 +1,84 @@
 ---
 name: q-exploratory-analysis
-description: "Universal exploratory data analysis for tabular datasets. Auto-detects column types and applies appropriate analysis for each: descriptive statistics and distribution shape for numeric variables, frequency tables for categorical, proportion analysis for binary, text frequency analysis for free-text fields, and temporal trend analysis for date columns. Produces a structured TABLE/ folder of CSV outputs and a holistic EXPLORATORY_SUMMARY.md with flagged insights. Use before methods/results writing in academic workflows."
+description: "Universal exploratory data analysis for tabular datasets. Interviews the user to confirm column measurement levels, then applies appropriate analysis for each: descriptive statistics and distribution shape for numeric variables, frequency tables for categorical, proportion analysis for binary, text frequency analysis for free-text fields, and temporal trend analysis for date columns. Produces a structured TABLE/ folder of CSV outputs and a holistic EXPLORATORY_SUMMARY.md with flagged insights. Use before methods/results writing in academic workflows."
 ---
 
 # Q-Exploratory-Analysis
 
-Universal exploratory data analysis (EDA) for tabular datasets. Auto-detects column measurement levels and applies statistically appropriate analysis for each variable type, producing a structured TABLE/ folder and a holistic EXPLORATORY_SUMMARY.md with flagged insights.
+Universal exploratory data analysis (EDA) for tabular datasets. Previews the dataset, interviews the user to confirm column measurement levels, and applies statistically appropriate analysis for each variable type, producing a structured TABLE/ folder and a holistic EXPLORATORY_SUMMARY.md with flagged insights.
+
+> **IMPORTANT:** Run the script for CSVs and the Excel report. Write `EXPLORATORY_SUMMARY.md`
+> yourself (Phase 6) by reading the CSVs and using the Write tool directly.
+> Do **NOT** write inline Python for analysis.
 
 ## 1. Requirements Gathering (Interview)
 
-Before invoking the script, ask 4 core questions:
+Before invoking the script, conduct a two-stage interview:
+
+### Stage A: Context Questions
+
+Ask 2 questions before loading data:
 
 1. **Research questions** - What are you exploring? (guides which comparisons matter)
-2. **Grouping variables** - Any categorical variables to stratify by? (e.g., platform, condition, tier)
-3. **Text columns** - Which free-text fields should receive n-gram and vocabulary analysis?
-4. **Temporal column** - Is there a date/time column? Which metric trends over time?
+2. **Temporal column** - Is there a date/time column for trend analysis?
 
-Ambiguous integer columns (e.g., Likert scales 1-5, 1-7) will be flagged during the script's Phase 0 classification step. The script prompts the user to confirm whether these are Ordinal or Discrete before proceeding.
+### Stage B: Column Classification Review
+
+After the context questions, load the dataset and present suggested types for user confirmation:
+
+1. **Load and preview** - Use the Read tool or a quick Python snippet (`df.head(5).to_markdown()` + `df.dtypes`) to inspect the dataset.
+2. **Auto-suggest types** - Apply the heuristic rules from Section 3 to generate suggested measurement levels for every column. These are suggestions, not final decisions.
+3. **Present classification table** - Show a grouped table (organized by suggested type):
+
+   | # | Column | Sample Values | Unique | Suggested Type | Notes |
+   |---|--------|---------------|--------|----------------|-------|
+   | 1 | id | 1, 2, 3 | 768 | ID | nunique > 95% of n |
+   | 2 | platform | YouTube, Twitch | 5 | Nominal (Group) | grouping variable |
+   | 3 | rating | 1, 2, 3, 4, 5 | 5 | Ordinal | low-cardinality integer - scale or count? |
+   | ... | ... | ... | ... | ... | ... |
+
+4. **Ask for confirmation** - "If these all look correct, reply **confirm all**. Otherwise, list corrections (e.g., *rating -> Discrete*, *comments -> Text*)."
+5. **Record confirmed types** - Map each confirmed type to the appropriate script argument:
+
+   | Confirmed Type | Script Argument |
+   |----------------|-----------------|
+   | Ordinal | `--ordinal_cols` |
+   | Text | `--text_cols` |
+   | Nominal (Group) | `--group` |
+   | ID, Binary, Discrete, Continuous, Temporal | Auto-detected (no flag needed; `--no_interactive` prevents ambiguity prompts) |
 
 ## 2. Script Invocation
 
-**Minimal config (auto-detects all column types):**
-```bash
-python scripts/run_eda.py data.xlsx --output TABLE/
-```
-
-**Full config with optional overrides:**
+**Standard invocation (built from interview):**
 ```bash
 python scripts/run_eda.py data.xlsx \
   --group platform tier \
   --text_cols description comments \
+  --ordinal_cols rating satisfaction \
   --output TABLE/ \
+  --no_interactive \
   --top_n 10
 ```
+
+**Lightweight run (no Excel output):**
+```bash
+python scripts/run_eda.py data.xlsx \
+  --group platform \
+  --ordinal_cols rating \
+  --output TABLE/ \
+  --no_interactive \
+  --no_excel
+```
+
+**Mapping from interview to arguments:**
+
+| Confirmed Type | Script Argument |
+|----------------|-----------------|
+| Ordinal | `--ordinal_cols col1 col2` |
+| Text | `--text_cols col1 col2` |
+| Nominal (Group) | `--group col1 col2` |
+| All other types | Auto-detected; no flag needed |
+| (always) | `--no_interactive` (skip ambiguity prompts when Claude drives the workflow) |
 
 **Arguments:**
 
@@ -42,11 +88,14 @@ python scripts/run_eda.py data.xlsx \
 | `--output` | No | Output directory (default: `TABLE/`) |
 | `--group` | No | Nominal columns for grouped analysis |
 | `--text_cols` | No | Text columns for n-gram analysis |
+| `--ordinal_cols` | No | Columns confirmed as ordinal during interview |
 | `--top_n` | No | Top-N items in frequency tables (default: 10) |
+| `--no_interactive` | No | Skip ambiguity prompts (always used when Claude drives the workflow) |
+| `--no_excel` | No | Skip Phase 7 (Excel report); produce CSVs and markdown only |
 
 ## 3. Column-Type Coverage
 
-The script auto-detects measurement level for each column using Stevens' levels of measurement extended with Temporal, Text, and ID/key types.
+Claude presents suggested types during the interview; the user confirms or corrects before the script runs. Types follow Stevens' levels of measurement extended with Temporal, Text, and ID/key types.
 
 | Level | Detection Rule | Analysis Applied |
 |-------|---------------|-----------------|
@@ -59,12 +108,12 @@ The script auto-detects measurement level for each column using Stevens' levels 
 | **Temporal** | datetime dtype or parseable date string | Range, gap detection, trend by month/year |
 | **Text** | object dtype, avg length > 50 chars | Top unigrams/bigrams, avg word count, vocabulary richness |
 
-**Ordinal vs. Discrete ambiguity:** Low-cardinality integers (e.g., 1-5, 1-7 scales) are flagged interactively. The script asks the user to confirm measurement level before classifying.
+**Ordinal vs. Discrete ambiguity:** Claude flags low-cardinality integers (e.g., 1-5, 1-7 scales) prominently during the interview and asks whether each is a scale (Ordinal) or count (Discrete).
 
-## 4. Six-Phase Pipeline
+## 4. Eight-Phase Pipeline
 
 ### Phase 0: Data Loading & Column Classification
-Loads the file, auto-detects all column types, flags ambiguous integers for user confirmation, and prints a schema summary: column name | detected type | nunique | missing%.
+Loads the file, applies user-confirmed column types (passed via CLI flags), auto-detects unambiguous types for remaining columns, and prints a schema summary: column name | detected type | nunique | missing%.
 
 ### Phase 1: Dataset Profile
 `01_dataset_profile.csv` - shape, column types, missing%, uniqueness, memory usage.
@@ -94,8 +143,48 @@ Measurement-appropriate pairing analysis:
 - `13_text_{colname}.csv` - word freq, top bigrams, avg word count, vocab size
 - `14_temporal_trends.csv` - key metrics over time by period
 
-### Phase 6: Summary Report
-`EXPLORATORY_SUMMARY.md` - narrative report with measurement-appropriate statistics and flagged insights (issues, patterns, distribution shape, coverage).
+### Phase 6: Narrative Summary (Model-Authored)
+
+IMPORTANT: This phase is performed by Claude, not by the script. `EXPLORATORY_SUMMARY.md` is
+produced by Claude reading the generated CSVs and writing a formatted document with the Write tool.
+
+**Step 1 — Read the CSVs** using the Read tool:
+`01_dataset_profile.csv`, `02_data_quality.csv`, `03_nominal_frequencies.csv`,
+`04_binary_summary.csv`, `05_ordinal_distribution.csv`, `06_ordinal_descriptives.csv`,
+`07_discrete_descriptives.csv`, `08_continuous_descriptives.csv`,
+`09_pearson_correlation.csv`, `10_spearman_correlation.csv`,
+all `11_grouped_by_*.csv`, all `12_crosstab_*.csv`, all `13_text_*.csv`,
+`14_temporal_trends.csv`.
+
+**Step 2 — Write `TABLE/EXPLORATORY_SUMMARY.md`** directly using the Write tool.
+
+**Content requirements:**
+Thematic sections (not one-per-CSV). Required structure:
+1. Dataset Overview — dimensions, column type breakdown (from 01, 14)
+2. Data Quality — missing %, duplicates, constant cols, outlier counts (from 02)
+3. Categorical Variables — top-N frequency tables (nominal), proportion+CI
+   (binary), ordered distribution+cumulative% (ordinal) (from 03, 04, 05, 06)
+4. Quantitative Variables — M/Mdn/SD/skewness/CI95 tables; distribution shape
+   commentary (from 07, 08)
+5. Bivariate Relationships — Pearson r table; Spearman rho table; flag
+   |r|/|rho| > 0.5 (from 09, 10)
+6. Group Comparisons — per-group M/Mdn/SD tables; note largest group diff
+   (from 11_grouped_by_* files)
+7. Cross-Tabulations — cell-count tables with row totals (from 12_crosstab_*)
+8. Text Analysis — avg word count, vocab size, top-5 unigrams+bigrams per col
+   (from 13_text_*; omit section if no text columns)
+9. Temporal Trends — date range, upload trend direction, peak period
+   (from 14; omit section if no temporal column)
+10. Output Files — bullet list of all files in the output directory
+
+Rules:
+- Use aligned GFM markdown tables with the same columns as the source CSV.
+- Do not round further than the CSV already rounds.
+- End each section with 1–3 sentences of interpretation.
+- Style reference: `TABLE/DESCRIPTIVE_SUMMARY.md` in the active DEMO directory.
+
+### Phase 7: Excel Report
+`EXPLORATORY_REPORT.xlsx` - APA-7th formatted workbook (B&W, no color fills). Sheet 0 "Summary" contains dataset dimensions and quality highlights. Sheets 1-N contain one sheet per generated CSV (skipped if absent). All sheets use Calibri 11 pt, table-number bold rows, title italic rows, bold column headers with bottom border, and data rows with top/bottom rules only. Skip with `--no_excel`.
 
 ## 5. Output Directory Reference
 
@@ -115,7 +204,8 @@ TABLE/
 ├── 12_crosstab_{nom1}_x_{nom2}.csv  (one per Nominal pair)
 ├── 13_text_{colname}.csv            (one per text column)
 ├── 14_temporal_trends.csv
-└── EXPLORATORY_SUMMARY.md
+├── EXPLORATORY_SUMMARY.md
+└── EXPLORATORY_REPORT.xlsx          (omitted with --no_excel)
 ```
 
 Files are omitted when no columns of the relevant type exist (e.g., no text columns means no `13_text_*.csv`).
@@ -135,7 +225,7 @@ Flags use this severity scheme: high missing% -> review flag; high skewness -> d
 ## 7. Design Principles
 
 1. **Exploratory-first** - No confirmatory statistics; builds the picture before hypothesis testing
-2. **Universal auto-detection** - Minimizes manual configuration; flags ambiguity interactively
+2. **User-confirmed classification** - Claude suggests measurement levels from heuristic rules; the user reviews and confirms before analysis runs
 3. **Measurement-appropriate** - Uses median/IQR for Ordinal, Pearson for Continuous, Spearman for Ordinal, chi-square for Nominal
 4. **Insight-flagging** - Summary reports patterns and warnings, not just numbers
 5. **Dual output** - CSVs for validation and import into results tables; markdown for interpretation
@@ -143,12 +233,17 @@ Flags use this severity scheme: high missing% -> review flag; high skewness -> d
 
 ## 8. Verification Checklist
 
-- [ ] Phase 0 schema summary printed; all columns assigned a type
-- [ ] Ambiguous integer columns resolved (confirmed Ordinal or Discrete)
+- [ ] Column classification table presented to user; user confirmed or corrected types
+- [ ] Script invoked with `--no_interactive` and all confirmed Ordinal/Text/Group columns passed as arguments
+- [ ] Phase 0 schema summary printed; all columns assigned a type consistent with user confirmation
 - [ ] Each detected column type has at least one output file
 - [ ] No empty CSVs (phases with no applicable columns are skipped, not empty)
-- [ ] EXPLORATORY_SUMMARY.md contains at least 3 flagged insights
-- [ ] No inline Python code blocks remain - all code is in `scripts/run_eda.py`
+- [ ] `EXPLORATORY_SUMMARY.md` written by Claude via Write tool
+- [ ] All 10 thematic sections present; sections for absent column types omitted cleanly
+- [ ] Every section contains at least one populated markdown table and one narrative sentence
+- [ ] Numbers in the summary match the source CSVs exactly
+- [ ] `EXPLORATORY_REPORT.xlsx` present with "Summary" as first sheet + one sheet per CSV (unless `--no_excel`)
+- [ ] Excel workbook is B&W only (no color fills; no gridlines)
 - [ ] Bivariate outputs use correct method for each level pairing
 
 ## Future Roadmap

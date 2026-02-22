@@ -15,7 +15,7 @@ Introduction drafting and refinement with argumentative architecture guidance. S
 Use for: Writing or refining introduction sections that move from phenomenon to theory to empirical contribution, with discipline-first literature grounding, cross-paragraph bridge architecture, and enumerated contributions.
 
 ### q-exploratory-analysis
-Universal exploratory data analysis for tabular datasets. Auto-detects column measurement levels (Nominal, Ordinal, Discrete, Continuous, Temporal, Text) and applies statistically appropriate analysis for each type. Produces a structured TABLE/ folder of CSV outputs and a holistic EXPLORATORY_SUMMARY.md with flagged insights.
+Universal exploratory data analysis for tabular datasets. Interviews the user to confirm column measurement levels (Nominal, Ordinal, Discrete, Continuous, Temporal, Text) and applies statistically appropriate analysis for each type. Produces a structured TABLE/ folder of CSV outputs and a holistic EXPLORATORY_SUMMARY.md with flagged insights.
 
 Use for: Initial data exploration, measurement-level-appropriate descriptive statistics, understanding dataset structure before formal analysis.
 
@@ -33,10 +33,10 @@ Use for: Presenting findings, formatting statistical results, creating APA-compl
 
 ### Phase 1: Data Exploration
 Invoke q-exploratory-analysis to:
-- Auto-detect column types and apply measurement-appropriate analysis
+- Preview the dataset and interview the user to confirm column measurement levels
+- Apply measurement-appropriate analysis based on confirmed types
 - Generate comprehensive descriptive statistics and flagged insights
 - Create CSV tables and EXPLORATORY_SUMMARY.md
-- Understand grouping variables, distributions, and key metrics
 
 ### Phase 2: Introduction Drafting
 Invoke q-intro to:
@@ -115,7 +115,7 @@ q-scholar/
 ├── q-exploratory-analysis/
 │   ├── SKILL.md                          # Data exploration skill
 │   └── scripts/
-│       ├── run_eda.py                    # Six-phase EDA runner
+│       ├── run_eda.py                    # Seven-phase EDA runner
 │       └── requirements.txt              # Python dependencies
 ├── q-intro/
 │   ├── SKILL.md                          # Introduction drafting skill
@@ -141,7 +141,7 @@ Shared references (apply to all sub-skills):
 
 Sub-skill specific references:
 - q-exploratory-analysis/SKILL.md: workflow templates, script invocation
-- q-exploratory-analysis/scripts/run_eda.py: six-phase EDA pipeline
+- q-exploratory-analysis/scripts/run_eda.py: seven-phase EDA pipeline
 - q-intro/references/: introduction_template.md, interview_questions.md
 - q-methods/references/: methods_template.md, appendix_template.md
 - q-results/references/: results_template.md

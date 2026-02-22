@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.0] - 2026-02-21
+
+### Changed
+- **q-exploratory-analysis**: Replaced auto-classification with interview-driven column type confirmation
+  - Claude now previews the dataset and presents a classification table with suggested types for user review
+  - Two-stage interview: context questions (research goals, temporal column) then column classification review
+  - Users confirm or correct all column types before the script runs
+  - All confirmed types mapped to CLI flags (`--ordinal_cols`, `--text_cols`, `--group`); `--no_interactive` always used
+- **q-exploratory-analysis/run_eda.py**: Bug fixes (no workflow changes)
+  - Guard `quantitative_summary` for n=1 (was producing NaN-heavy rows)
+  - Fix nullable Float64 detection (`float.is_integer` → modulo check)
+  - Clip binary CI to [0, 1] (Wald interval could exceed bounds)
+  - Filter empty DataFrames before `pd.concat` in grouped analysis
+  - Remove redundant quantile computation
+  - Fix "Done" message when `--no_excel` is passed
+- **q-scholar/SKILL.md**: Updated q-exploratory-analysis description, Phase 1 bullets, and phase count references
+- **README**: Updated sub-skill table description to reference user-confirmed column types
+
 ## [1.4.9] - 2026-02-21
 
 ### Changed

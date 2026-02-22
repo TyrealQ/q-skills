@@ -158,7 +158,7 @@ Academic manuscript writing suite for drafting journal-ready prose following APA
 | Sub-Skill | Description |
 | --------- | ----------- |
 | q-intro | Introduction drafting and refinement with argumentative architecture guidance |
-| q-exploratory-analysis | Universal EDA with auto-detected column types and measurement-appropriate statistics |
+| q-exploratory-analysis | Universal EDA with user-confirmed column types and measurement-appropriate statistics |
 | q-methods | Methods section drafting in clear, narrative style |
 | q-results | Results section drafting with APA-compliant tables |
 
