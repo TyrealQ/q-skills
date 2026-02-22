@@ -2,14 +2,14 @@
 run_eda.py — Universal Exploratory Data Analysis (EDA) Runner
 q-exploratory-analysis sub-skill of q-scholar
 
-Seven-phase pipeline applying measurement-level-appropriate analysis
+Six-phase pipeline applying measurement-level-appropriate analysis
 based on Stevens' levels (Nominal, Ordinal, Discrete, Continuous)
 plus Temporal, Text, and ID/key.
 
 Usage:
     python scripts/run_eda.py data.xlsx --output TABLE/
-    python scripts/run_eda.py data.xlsx --group platform tier --text_cols description --output TABLE/
-    python scripts/run_eda.py data.xlsx --no_interactive --no_excel --output TABLE/
+    python scripts/run_eda.py data.xlsx --col_types rating=ordinal description=text --group platform tier --output TABLE/
+    python scripts/run_eda.py data.xlsx --no_excel --output TABLE/
 """
 
 import argparse
@@ -47,10 +47,8 @@ LOW_CARD_MAX = 20  # integers with <= this many unique values are flagged as amb
 # Phase 0: Column Classification
 # ---------------------------------------------------------------------------
 
-def classify_columns(df: pd.DataFrame, user_ordinal_cols: list = None,
-                     user_text_cols: list = None,
-                     user_continuous_cols: list = None,
-                     user_id_cols: list = None) -> dict:
+def classify_columns(df: pd.DataFrame,
+                     col_types_override: dict = None) -> dict:
     """
     Auto-detect measurement level for each column.
     Returns dict {col_name: type_string}.
@@ -58,34 +56,16 @@ def classify_columns(df: pd.DataFrame, user_ordinal_cols: list = None,
     Type strings: 'id', 'binary', 'nominal', 'ordinal', 'discrete',
                   'continuous', 'temporal', 'text', 'unknown'
     """
-    user_ordinal_cols = set(user_ordinal_cols or [])
-    user_text_cols = set(user_text_cols or [])
-    user_continuous_cols = set(user_continuous_cols or [])
-    user_id_cols = set(user_id_cols or [])
+    col_types_override = col_types_override or {}
     col_types = {}
     n = len(df)
 
     for col in df.columns:
         series = df[col]
 
-        # User-flagged continuous columns (highest priority)
-        if col in user_continuous_cols:
-            col_types[col] = "continuous"
-            continue
-
-        # User-flagged id columns
-        if col in user_id_cols:
-            col_types[col] = "id"
-            continue
-
-        # User-flagged text columns
-        if col in user_text_cols:
-            col_types[col] = "text"
-            continue
-
-        # User-flagged ordinal columns
-        if col in user_ordinal_cols:
-            col_types[col] = "ordinal"
+        # User-confirmed type (highest priority)
+        if col in col_types_override:
+            col_types[col] = col_types_override[col]
             continue
 
         nunique = series.nunique(dropna=True)
@@ -132,7 +112,7 @@ def classify_columns(df: pd.DataFrame, user_ordinal_cols: list = None,
         ):
             if nunique <= LOW_CARD_MAX:
                 # Ambiguous: could be ordinal (Likert) or discrete (small count)
-                # Mark for interactive resolution
+                # Defaults to 'discrete' unless --interactive is set
                 col_types[col] = "ambiguous_integer"
             else:
                 col_types[col] = "discrete"
@@ -153,7 +133,7 @@ def resolve_ambiguous_columns(col_types: dict, df: pd.DataFrame,
     Classify ambiguous integer columns as 'ordinal' or 'discrete'.
 
     If no_interactive=True or stdin is not a TTY, auto-classifies as 'discrete'
-    (conservative default) with a printed notice. Use --ordinal_cols to
+    (conservative default) with a printed notice. Use --col_types col=ordinal to
     pre-specify known ordinal columns and avoid this auto-classification.
     Interactive prompt fires only when no_interactive=False and stdin is a TTY.
     """
@@ -168,7 +148,7 @@ def resolve_ambiguous_columns(col_types: dict, df: pd.DataFrame,
             vals = sorted(df[col].dropna().unique().tolist())
             print(
                 f"  Column '{col}' ({len(vals)} unique values) -> classified as 'discrete'. "
-                f"Use --ordinal_cols '{col}' to override."
+                f"Use --col_types {col}=ordinal to override."
             )
         return col_types
 
@@ -552,7 +532,7 @@ def temporal_trends(df: pd.DataFrame, col_types: dict,
 
 
 # ---------------------------------------------------------------------------
-# Phase 7: Excel Report
+# Phase 6: Excel Report
 # ---------------------------------------------------------------------------
 
 def generate_excel_report(output_dir: str) -> str:
@@ -789,26 +769,26 @@ def main():
     parser.add_argument("data", help="Path to input file (.xlsx or .csv)")
     parser.add_argument("--output", default="TABLE/", help="Output directory (default: TABLE/)")
     parser.add_argument("--group", nargs="*", default=[], help="Nominal columns for grouping")
-    parser.add_argument("--text_cols", nargs="*", default=[], help="Text columns for n-gram analysis")
-    parser.add_argument("--ordinal_cols", nargs="*", default=[],
-                        help="Pre-specify ordinal columns (skips interactive prompt)")
-    parser.add_argument("--continuous_cols", nargs="*", default=[],
-                        help="Force-classify columns as continuous (overrides auto-detection)")
-    parser.add_argument("--id_cols", nargs="*", default=[],
-                        help="Force-classify columns as ID/excluded (overrides auto-detection)")
+    parser.add_argument(
+        "--col_types", nargs="*", default=[],
+        help="Confirmed column types: col1=type1 col2=type2. "
+             "Valid types: id, binary, nominal, ordinal, discrete, continuous, temporal, text.",
+    )
     parser.add_argument("--top_n", type=int, default=10, help="Top-N for frequency tables")
     parser.add_argument(
-        "--no_interactive", action="store_true",
-        help=(
-            "Auto-classify ambiguous integers as 'discrete' without prompting. "
-            "Use --ordinal_cols to pre-specify known ordinal columns."
-        ),
+        "--interactive", action="store_true",
+        help="Prompt for ambiguous integers (standalone CLI only).",
     )
     parser.add_argument(
         "--no_excel", action="store_true",
-        help="Skip Phase 7 (Excel report). CSVs and markdown only.",
+        help="Skip Phase 6 (Excel report). CSVs only.",
     )
     args = parser.parse_args()
+
+    col_types_override = {}
+    for item in args.col_types:
+        col, _, ctype = item.partition("=")
+        col_types_override[col] = ctype
 
     os.makedirs(args.output, exist_ok=True)
 
@@ -824,12 +804,9 @@ def main():
     print(f"Loaded {len(df):,} rows x {len(df.columns)} columns.\n")
 
     # --- Phase 0: Classification ---
-    col_types = classify_columns(df, user_ordinal_cols=args.ordinal_cols,
-                                 user_text_cols=args.text_cols,
-                                 user_continuous_cols=args.continuous_cols,
-                                 user_id_cols=args.id_cols)
+    col_types = classify_columns(df, col_types_override=col_types_override)
     col_types = resolve_ambiguous_columns(col_types, df,
-                                          no_interactive=args.no_interactive)
+                                          no_interactive=not args.interactive)
     print_schema_summary(df, col_types)
 
     output_files = []
@@ -934,9 +911,7 @@ def main():
     # --- Phase 5: Specialized ---
     print("\n=== Phase 5: Specialized Analysis ===")
 
-    text_cols = args.text_cols if args.text_cols else [
-        c for c, t in col_types.items() if t == "text"
-    ]
+    text_cols = [c for c, t in col_types.items() if t == "text"]
     for tc in text_cols:
         if tc not in df.columns:
             continue
@@ -952,9 +927,9 @@ def main():
         save_csv(tt, path)
         output_files.append(path)
 
-    # --- Phase 7: Excel Report ---
+    # --- Phase 6: Excel Report ---
     if not args.no_excel:
-        print("\n=== Phase 7: Excel Report ===")
+        print("\n=== Phase 6: Excel Report ===")
         try:
             excel_path = generate_excel_report(args.output)
             print(f"  Saved: {excel_path}")
@@ -967,7 +942,7 @@ def main():
     total = len(output_files)
     suffix = "" if args.no_excel else " + EXPLORATORY_REPORT.xlsx"
     print(f"\nDone. {total} CSV file(s){suffix} written to: {args.output}")
-    print(f"Run Phase 6 (see SKILL.md) to generate EXPLORATORY_SUMMARY.md.\n")
+    print(f"Run Post-Script step (see SKILL.md) to generate EXPLORATORY_SUMMARY.md.\n")
 
 
 if __name__ == "__main__":

@@ -7,9 +7,9 @@ description: "Universal exploratory data analysis for tabular datasets. Intervie
 
 Universal exploratory data analysis (EDA) for tabular datasets. Previews the dataset, interviews the user to confirm column measurement levels, and applies statistically appropriate analysis for each variable type, producing a structured TABLE/ folder and a holistic EXPLORATORY_SUMMARY.md with flagged insights.
 
-> **IMPORTANT:** Run the script for CSVs and the Excel report. Write `EXPLORATORY_SUMMARY.md`
-> yourself (Phase 6) by reading the CSVs and using the Write tool directly.
-> Do **NOT** write inline Python for analysis.
+> **IMPORTANT:** Run the script (Phases 0-6) for CSVs and the Excel report. Then write
+> `EXPLORATORY_SUMMARY.md` yourself (Post-Script step) by reading the CSVs and using the
+> Write tool directly. Do **NOT** write inline Python for analysis.
 
 ## 1. Requirements Gathering (Interview)
 
@@ -45,69 +45,32 @@ After the context questions, **auto-detect column types and present for confirma
 4. **Ask for confirmation** - Use AskUserQuestion to present the table and ask:
    "If these all look correct, select **Confirm all**. Otherwise, select **Corrections needed**."
 5. **Record confirmed types** and map to script arguments.
-6. **Invoke the script immediately** — Do NOT write inline Python. Run `run_eda.py` per Section 2.
-
-   | Confirmed Type | Script Argument |
-   |----------------|-----------------|
-   | Ordinal | `--ordinal_cols col1 col2` |
-   | Text | `--text_cols col1 col2` |
-   | Nominal (Group) | `--group col1 col2` |
-   | Continuous | `--continuous_cols col1 col2` |
-   | ID | `--id_cols col1 col2` |
-   | Binary, Discrete, Temporal | Auto-detected (no flag needed; `--no_interactive` prevents ambiguity prompts) |
+6. **Invoke the script immediately** — Do NOT write inline Python. Map confirmed types to `--col_types` pairs and run `run_eda.py` per Section 2.
 
 ## 2. Script Invocation
 
 **Standard invocation (built from interview):**
 ```bash
 python scripts/run_eda.py data.xlsx \
+  --col_types rating=ordinal views=continuous description=text record_id=id \
   --group platform tier \
-  --text_cols description comments \
-  --ordinal_cols rating satisfaction \
-  --output TABLE/ \
-  --no_interactive \
-  --top_n 10
+  --output TABLE/
 ```
 
 > **Windows note:** Use `python` (not `python3`). If the system has both Python 2 and 3,
 > use `py -3` or the full path (e.g., `C:\Python312\python.exe`).
 
-**Lightweight run (no Excel output):**
-```bash
-python scripts/run_eda.py data.xlsx \
-  --group platform \
-  --ordinal_cols rating \
-  --output TABLE/ \
-  --no_interactive \
-  --no_excel
-```
-
-**Mapping from interview to arguments:**
-
-| Confirmed Type | Script Argument |
-|----------------|-----------------|
-| Ordinal | `--ordinal_cols col1 col2` |
-| Text | `--text_cols col1 col2` |
-| Nominal (Group) | `--group col1 col2` |
-| Continuous | `--continuous_cols col1 col2` |
-| ID | `--id_cols col1 col2` |
-| All other types | Auto-detected; no flag needed |
-| (always) | `--no_interactive` (skip ambiguity prompts when Claude drives the workflow) |
-
 **Arguments:**
 
 | Argument | Required | Description |
 |----------|----------|-------------|
-| `data` | Yes | Path to input file (.xlsx or .csv) |
-| `--output` | No | Output directory (default: `TABLE/`) |
+| `data` | Yes | Path to .xlsx or .csv |
+| `--col_types` | No | Confirmed types: `col=type` pairs. Valid: id, binary, nominal, ordinal, discrete, continuous, temporal, text. Unspecified columns auto-detected. |
 | `--group` | No | Nominal columns for grouped analysis |
-| `--text_cols` | No | Text columns for n-gram analysis |
-| `--ordinal_cols` | No | Columns confirmed as ordinal during interview |
-| `--continuous_cols` | No | Force-classify columns as continuous (overrides auto-detection) |
-| `--id_cols` | No | Force-classify columns as ID/excluded (overrides auto-detection) |
-| `--top_n` | No | Top-N items in frequency tables (default: 10) |
-| `--no_interactive` | No | Skip ambiguity prompts (always used when Claude drives the workflow) |
-| `--no_excel` | No | Skip Phase 7 (Excel report); produce CSVs and markdown only |
+| `--output` | No | Output directory (default: `TABLE/`) |
+| `--top_n` | No | Top-N for frequency tables (default: 10) |
+| `--no_excel` | No | Skip Phase 6 (Excel report) |
+| `--interactive` | No | Prompt for ambiguous integers (standalone CLI only) |
 
 ## 3. Column-Type Coverage
 
@@ -124,14 +87,10 @@ Claude presents suggested types during the interview; the user confirms or corre
 | **Temporal** | datetime dtype or parseable date string | Range, gap detection, trend by month/year |
 | **Text** | object dtype, avg length > 50 chars | Top unigrams/bigrams, avg word count, vocabulary richness |
 
-**Numeric high-uniqueness:** Integer columns with >95% unique values (e.g., views, revenue) are classified as Continuous, not ID. Only non-numeric columns (strings, mixed types) with >95% uniqueness are treated as identifiers. Use `--id_cols` to force-classify a numeric column as ID if needed.
-
-**Ordinal vs. Discrete ambiguity:** Claude flags low-cardinality integers (e.g., 1-5, 1-7 scales) prominently during the interview and asks whether each is a scale (Ordinal) or count (Discrete).
-
-## 4. Eight-Phase Pipeline
+## 4. Pipeline
 
 ### Phase 0: Data Loading & Column Classification
-Loads the file, applies user-confirmed column types (passed via CLI flags), auto-detects unambiguous types for remaining columns, and prints a schema summary: column name | detected type | nunique | missing%.
+Loads the file, applies user-confirmed column types (passed via `--col_types`), auto-detects unambiguous types for remaining columns, and prints a schema summary: column name | detected type | nunique | missing%.
 
 ### Phase 1: Dataset Profile
 `01_dataset_profile.csv` - shape, column types, missing%, uniqueness, memory usage.
@@ -161,9 +120,12 @@ Measurement-appropriate pairing analysis:
 - `13_text_{colname}.csv` - word freq, top bigrams, avg word count, vocab size
 - `14_temporal_trends.csv` - key metrics over time by period
 
-### Phase 6: Narrative Summary (Model-Authored)
+### Phase 6: Excel Report
+`EXPLORATORY_REPORT.xlsx` - APA-7th formatted workbook (B&W, no color fills). Sheet 0 "Summary" contains dataset dimensions and quality highlights. Sheets 1-N contain one sheet per generated CSV (skipped if absent). All sheets use Calibri 11 pt, table-number bold rows, title italic rows, bold column headers with bottom border, and data rows with top/bottom rules only. Skip with `--no_excel`.
 
-IMPORTANT: This phase is performed by Claude, not by the script. `EXPLORATORY_SUMMARY.md` is
+### Post-Script: Narrative Summary (Model-Authored)
+
+IMPORTANT: This step is performed by Claude after the script finishes. `EXPLORATORY_SUMMARY.md` is
 produced by Claude reading the generated CSVs and writing a formatted document with the Write tool.
 
 **Step 1 — Read the CSVs** using the Read tool:
@@ -193,13 +155,9 @@ Rules:
 - Use aligned GFM markdown tables with the same columns as the source CSV.
 - Do not round further than the CSV already rounds.
 - End each section with 1–3 sentences of interpretation.
-- Style reference: `TABLE/DESCRIPTIVE_SUMMARY.md` in the active DEMO directory.
 - **Every section heading must include a `Source:` annotation** citing the CSV file(s) it draws from.
 - **NEVER derive findings from ad-hoc Python**. If a CSV is missing or empty, state "No data available (file skipped by script)" rather than computing supplementary statistics.
 - If a section's source CSV was skipped, omit the section entirely.
-
-### Phase 7: Excel Report
-`EXPLORATORY_REPORT.xlsx` - APA-7th formatted workbook (B&W, no color fills). Sheet 0 "Summary" contains dataset dimensions and quality highlights. Sheets 1-N contain one sheet per generated CSV (skipped if absent). All sheets use Calibri 11 pt, table-number bold rows, title italic rows, bold column headers with bottom border, and data rows with top/bottom rules only. Skip with `--no_excel`.
 
 ## 5. Output Directory Reference
 
@@ -241,7 +199,7 @@ Flags use this severity scheme: high missing% -> review flag; high skewness -> d
 
 1. **Exploratory-first** - No confirmatory statistics; builds the picture before hypothesis testing
 2. **User-confirmed classification** - Claude suggests measurement levels from heuristic rules; the user reviews and confirms before analysis runs
-3. **Measurement-appropriate** - Uses median/IQR for Ordinal, Pearson for Continuous, Spearman for Ordinal, chi-square for Nominal
+3. **Measurement-appropriate** - Uses median/IQR for Ordinal, Pearson for Continuous, Spearman for Ordinal, cross-tabulation for Nominal
 4. **Insight-flagging** - Summary reports patterns and warnings, not just numbers
 5. **Dual output** - CSVs for validation and import into results tables; markdown for interpretation
 6. **APA-compatible statistics** - Full metric set (M, Mdn, SD, SE, 95% CI, skewness, kurtosis) ready for APA 7th reporting
@@ -249,12 +207,10 @@ Flags use this severity scheme: high missing% -> review flag; high skewness -> d
 ## 8. Verification Checklist
 
 - [ ] Column classification table presented to user; user confirmed or corrected types
-- [ ] Script invoked with `--no_interactive` and all confirmed Ordinal/Text/Group columns passed as arguments
-- [ ] Phase 0 schema summary printed; all columns assigned a type consistent with user confirmation
+- [ ] Confirmed types passed via `--col_types` and grouping columns via `--group`
 - [ ] Each detected column type has at least one output file
-- [ ] No empty CSVs (phases with no applicable columns are skipped, not empty)
 - [ ] `EXPLORATORY_SUMMARY.md` written by Claude via Write tool
-- [ ] All 10 thematic sections present; sections for absent column types omitted cleanly
+- [ ] All applicable thematic sections present; sections for absent column types omitted cleanly
 - [ ] Every section contains at least one populated markdown table and one narrative sentence
 - [ ] Numbers in the summary match the source CSVs exactly
 - [ ] `EXPLORATORY_REPORT.xlsx` present with "Summary" as first sheet + one sheet per CSV (unless `--no_excel`)
