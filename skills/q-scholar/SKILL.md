@@ -19,6 +19,11 @@ Universal exploratory data analysis for tabular datasets. Interviews the user to
 
 Use for: Initial data exploration, measurement-level-appropriate descriptive statistics, understanding dataset structure before formal analysis.
 
+### q-topic-finetuning
+Fine-tune and consolidate topic modeling outputs (BERTopic, LDA, NMF) into theory-driven classification frameworks for academic manuscripts. Handles topic consolidation, theoretical classification, domain-specific preservation, multi-category assignments, and Excel label updates.
+
+Use for: Converting 50+ raw topics into 20-50 manuscript-ready categories, applying theoretical frameworks (legitimacy, stakeholder theory, sentiment) to topic clusters, generating reproducible Excel outputs with classification labels.
+
 ### q-methods
 Methods section drafting in clear, narrative style. Produces flowing paragraphs organized by workflow stages with appropriate appendix cross-references for technical details. Maintains strict separation between methods and results: describes procedures and summarizes data collected, but reserves analysis findings for the results section.
 
@@ -28,38 +33,6 @@ Use for: Writing data collection, preprocessing, analysis procedures, validation
 Results section drafting following APA 7th edition guidelines. Produces narrative prose organized by research questions with properly formatted tables.
 
 Use for: Presenting findings, formatting statistical results, creating APA-compliant tables.
-
-## Workflow Integration
-
-### Phase 1: Data Exploration
-Invoke q-exploratory-analysis to:
-- Preview the dataset and interview the user to confirm column measurement levels
-- Apply measurement-appropriate analysis based on confirmed types
-- Generate comprehensive descriptive statistics and flagged insights
-- Create CSV tables and EXPLORATORY_SUMMARY.md
-
-### Phase 2: Introduction Drafting
-Invoke q-intro to:
-- Draft from scratch via interview workflow, or refine existing drafts via diagnostic workflow
-- Ground literature in target discipline's core concerns with narrative-arc progression
-- Motivate theoretical frameworks as resolutions to identified gaps
-- Frame research questions with scope progression (descriptive, relational, conditional)
-- State contributions with parallel structure and provide article roadmap
-
-### Phase 3: Methods Documentation
-Invoke q-methods to:
-- Document data collection procedures and corpus summaries
-- Describe analytical approaches conceptually
-- Reference technical details to appendices
-- Include validation procedures
-- Keep methods separate from results (procedures, not findings)
-
-### Phase 4: Results Presentation
-Invoke q-results to:
-- Organize findings by research questions
-- Write narrative prose integrating statistics
-- Format tables per APA 7th edition
-- Prepare appendices for detailed content
 
 ## Core Writing Principles
 
@@ -112,16 +85,27 @@ q-scholar/
 ├── references/                           # Shared style guides
 │   ├── apa_style_guide.md                # Numbers, statistics, notation
 │   └── table_formatting.md               # APA 7th table examples
-├── q-exploratory-analysis/
-│   ├── SKILL.md                          # Data exploration skill
-│   └── scripts/
-│       ├── run_eda.py                    # Six-phase EDA runner
-│       └── requirements.txt              # Python dependencies
 ├── q-intro/
 │   ├── SKILL.md                          # Introduction drafting skill
 │   └── references/
 │       ├── introduction_template.md
 │       └── interview_questions.md
+├── q-exploratory-analysis/
+│   ├── SKILL.md                          # Data exploration skill
+│   ├── scripts/
+│   │   ├── run_eda.py                    # Six-phase EDA runner
+│   │   └── requirements.txt              # Python dependencies
+│   └── references/
+│       └── summary_template.md           # 13-section summary template
+├── q-topic-finetuning/
+│   ├── SKILL.md                          # Topic modeling consolidation skill
+│   ├── scripts/
+│   │   ├── classify_outliers.py          # Outlier reclassification via Gemini
+│   │   ├── generate_implementation_plan.py
+│   │   └── update_excel_with_labels.py
+│   └── references/
+│       ├── esports_ugc_example.md        # Worked example
+│       └── SP_OUTLIER_TEMPLATE.txt       # Outlier classification prompt
 ├── q-methods/
 │   ├── SKILL.md                          # Methods drafting skill
 │   └── references/
@@ -140,8 +124,10 @@ Shared references (apply to all sub-skills):
 - references/table_formatting.md: APA 7th table examples
 
 Sub-skill specific references:
+- q-intro/references/: introduction_template.md, interview_questions.md
 - q-exploratory-analysis/SKILL.md: workflow templates, script invocation
 - q-exploratory-analysis/scripts/run_eda.py: six-phase EDA pipeline
-- q-intro/references/: introduction_template.md, interview_questions.md
+- q-topic-finetuning/references/: esports_ugc_example.md, SP_OUTLIER_TEMPLATE.txt
+- q-topic-finetuning/scripts/: classify_outliers.py, generate_implementation_plan.py, update_excel_with_labels.py
 - q-methods/references/: methods_template.md, appendix_template.md
 - q-results/references/: results_template.md

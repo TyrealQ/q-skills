@@ -13,9 +13,9 @@ q-skills/
 |   |-- q-scholar/             # Academic manuscript writing suite
 |   |   |-- q-intro/
 |   |   |-- q-exploratory-analysis/
+|   |   |-- q-topic-finetuning/
 |   |   |-- q-methods/
 |   |   `-- q-results/
-|   `-- q-topic-finetuning/    # Topic modeling consolidation
 |-- README.md
 |-- CHANGELOG.md
 `-- LICENSE

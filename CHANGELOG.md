@@ -26,6 +26,10 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - **README**: Updated q-exploratory-analysis folder structure to include `references/` directory
+- **q-topic-finetuning**: Moved from top-level skill into q-scholar as sub-skill (data analysis feeds methods/results)
+- **marketplace.json**: Reorganized from 5 one-per-skill plugins to 2 category plugins (academic-skills, visual-content-skills); bumped version to 1.5.3
+- **q-scholar/SKILL.md**: Added q-topic-finetuning as fifth sub-skill; removed sequential "Workflow Integration" section (sub-skills are independently invocable)
+- **README**: Consolidated 4 category tables into 2 (Academic Skills, Visual Content Skills); absorbed q-topic-finetuning detail section into q-scholar; updated plugin install commands
 
 ## [1.5.2] - 2026-02-22
 

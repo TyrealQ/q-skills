@@ -5,56 +5,32 @@
   },
   "metadata": {
     "description": "End-to-end skills for academic writing, data analysis, teaching, and research communication",
-    "version": "1.4.7"
+    "version": "1.5.3"
   },
   "plugins": [
     {
-      "name": "q-scholar",
-      "description": "Academic manuscript writing suite (intro, methods, results, exploratory analysis)",
+      "name": "academic-skills",
+      "description": "Academic manuscript writing suite, topic modeling consolidation, exploratory analysis, and course content development",
       "source": "./",
       "strict": false,
       "skills": [
         "./skills/q-scholar",
         "./skills/q-scholar/q-intro",
         "./skills/q-scholar/q-exploratory-analysis",
+        "./skills/q-scholar/q-topic-finetuning",
         "./skills/q-scholar/q-methods",
-        "./skills/q-scholar/q-results"
-      ]
-    },
-    {
-      "name": "q-educator",
-      "description": "Course content development for lectures, demos, assignments, and feedback",
-      "source": "./",
-      "strict": false,
-      "skills": [
+        "./skills/q-scholar/q-results",
         "./skills/q-educator"
       ]
     },
     {
-      "name": "q-infographics",
-      "description": "Convert documents into business stories and infographics",
+      "name": "visual-content-skills",
+      "description": "Convert documents into infographics and branded slide decks via Gemini",
       "source": "./",
       "strict": false,
       "skills": [
-        "./skills/q-infographics"
-      ]
-    },
-    {
-      "name": "q-presentations",
-      "description": "Convert content into branded slide decks with style presets",
-      "source": "./",
-      "strict": false,
-      "skills": [
+        "./skills/q-infographics",
         "./skills/q-presentations"
-      ]
-    },
-    {
-      "name": "q-topic-finetuning",
-      "description": "Consolidate topic modeling outputs into theory-driven frameworks",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/q-topic-finetuning"
       ]
     }
   ]

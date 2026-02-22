@@ -61,11 +61,8 @@ To install all skills at once, use [Option 2](#option-2-quick-install) or browse
 To install specific skills only:
 
 ```
-/plugin install q-scholar@q-skills
-/plugin install q-educator@q-skills
-/plugin install q-infographics@q-skills
-/plugin install q-presentations@q-skills
-/plugin install q-topic-finetuning@q-skills
+/plugin install academic-skills@q-skills
+/plugin install visual-content-skills@q-skills
 ```
 
 ---
@@ -120,25 +117,14 @@ Then re-copy the skills to your skills directory (see Manual install above).
 
 ## Available Skills
 
-### Academic Writing Skills
-
-| Skill                      | Description                                                   |
-| -------------------------- | ------------------------------------------------------------- |
-| [q-scholar](#q-scholar)    | Academic manuscript writing suite (methods, results, analysis) |
-
-### Data Analysis Skills
-
-| Skill                                     | Description                                                      |
-| ----------------------------------------- | ---------------------------------------------------------------- |
-| [q-topic-finetuning](#q-topic-finetuning) | Consolidate topic modeling outputs into theory-driven frameworks |
-
-### Education Skills
+### Academic Skills
 
 | Skill                         | Description                                                                 |
 | ----------------------------- | --------------------------------------------------------------------------- |
+| [q-scholar](#q-scholar)       | Academic manuscript writing suite (intro, EDA, topic modeling, methods, results) |
 | [q-educator](#q-educator)     | Course content development for lectures, demos, assignments, and feedback   |
 
-### Research Promotion Skills
+### Visual Content Skills
 
 | Skill                               | Description                                              |
 | ----------------------------------- | -------------------------------------------------------- |
@@ -159,6 +145,7 @@ Academic manuscript writing suite for drafting journal-ready prose following APA
 | --------- | ----------- |
 | q-intro | Introduction drafting and refinement with argumentative architecture guidance |
 | q-exploratory-analysis | Universal EDA with user-confirmed column types and measurement-appropriate statistics |
+| q-topic-finetuning | Consolidate topic modeling outputs (BERTopic, LDA, NMF) into theory-driven frameworks |
 | q-methods | Methods section drafting in clear, narrative style |
 | q-results | Results section drafting with APA-compliant tables |
 
@@ -176,13 +163,6 @@ Academic manuscript writing suite for drafting journal-ready prose following APA
 - Shared style guides and templates
 - Appendix strategies for technical details
 
-**Workflow Phases:**
-
-1. **Data Exploration** - Invoke q-exploratory-analysis for statistics and summaries
-2. **Introduction Drafting** - Invoke q-intro for context, gaps, RQs, and contributions
-3. **Methods Documentation** - Invoke q-methods for data collection and analysis procedures
-4. **Results Presentation** - Invoke q-results for findings organized by research questions
-
 **Folder Structure:**
 
 ```text
@@ -198,6 +178,10 @@ q-scholar/
 |   |-- SKILL.md                          # Data exploration skill
 |   |-- scripts/                          # run_eda.py + requirements.txt
 |   `-- references/                       # Summary template and examples
+|-- q-topic-finetuning/
+|   |-- SKILL.md                          # Topic modeling consolidation skill
+|   |-- scripts/                          # classify_outliers.py, plan & Excel updaters
+|   `-- references/                       # Worked example + outlier prompt template
 |-- q-methods/
 |   |-- SKILL.md                          # Methods drafting skill
 |   `-- references/                       # Methods and appendix templates
@@ -211,48 +195,6 @@ q-scholar/
 ```
 Help me write the methods and results sections for my topic modeling study on esports discourse
 ```
-
----
-
-### q-topic-finetuning
-
-Fine-tune and consolidate topic modeling outputs (BERTopic, LDA, NMF) into theory-driven classification frameworks.
-
-**Triggers:**
-
-- "Consolidate these BERTopic topics..."
-- "Classify topics using [framework]..."
-- "Merge topic modeling results for my manuscript..."
-
-**Features:**
-
-- Convert 50+ raw topics into 20-50 manuscript-ready categories
-- Apply theoretical frameworks (legitimacy, stakeholder theory, sentiment)
-- Preserve domain-specific distinctions (entity, event, geography)
-- Handle multi-category assignments with overlap reconciliation
-- Generate Excel output with classification labels
-
-**Folder Structure:**
-
-```text
-q-topic-finetuning/
-|-- SKILL.md                                  # Main skill file
-|-- scripts/
-|   |-- classify_outliers.py                  # Outlier reclassification via Gemini
-|   |-- generate_implementation_plan.py       # Full plan generation
-|   `-- update_excel_with_labels.py           # Excel column updates
-`-- references/
-    |-- esports_ugc_example.md                # Worked example
-    `-- SP_OUTLIER_TEMPLATE.txt               # Outlier classification prompt template
-```
-
-**Example:**
-
-```
-Consolidate my 129 BERTopic topics using organizational legitimacy framework
-```
-
-**Reference:** See `references/esports_ugc_example.md` for complete worked example.
 
 ---
 
