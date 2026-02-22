@@ -139,25 +139,36 @@ all `11_grouped_by_*.csv`, all `12_crosstab_*.csv`, all `13_text_*.csv`,
 **Step 2 — Write `TABLE/EXPLORATORY_SUMMARY.md`** directly using the Write tool.
 
 **Content requirements:**
-Thematic sections (not one-per-CSV). Required structure:
-1. Dataset Overview *(Source: `01_dataset_profile.csv`, `14_temporal_trends.csv`)*
+One section per measurement level plus infrastructure sections. Required structure:
+1. Dataset Overview *(Source: `01_dataset_profile.csv`, `14_temporal_trends.csv` — temporal range and period count only)*
 2. Data Quality *(Source: `02_data_quality.csv`)*
-3. Categorical Variables *(Source: `03_nominal_frequencies.csv`, `04_binary_summary.csv`, `05_ordinal_distribution.csv`, `06_ordinal_descriptives.csv`)*
-4. Quantitative Variables *(Source: `07_discrete_descriptives.csv`, `08_continuous_descriptives.csv`)*
-5. Bivariate Relationships *(Source: `09_pearson_correlation.csv`, `10_spearman_correlation.csv`)*
-6. Group Comparisons *(Source: `11_grouped_by_*.csv`)*
-7. Cross-Tabulations *(Source: `12_crosstab_*.csv`)*
-8. Text Analysis *(Source: `13_text_*.csv`; omit section if no text columns)*
-9. Temporal Trends *(Source: `14_temporal_trends.csv`; omit section if no temporal column)*
-10. Output Files — bullet list of all files in the output directory
+3. Nominal Variables *(Source: `03_nominal_frequencies.csv`)*
+4. Binary Variables *(Source: `04_binary_summary.csv`)*
+5. Ordinal Variables *(Source: `05_ordinal_distribution.csv`, `06_ordinal_descriptives.csv`)*
+6. Discrete Variables *(Source: `07_discrete_descriptives.csv`)*
+7. Continuous Variables *(Source: `08_continuous_descriptives.csv`)*
+8. Bivariate Relationships *(Source: `09_pearson_correlation.csv`, `10_spearman_correlation.csv`)*
+9. Group Comparisons *(Source: `11_grouped_by_*.csv`)*
+10. Cross-Tabulations *(Source: `12_crosstab_*.csv`)*
+11. Text Analysis *(Source: `13_text_*.csv`; omit section if no text columns)*
+12. Temporal Trends *(Source: `14_temporal_trends.csv`; omit section if no temporal column — full trend table and pattern interpretation here)*
+13. Output Files — bullet list of all files in the output directory
 
-Rules:
-- Use aligned GFM markdown tables with the same columns as the source CSV.
+**Table formatting rules:**
+- **Descriptive tables** (ordinal `06`, discrete `07`, continuous `08`): Split into two tables:
+  - *Core table:* variable, N_valid, M (or M_quasi_interval), Mdn, SD, IQR, Skewness, Kurtosis
+  - *Detail table:* variable, Range, Min, Max, Q1_25th, Q3_75th, CV_pct, SE, CI95_lower, CI95_upper, outlier counts
+- **Narrow CSVs** (frequencies `03`, binary `04`, ordinal distribution `05`, correlations `09`/`10`, crosstabs `12`): Use the same columns as the source CSV.
+- **Frequency tables:** Include all rows from the CSV (script already caps at top-N).
+- **Correlation tables:** Include all pairs; bold rows where abs(r/rho) > 0.7.
+- **Cross-tabs:** Include full table from CSV. If a crosstab has >10 columns, note the CSV as the authoritative source and provide a prose summary instead.
 - Do not round further than the CSV already rounds.
+
+**General rules:**
 - End each section with 1–3 sentences of interpretation.
 - **Every section heading must include a `Source:` annotation** citing the CSV file(s) it draws from.
-- **NEVER derive findings from ad-hoc Python**. If a CSV is missing or empty, state "No data available (file skipped by script)" rather than computing supplementary statistics.
-- If a section's source CSV was skipped, omit the section entirely.
+- **NEVER derive findings from ad-hoc Python**. All findings must come from the generated CSVs.
+- **Section omission:** If **all** source CSVs for a section are absent, omit the section entirely. If **some** source CSVs exist but others are absent, include the section and note "No [subtype] data available (file skipped by script)" for the missing part.
 
 ## 5. Output Directory Reference
 
@@ -177,8 +188,8 @@ TABLE/
 ├── 12_crosstab_{nom1}_x_{nom2}.csv  (one per Nominal pair)
 ├── 13_text_{colname}.csv            (one per text column)
 ├── 14_temporal_trends.csv
-├── EXPLORATORY_SUMMARY.md
-└── EXPLORATORY_REPORT.xlsx          (omitted with --no_excel)
+├── EXPLORATORY_REPORT.xlsx          (omitted with --no_excel)
+└── EXPLORATORY_SUMMARY.md
 ```
 
 Files are omitted when no columns of the relevant type exist (e.g., no text columns means no `13_text_*.csv`).
@@ -193,7 +204,16 @@ Files are omitted when no columns of the relevant type exist (e.g., no text colu
 - **Coverage summary** - *"768 records across 5 platforms; YouTube accounts for 62% of sample"*
 - **Measurement caveats** - Ordinal means labeled as quasi-interval; Spearman used instead of Pearson for ranked scales
 
-Flags use this severity scheme: high missing% -> review flag; high skewness -> distribution flag; strong correlations (|r| > 0.7) -> relationship flag; ID-like columns -> exclusion flag.
+**Flagging thresholds:**
+
+| Flag | Threshold | Severity |
+|------|-----------|----------|
+| Missing data | >10% of rows | review |
+| Skewness | abs(skew) > 2 | distribution |
+| Kurtosis | abs(kurt) > 7 | distribution |
+| Correlation | abs(r/rho) > 0.7 | relationship |
+| CV | >100% | variability |
+| ID-like column | nunique > 95% of n | exclusion |
 
 ## 7. Design Principles
 
@@ -210,7 +230,8 @@ Flags use this severity scheme: high missing% -> review flag; high skewness -> d
 - [ ] Confirmed types passed via `--col_types` and grouping columns via `--group`
 - [ ] Each detected column type has at least one output file
 - [ ] `EXPLORATORY_SUMMARY.md` written by Claude via Write tool
-- [ ] All applicable thematic sections present; sections for absent column types omitted cleanly
+- [ ] All 13 content sections present where applicable; sections for absent column types omitted per two-tier rule
+- [ ] Descriptive tables (ordinal/discrete/continuous) use core + detail split-table format
 - [ ] Every section contains at least one populated markdown table and one narrative sentence
 - [ ] Numbers in the summary match the source CSVs exactly
 - [ ] `EXPLORATORY_REPORT.xlsx` present with "Summary" as first sheet + one sheet per CSV (unless `--no_excel`)
