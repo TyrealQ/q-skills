@@ -115,7 +115,7 @@ q-scholar/
 ├── q-exploratory-analysis/
 │   ├── SKILL.md                          # Data exploration skill
 │   └── scripts/
-│       ├── run_eda.py                    # Seven-phase EDA runner
+│       ├── run_eda.py                    # Six-phase EDA runner
 │       └── requirements.txt              # Python dependencies
 ├── q-intro/
 │   ├── SKILL.md                          # Introduction drafting skill
@@ -141,7 +141,7 @@ Shared references (apply to all sub-skills):
 
 Sub-skill specific references:
 - q-exploratory-analysis/SKILL.md: workflow templates, script invocation
-- q-exploratory-analysis/scripts/run_eda.py: seven-phase EDA pipeline
+- q-exploratory-analysis/scripts/run_eda.py: six-phase EDA pipeline
 - q-intro/references/: introduction_template.md, interview_questions.md
 - q-methods/references/: methods_template.md, appendix_template.md
 - q-results/references/: results_template.md

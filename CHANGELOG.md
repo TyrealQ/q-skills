@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.2] - 2026-02-22
+
+### Changed
+- **q-exploratory-analysis/run_eda.py**: Consolidated 4 type-override flags (`--ordinal_cols`, `--text_cols`, `--continuous_cols`, `--id_cols`) into single `--col_types col=type` pairs
+- **q-exploratory-analysis/run_eda.py**: Inverted `--no_interactive` to `--interactive` (non-interactive is now the default)
+- **q-exploratory-analysis/run_eda.py**: Renamed Phase 7 (Excel Report) to Phase 6 to match actual pipeline order
+- **q-exploratory-analysis/SKILL.md**: Removed duplicate mapping tables from Sections 1 and 2; single arguments table remains
+- **q-exploratory-analysis/SKILL.md**: Reordered Section 4 so script phases (0-6) come first, Claude's narrative summary is Post-Script
+- **q-exploratory-analysis/SKILL.md**: Removed stale `DESCRIPTIVE_SUMMARY.md` style reference and incorrect "chi-square" claim (script does cross-tabulation)
+- **q-exploratory-analysis/SKILL.md**: Trimmed verification checklist to remove items restating script runtime behavior
+- **q-scholar/SKILL.md**: Updated "seven-phase" references to "six-phase"
+
 ## [1.5.1] - 2026-02-22
 
 ### Fixed
