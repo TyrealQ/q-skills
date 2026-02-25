@@ -9,7 +9,7 @@ All notable changes to this project will be documented in this file.
 - **q-exploratory-analysis/SKILL.md**: Resolved inline-Python contradiction — preview step now uses `--preview` flag instead of ad-hoc Python snippet
 - **q-exploratory-analysis/SKILL.md**: Source annotation and table rules scoped to content sections with infrastructure section exemption
 - **q-exploratory-analysis/summary_template**: Crosstab example now includes Total row to match script's `margins=True` output
-- **q-exploratory-analysis/summary_template**: Variance example uses full number (`7938810000`) instead of scientific notation to match script's `round(variance, 4)` output
+
 
 ### Added
 

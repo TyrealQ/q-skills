@@ -130,7 +130,7 @@ Post counts are right-skewed (1.84) with 24 IQR-flagged outliers representing hi
 
 | variable | Variance    | Range  | Min | Max    | Q1_25th | Q3_75th | CV_pct | SE   | CI95_lower | CI95_upper | P10_10th | P90_90th | mild_outliers_IQR1.5 | extreme_outliers_IQR3.0 |
 | -------- | ----------- | ------ | --- | ------ | ------- | ------- | ------ | ---- | ---------- | ---------- | -------- | -------- | -------------------- | ----------------------- |
-| views    | 7938810000 | 998000 | 12  | 998012 | 2100    | 33100   | 197.1% | 3214 | 38900      | 51500      | 620      | 142000   | 87                   | 12                      |
+| views    | 7.94 × 10⁹ | 998000 | 12  | 998012 | 2100    | 33100   | 197.1% | 3214 | 38900      | 51500      | 620      | 142000   | 87                   | 12                      |
 
 
 > **Flags:** Views shows high skewness (3.41 > 2), high kurtosis (15.8 > 7), and extreme variability (CV = 197.1% > 100%). Median (12,400) better represents typical values than the mean (45,200).
