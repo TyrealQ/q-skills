@@ -7,11 +7,16 @@ description: "Universal exploratory data analysis for tabular datasets. Intervie
 
 Universal exploratory data analysis (EDA) for tabular datasets. Previews the dataset, interviews the user to confirm column measurement levels, and applies statistically appropriate analysis for each variable type, producing a structured TABLE/ folder and a holistic EXPLORATORY_SUMMARY.md with flagged insights.
 
-> **IMPORTANT:** The skill includes a pre-built `scripts/run_eda.py`. Copy it from
-> `${SKILL_DIR}/scripts/` — do **NOT** write a new script from scratch. Run it (Phases 0-6)
-> for CSVs and the Excel report. Then write `EXPLORATORY_SUMMARY.md` yourself (Post-Script
-> step) by reading the CSVs, consulting `${SKILL_DIR}/references/summary_template.md` for
-> structure, and using the Write tool directly. Do **NOT** write inline Python for analysis.
+> **IMPORTANT:** This skill requires Bash execution. The pre-built `scripts/run_eda.py`
+> must be copied from `${SKILL_DIR}/scripts/` — do **NOT** write a new script or inline
+> Python. Run it (Phases 0-6) for CSVs and the Excel report, then write
+> `EXPLORATORY_SUMMARY.md` yourself (Post-Script step) by reading the CSVs, consulting
+> `${SKILL_DIR}/references/summary_template.md`, and using the Write tool directly.
+>
+> **If in plan mode:** write a brief plan — *"Run q-exploratory-analysis skill: interview
+> user for context and column types, deploy and execute run_eda.py, write
+> EXPLORATORY_SUMMARY.md from generated CSVs."* — then call **ExitPlanMode** immediately.
+> Do NOT attempt Stages A/B, script deployment, or any analysis while plan mode is active.
 
 ## 0. Dependencies
 
@@ -60,7 +65,7 @@ Ask 2 questions before loading data:
 
 After the context questions, **auto-detect column types and present for confirmation**:
 
-1. **Load and preview** - Run `run_eda.py --preview` to get `df.head()`, `df.dtypes`, `df.nunique()`.
+1. **Load and preview** - Run `run_eda.py --preview` to get `df.head()`, `df.dtypes`, `df.nunique()`. *(Requires Bash — if in plan mode, see Plan Mode Guard above.)*
 2. **Auto-classify** - Apply the heuristic rules from Section 3 to generate suggested types.
    **Pay special attention to:**
    - High-cardinality numeric integers (views, revenue, duration) — these should be **Continuous**, not ID
