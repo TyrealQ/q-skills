@@ -60,7 +60,7 @@ Ask 2 questions before loading data:
 
 After the context questions, **auto-detect column types and present for confirmation**:
 
-1. **Load and preview** - Read the file with a quick Python snippet to get `df.head()`, `df.dtypes`, `df.nunique()`.
+1. **Load and preview** - Run `run_eda.py --preview` to get `df.head()`, `df.dtypes`, `df.nunique()`.
 2. **Auto-classify** - Apply the heuristic rules from Section 3 to generate suggested types.
    **Pay special attention to:**
    - High-cardinality numeric integers (views, revenue, duration) — these should be **Continuous**, not ID
@@ -213,7 +213,7 @@ One section per measurement level plus infrastructure sections. Required structu
 
 **General rules:**
 - End each section with 1–3 sentences of interpretation.
-- **Every section heading must include a `Source:` annotation** citing the CSV file(s) it draws from.
+- **Every content section heading must include a `Source:` annotation** citing the CSV file(s) it draws from. Infrastructure sections (e.g., Output Files) are exempt.
 - **NEVER derive findings from ad-hoc Python**. All findings must come from the generated CSVs.
 - **Section omission:** If **all** source CSVs for a section are absent, omit the section entirely. If **some** source CSVs exist but others are absent, include the section and note "No [subtype] data available (file skipped by script)" for the missing part.
 
@@ -279,7 +279,7 @@ Files are omitted when no columns of the relevant type exist (e.g., no text colu
 - [ ] `EXPLORATORY_SUMMARY.md` written by Claude via Write tool
 - [ ] All 13 content sections present where applicable; sections for absent column types omitted per two-tier rule
 - [ ] Descriptive tables (ordinal/discrete/continuous) use core + detail split-table format
-- [ ] Every section contains at least one populated markdown table and one narrative sentence
+- [ ] Every content section contains at least one populated markdown table and one narrative sentence. Infrastructure sections (e.g., Output Files) are exempt.
 - [ ] Numbers in the summary match the source CSVs exactly
 - [ ] `EXPLORATORY_REPORT.xlsx` present with "Summary" as first sheet + one sheet per CSV (unless `--no_excel`)
 - [ ] Excel workbook is B&W only (no color fills; no gridlines)

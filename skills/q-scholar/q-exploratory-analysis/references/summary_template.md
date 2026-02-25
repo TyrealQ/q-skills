@@ -130,7 +130,7 @@ Post counts are right-skewed (1.84) with 24 IQR-flagged outliers representing hi
 
 | variable | Variance    | Range  | Min | Max    | Q1_25th | Q3_75th | CV_pct | SE   | CI95_lower | CI95_upper | P10_10th | P90_90th | mild_outliers_IQR1.5 | extreme_outliers_IQR3.0 |
 | -------- | ----------- | ------ | --- | ------ | ------- | ------- | ------ | ---- | ---------- | ---------- | -------- | -------- | -------------------- | ----------------------- |
-| views    | 7.94 × 10⁹ | 998000 | 12  | 998012 | 2100    | 33100   | 197.1% | 3214 | 38900      | 51500      | 620      | 142000   | 87                   | 12                      |
+| views    | 7938810000 | 998000 | 12  | 998012 | 2100    | 33100   | 197.1% | 3214 | 38900      | 51500      | 620      | 142000   | 87                   | 12                      |
 
 
 > **Flags:** Views shows high skewness (3.41 > 2), high kurtosis (15.8 > 7), and extreme variability (CV = 197.1% > 100%). Median (12,400) better represents typical values than the mean (45,200).
@@ -170,6 +170,8 @@ Post counts are right-skewed (1.84) with 24 IQR-flagged outliers representing hi
 | platform  | TikTok      | views       | 138 | 22100 | 41200  | 7100  | 19000 |
 
 
+**Note:** When ordinal variables are grouped, the CSV uses `M_quasi_interval` instead of `M`. Include both columns if the grouped file contains mixed types.
+
 YouTube creators show the highest average views (M = 58,400) but also the greatest variability (SD = 102,000), suggesting a wide performance spread on that platform.
 
 ---
@@ -182,6 +184,7 @@ YouTube creators show the highest average views (M = 58,400) but also the greate
 | YouTube  | 342           | 134            | 476   |
 | Twitch   | 98            | 56             | 154   |
 | TikTok   | 72            | 66             | 138   |
+| Total    | 512           | 256            | 768   |
 
 
 Verification rates vary by platform: YouTube (71.8%) > Twitch (63.6%) > TikTok (52.2%), suggesting platform-specific verification norms.

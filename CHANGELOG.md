@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.7] - 2026-02-25
+
+### Fixed
+
+- **q-exploratory-analysis/SKILL.md**: Resolved inline-Python contradiction — preview step now uses `--preview` flag instead of ad-hoc Python snippet
+- **q-exploratory-analysis/SKILL.md**: Source annotation and table rules scoped to content sections with infrastructure section exemption
+- **q-exploratory-analysis/summary_template**: Crosstab example now includes Total row to match script's `margins=True` output
+- **q-exploratory-analysis/summary_template**: Variance example uses full number (`7938810000`) instead of scientific notation to match script's `round(variance, 4)` output
+
+### Added
+
+- **q-exploratory-analysis/scripts/run_eda.py**: `--preview` flag prints `df.head()`, `df.dtypes`, `df.nunique()` and exits without running analysis
+- **q-exploratory-analysis/summary_template**: Section 9 note documenting `M_quasi_interval` column naming for grouped ordinal variables
+
 ## [1.5.6] - 2026-02-25
 
 ### Fixed

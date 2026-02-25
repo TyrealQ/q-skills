@@ -7,6 +7,7 @@ based on Stevens' levels (Nominal, Ordinal, Discrete, Continuous)
 plus Temporal, Text, and ID/key.
 
 Usage:
+    python scripts/run_eda.py data.xlsx --preview
     python scripts/run_eda.py data.xlsx --output TABLE/
     python scripts/run_eda.py data.xlsx --col_types rating=ordinal description=text --group platform tier --output TABLE/
     python scripts/run_eda.py data.xlsx --no_excel --output TABLE/
@@ -871,6 +872,11 @@ def main():
              "per pair, maximizing N per correlation. 'listwise': drop any row with "
              "missing values across all variables, giving consistent N across pairs.",
     )
+    parser.add_argument(
+        "--preview", action="store_true",
+        help="Load data and print df.head(), df.dtypes, df.nunique(), then exit. "
+             "No analysis is performed.",
+    )
     args = parser.parse_args()
 
     VALID_COL_TYPES = {"id", "binary", "nominal", "ordinal", "discrete",
@@ -899,6 +905,16 @@ def main():
         print("ERROR: Input must be .xlsx or .csv")
         sys.exit(1)
     print(f"Loaded {len(df):,} rows x {len(df.columns)} columns.\n")
+
+    # --- Preview mode: print head/dtypes/nunique and exit ---
+    if args.preview:
+        print("=== Preview: df.head() ===")
+        print(df.head().to_string())
+        print("\n=== Preview: df.dtypes ===")
+        print(df.dtypes.to_string())
+        print("\n=== Preview: df.nunique() ===")
+        print(df.nunique().to_string())
+        sys.exit(0)
 
     # --- Phase 0: Classification ---
     col_types = classify_columns(df, col_types_override=col_types_override)
