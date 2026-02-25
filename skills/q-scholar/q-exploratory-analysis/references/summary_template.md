@@ -84,9 +84,9 @@ Two-thirds of accounts are verified (66.7%, 95% CI [63.3%, 70.0%]).
 **Descriptives — Detail:**
 
 
-| variable | Range | Min | Max | Q1_25th | Q3_75th | CV_pct | SE    | CI95_lower | CI95_upper | Outliers_IQR |
-| -------- | ----- | --- | --- | ------- | ------- | ------ | ----- | ---------- | ---------- | ------------ |
-| rating   | 4     | 1   | 5   | 3.00    | 5.00    | 29.8%  | 0.041 | 3.74       | 3.90       | 0            |
+| variable | Range | Min | Max | Q1_25th | Q3_75th | CV_pct | SE    | CI95_lower | CI95_upper | Mild_outliers_IQR1.5 | Extreme_outliers_IQR3.0 |
+| -------- | ----- | --- | --- | ------- | ------- | ------ | ----- | ---------- | ---------- | -------------------- | ----------------------- |
+| rating   | 4     | 1   | 5   | 3.00    | 5.00    | 29.8%  | 0.041 | 3.74       | 3.90       | 0                    | 0                       |
 
 
 Ratings are moderately left-skewed (skewness = -0.65) with the median at 4, indicating generally positive assessments. Quasi-interval mean (3.82) is reported for reference but should be interpreted cautiously given the ordinal scale.
@@ -106,9 +106,9 @@ Ratings are moderately left-skewed (skewness = -0.65) with the median at 4, indi
 **Detail:**
 
 
-| variable  | Range | Min | Max | Q1_25th | Q3_75th | CV_pct | SE    | CI95_lower | CI95_upper | Outliers_IQR |
-| --------- | ----- | --- | --- | ------- | ------- | ------ | ----- | ---------- | ---------- | ------------ |
-| num_posts | 98    | 1   | 99  | 8.00    | 30.00   | 81.1%  | 0.711 | 22.9       | 25.7       | 24           |
+| variable  | Range | Min | Max | Q1_25th | Q3_75th | CV_pct | SE    | CI95_lower | CI95_upper | Mild_outliers_IQR1.5 | Extreme_outliers_IQR3.0 |
+| --------- | ----- | --- | --- | ------- | ------- | ------ | ----- | ---------- | ---------- | -------------------- | ----------------------- |
+| num_posts | 98    | 1   | 99  | 8.00    | 30.00   | 81.1%  | 0.711 | 22.9       | 25.7       | 24                   | 3                       |
 
 
 Post counts are right-skewed (1.84) with 24 IQR-flagged outliers representing highly active accounts.
@@ -128,9 +128,9 @@ Post counts are right-skewed (1.84) with 24 IQR-flagged outliers representing hi
 **Detail:**
 
 
-| variable | Range  | Min | Max    | Q1_25th | Q3_75th | CV_pct | SE   | CI95_lower | CI95_upper | Outliers_IQR |
-| -------- | ------ | --- | ------ | ------- | ------- | ------ | ---- | ---------- | ---------- | ------------ |
-| views    | 998000 | 12  | 998012 | 2100    | 33100   | 197.1% | 3214 | 38900      | 51500      | 87           |
+| variable | Range  | Min | Max    | Q1_25th | Q3_75th | CV_pct | SE   | CI95_lower | CI95_upper | Mild_outliers_IQR1.5 | Extreme_outliers_IQR3.0 |
+| -------- | ------ | --- | ------ | ------- | ------- | ------ | ---- | ---------- | ---------- | -------------------- | ----------------------- |
+| views    | 998000 | 12  | 998012 | 2100    | 33100   | 197.1% | 3214 | 38900      | 51500      | 87                   | 12                      |
 
 
 > **Flags:** Views shows high skewness (3.41 > 2), high kurtosis (15.8 > 7), and extreme variability (CV = 197.1% > 100%). Median (12,400) better represents typical values than the mean (45,200).

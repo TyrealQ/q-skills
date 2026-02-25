@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.5] - 2026-02-24
+
+### Fixed
+
+- **q-exploratory-analysis/scripts/run_eda.py**: Filter NaT dates in `temporal_trends()` before period conversion to prevent crashes on unparseable dates
+- **q-exploratory-analysis/scripts/run_eda.py**: Validate `--col_types` input format (`col=type`) and reject unknown types with clear error messages
+- **q-exploratory-analysis/scripts/run_eda.py**: `save_csv()` now returns bool; CSV count only increments on successful writes (was overstated when data was empty)
+- **q-exploratory-analysis/scripts/run_eda.py**: Final message no longer claims Excel output when `openpyxl` import fails
+- **q-exploratory-analysis/SKILL.md**: Temporal analysis description corrected — no longer claims gap detection (not yet implemented)
+- **q-exploratory-analysis/scripts/run_eda.py**: `quantitative_summary()` n=1 edge case now returns full column schema instead of 3-field stub
+- **q-exploratory-analysis/scripts/run_eda.py**: `grouped_stats_by_nominal()` ordinal branch now includes M_quasi_interval and SD (was median/IQR only)
+- **q-exploratory-analysis/scripts/run_eda.py**: Removed crosstab and group-column caps (was [:4] and [:2])
+
+### Added
+
+- **q-exploratory-analysis/SKILL.md**: Windows CMD and PowerShell deployment commands
+- **q-exploratory-analysis/SKILL.md**: Behavioral defaults section documenting --group, cross-tab, ID detection, and LOW_CARD_MAX behavior
+- **q-exploratory-analysis/scripts/requirements.txt**: Added numpy>=1.24 dependency
+- **q-exploratory-analysis/references/summary_template.md**: Split outlier column into mild (IQR 1.5) and extreme (IQR 3.0) in detail tables
+
+### Changed
+
+- **q-exploratory-analysis/SKILL.md**: Discrete/Continuous analysis descriptions now list full metric set
+- **q-exploratory-analysis/SKILL.md**: Grouped analysis description includes Ordinal alongside Continuous/Discrete
+
 ## [1.5.4] - 2026-02-22
 
 ### Fixed

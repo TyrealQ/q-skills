@@ -20,13 +20,16 @@ Agent execution instructions:
 2. Script path = `${SKILL_DIR}/scripts/run_eda.py`.
 3. Reference path = `${SKILL_DIR}/references/summary_template.md`.
 
-The skill ships a pre-built `scripts/run_eda.py` (949 lines). **Do NOT write a new script.**
+The skill ships a pre-built `scripts/run_eda.py`. **Do NOT write a new script.**
 
 **Deploy the script to the project before first run:**
 ```bash
 mkdir -p scripts
 cp "${SKILL_DIR}/scripts/run_eda.py" scripts/run_eda.py
 ```
+
+> **Windows equivalent:** `mkdir scripts 2>nul & copy "%SKILL_DIR%\scripts\run_eda.py" scripts\run_eda.py`
+> Or in PowerShell: `New-Item -ItemType Directory -Force scripts; Copy-Item "$env:SKILL_DIR/scripts/run_eda.py" scripts/run_eda.py`
 
 If the project already has `scripts/run_eda.py`, verify it matches the skill version
 before running (the skill version is authoritative).
@@ -92,6 +95,12 @@ python scripts/run_eda.py data.xlsx \
 | `--no_excel` | No | Skip Phase 6 (Excel report) |
 | `--interactive` | No | Prompt for ambiguous integers (standalone CLI only) |
 
+**Behavioral defaults:**
+- `--group` omitted: grouping defaults to **all** nominal columns (no cap).
+- Cross-tabs: all nominal column pairs are generated (no cap).
+- ID detection: requires `n > 10` rows; otherwise high-uniqueness columns stay as their detected numeric/string type.
+- `LOW_CARD_MAX = 20`: integers with <= 20 unique values are flagged as ambiguous (ordinal vs. discrete).
+
 ## 3. Column-Type Coverage
 
 Claude presents suggested types during the interview; the user confirms or corrects before the script runs. Types follow Stevens' levels of measurement extended with Temporal, Text, and ID/key types.
@@ -102,9 +111,9 @@ Claude presents suggested types during the interview; the user confirms or corre
 | **Binary** | Exactly 2 unique values (any dtype) | Count, proportion, 95% CI |
 | **Nominal** | object/string dtype, avg length <= 50 chars | Frequency table, mode, top-N |
 | **Ordinal** | User-confirmed low-cardinality integer | Ordered freq table + cumulative % + full quantitative metrics (M labeled quasi-interval) |
-| **Discrete** | integer dtype, meaningful count/quantity | Frequency distribution + full quantitative metrics |
-| **Continuous** | float dtype, OR numeric dtype with nunique > 95% of n | Full quantitative metrics + outlier flags + distribution shape |
-| **Temporal** | datetime dtype or parseable date string | Range, gap detection, trend by month/year |
+| **Discrete** | integer dtype, meaningful count/quantity | Full quantitative metrics (M, Mdn, Mode, SD, Var, Range, IQR, CV, Q1/Q3, skewness, kurtosis, SE, 95% CI, outlier counts) |
+| **Continuous** | float dtype, OR numeric with nunique > 95% of n (n > 10) | Full quantitative metrics + outlier flags + distribution shape |
+| **Temporal** | datetime dtype or parseable date string | Monthly aggregated trend table (mean/median per period); gap detection not yet implemented |
 | **Text** | object dtype, avg length > 50 chars | Top unigrams/bigrams, avg word count, vocabulary richness |
 
 ## 4. Pipeline
@@ -133,7 +142,7 @@ Measurement-appropriate pairing analysis:
 
 - `09_pearson_correlation.csv` - Ratio-scale x Ratio-scale (Continuous + Discrete; r + p-value)
 - `10_spearman_correlation.csv` - Ordinal x Ordinal (rho + p-value)
-- `11_grouped_by_{groupvar}.csv` - Continuous/Discrete descriptives per Nominal group
+- `11_grouped_by_{groupvar}.csv` - Continuous/Discrete/Ordinal descriptives per Nominal group
 - `12_crosstab_{nom1}_x_{nom2}.csv` - Nominal x Nominal contingency tables
 
 ### Phase 5: Specialized Analysis

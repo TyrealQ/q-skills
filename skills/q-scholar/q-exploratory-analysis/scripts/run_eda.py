@@ -273,9 +273,23 @@ def quantitative_summary(series: pd.Series, name: str, level: str) -> dict:
         return {"variable": name, "level": level, "N_valid": 0}
     if n == 1:
         mean_label = "M_quasi_interval" if level == "ordinal" else "M"
-        return {"variable": name, "level": level, "N_valid": 1,
-                mean_label: s.iloc[0], "Mdn": s.iloc[0],
-                "note": "n=1; dispersion metrics unavailable"}
+        result = {
+            "variable": name, "level": level, "N_valid": 1,
+            "missing_count": series.isna().sum(),
+            "missing_pct": round(series.isna().mean() * 100, 2),
+            mean_label: s.iloc[0], "Mdn": s.iloc[0], "Mode": s.iloc[0],
+            "SD": np.nan, "Variance": np.nan, "Range": 0,
+            "IQR": np.nan, "CV_pct": np.nan,
+            "Min": s.iloc[0], "Q1_25th": np.nan, "Q3_75th": np.nan,
+            "Max": s.iloc[0], "Skewness": np.nan, "Kurtosis": np.nan,
+            "SE": np.nan, "CI95_lower": np.nan, "CI95_upper": np.nan,
+            "mild_outliers_IQR1.5": 0, "extreme_outliers_IQR3.0": 0,
+            "note": "n=1; dispersion metrics unavailable",
+        }
+        if level in ("continuous", "discrete"):
+            result["P10_10th"] = np.nan
+            result["P90_90th"] = np.nan
+        return result
 
     mean = s.mean()
     median = s.median()
@@ -460,6 +474,8 @@ def grouped_stats_by_nominal(df: pd.DataFrame, measure_col: str,
             row["Mdn"] = round(sub.median(), 4)
             row["IQR"] = round(sub.quantile(0.75) - sub.quantile(0.25), 4)
         elif measure_type == "ordinal":
+            row["M_quasi_interval"] = round(sub.mean(), 4)
+            row["SD"] = round(sub.std(ddof=1), 4)
             row["Mdn"] = round(sub.median(), 4)
             row["IQR"] = round(sub.quantile(0.75) - sub.quantile(0.25), 4)
         rows.append(row)
@@ -520,6 +536,8 @@ def temporal_trends(df: pd.DataFrame, col_types: dict,
     temp_col = temporal_cols[0]
     dates = pd.to_datetime(df[temp_col], errors="coerce")
     df = df.copy()
+    df = df[dates.notna()]
+    dates = dates[dates.notna()]
     df["_period"] = dates.dt.to_period("M").astype(str)
 
     if measure_cols is None:
@@ -757,12 +775,14 @@ def generate_excel_report(output_dir: str) -> str:
 # Utilities
 # ---------------------------------------------------------------------------
 
-def save_csv(df: pd.DataFrame, path: str) -> None:
+def save_csv(df: pd.DataFrame, path: str) -> bool:
     if df is not None and not df.empty:
         df.to_csv(path, index=False)
         print(f"  Saved: {path}")
+        return True
     else:
         print(f"  Skipped (no data): {path}")
+        return False
 
 
 # ---------------------------------------------------------------------------
@@ -792,9 +812,18 @@ def main():
     )
     args = parser.parse_args()
 
+    VALID_COL_TYPES = {"id", "binary", "nominal", "ordinal", "discrete",
+                       "continuous", "temporal", "text"}
     col_types_override = {}
     for item in args.col_types:
-        col, _, ctype = item.partition("=")
+        col, sep, ctype = item.partition("=")
+        if not sep:
+            print(f"ERROR: malformed --col_types token '{item}' (expected col=type)")
+            sys.exit(1)
+        if ctype not in VALID_COL_TYPES:
+            print(f"ERROR: unknown type '{ctype}' for column '{col}'. "
+                  f"Valid types: {', '.join(sorted(VALID_COL_TYPES))}")
+            sys.exit(1)
         col_types_override[col] = ctype
 
     os.makedirs(args.output, exist_ok=True)
@@ -822,71 +851,71 @@ def main():
     print("=== Phase 1: Dataset Profile ===")
     profile = dataset_profile(df, col_types)
     path = os.path.join(args.output, "01_dataset_profile.csv")
-    save_csv(profile, path)
-    output_files.append(path)
+    if save_csv(profile, path):
+        output_files.append(path)
 
     # --- Phase 2: Data Quality ---
     print("\n=== Phase 2: Data Quality ===")
     dq = check_data_quality(df, col_types)
     path = os.path.join(args.output, "02_data_quality.csv")
-    save_csv(dq, path)
-    output_files.append(path)
+    if save_csv(dq, path):
+        output_files.append(path)
 
     # --- Phase 3: Univariate ---
     print("\n=== Phase 3: Univariate Analysis ===")
 
     nf = nominal_frequencies(df, col_types, top_n=args.top_n)
     path = os.path.join(args.output, "03_nominal_frequencies.csv")
-    save_csv(nf, path)
-    output_files.append(path)
+    if save_csv(nf, path):
+        output_files.append(path)
 
     bs = binary_summary(df, col_types)
     path = os.path.join(args.output, "04_binary_summary.csv")
-    save_csv(bs, path)
-    output_files.append(path)
+    if save_csv(bs, path):
+        output_files.append(path)
 
     of = ordinal_frequency(df, col_types)
     path = os.path.join(args.output, "05_ordinal_distribution.csv")
-    save_csv(of, path)
-    output_files.append(path)
+    if save_csv(of, path):
+        output_files.append(path)
 
     ordinal_cols = [c for c, t in col_types.items() if t == "ordinal"]
     if ordinal_cols:
         ord_desc = pd.DataFrame([quantitative_summary(df[c], c, "ordinal") for c in ordinal_cols])
         path = os.path.join(args.output, "06_ordinal_descriptives.csv")
-        save_csv(ord_desc, path)
-        output_files.append(path)
+        if save_csv(ord_desc, path):
+            output_files.append(path)
 
     discrete_cols = [c for c, t in col_types.items() if t == "discrete"]
     if discrete_cols:
         disc_desc = pd.DataFrame([quantitative_summary(df[c], c, "discrete") for c in discrete_cols])
         path = os.path.join(args.output, "07_discrete_descriptives.csv")
-        save_csv(disc_desc, path)
-        output_files.append(path)
+        if save_csv(disc_desc, path):
+            output_files.append(path)
 
     cont_cols = [c for c, t in col_types.items() if t == "continuous"]
     if cont_cols:
         cont_desc = pd.DataFrame([quantitative_summary(df[c], c, "continuous") for c in cont_cols])
         path = os.path.join(args.output, "08_continuous_descriptives.csv")
-        save_csv(cont_desc, path)
-        output_files.append(path)
+        if save_csv(cont_desc, path):
+            output_files.append(path)
 
     # --- Phase 4: Bivariate ---
     print("\n=== Phase 4: Bivariate & Multivariate Analysis ===")
 
     pearson = pearson_correlation_matrix(df, col_types)
     path = os.path.join(args.output, "09_pearson_correlation.csv")
-    save_csv(pearson, path)
-    output_files.append(path)
+    if save_csv(pearson, path):
+        output_files.append(path)
 
     spearman = spearman_correlation_matrix(df, col_types)
     path = os.path.join(args.output, "10_spearman_correlation.csv")
-    save_csv(spearman, path)
-    output_files.append(path)
+    if save_csv(spearman, path):
+        output_files.append(path)
 
     nominal_cols = [c for c, t in col_types.items() if t == "nominal"]
     measure_types = ("continuous", "discrete", "ordinal")
-    group_cols = args.group if args.group else nominal_cols[:2]
+    group_cols = args.group if args.group else nominal_cols
 
     for group_col in group_cols:
         if group_col not in df.columns:
@@ -904,16 +933,16 @@ def main():
             combined = pd.concat(non_empty, ignore_index=True)
             safe_name = re.sub(r"[^\w]", "_", group_col)
             path = os.path.join(args.output, f"11_grouped_by_{safe_name}.csv")
-            save_csv(combined, path)
-            output_files.append(path)
+            if save_csv(combined, path):
+                output_files.append(path)
 
-    for col1, col2 in combinations(nominal_cols[:4], 2):
+    for col1, col2 in combinations(nominal_cols, 2):
         ct = cross_tabulate(df, col1, col2)
         safe1 = re.sub(r"[^\w]", "_", col1)
         safe2 = re.sub(r"[^\w]", "_", col2)
         path = os.path.join(args.output, f"12_crosstab_{safe1}_x_{safe2}.csv")
-        save_csv(ct, path)
-        output_files.append(path)
+        if save_csv(ct, path):
+            output_files.append(path)
 
     # --- Phase 5: Specialized ---
     print("\n=== Phase 5: Specialized Analysis ===")
@@ -925,21 +954,23 @@ def main():
         ta = text_analysis(df[tc], tc, top_n=args.top_n)
         safe_name = re.sub(r"[^\w]", "_", tc)
         path = os.path.join(args.output, f"13_text_{safe_name}.csv")
-        save_csv(ta, path)
-        output_files.append(path)
+        if save_csv(ta, path):
+            output_files.append(path)
 
     tt = temporal_trends(df, col_types)
     if not tt.empty:
         path = os.path.join(args.output, "14_temporal_trends.csv")
-        save_csv(tt, path)
-        output_files.append(path)
+        if save_csv(tt, path):
+            output_files.append(path)
 
     # --- Phase 6: Excel Report ---
+    excel_ok = False
     if not args.no_excel:
         print("\n=== Phase 6: Excel Report ===")
         try:
             excel_path = generate_excel_report(args.output)
             print(f"  Saved: {excel_path}")
+            excel_ok = True
         except ImportError:
             print(
                 "  WARNING: openpyxl not installed -- skipping Excel report. "
@@ -947,7 +978,7 @@ def main():
             )
 
     total = len(output_files)
-    suffix = "" if args.no_excel else " + EXPLORATORY_REPORT.xlsx"
+    suffix = " + EXPLORATORY_REPORT.xlsx" if excel_ok else ""
     print(f"\nDone. {total} CSV file(s){suffix} written to: {args.output}")
     print(f"Run Post-Script step (see SKILL.md) to generate EXPLORATORY_SUMMARY.md.\n")
 
