@@ -2,31 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.5.7] - 2026-02-25
-
-### Fixed
-
-- **q-exploratory-analysis/SKILL.md**: Resolved inline-Python contradiction — preview step now uses `--preview` flag instead of ad-hoc Python snippet
-- **q-exploratory-analysis/SKILL.md**: Source annotation and table rules scoped to content sections with infrastructure section exemption
-- **q-exploratory-analysis/summary_template**: Crosstab example now includes Total row to match script's `margins=True` output
-
-
-### Added
-
-- **q-exploratory-analysis/scripts/run_eda.py**: `--preview` flag prints `df.head()`, `df.dtypes`, `df.nunique()` and exits without running analysis
-- **q-exploratory-analysis/summary_template**: Section 9 note documenting `M_quasi_interval` column naming for grouped ordinal variables
-
 ## [1.5.6] - 2026-02-25
 
 ### Fixed
 
 - **q-exploratory-analysis**: Correlations now use pairwise deletion by default instead of listwise, maximizing N per pair
-- **q-exploratory-analysis/SKILL.md**: Discrete descriptives description no longer claims "frequency distribution" output
-- **q-exploratory-analysis**: Missing-data flagging threshold aligned to >20% across SKILL.md, summary template, and Excel report
-- **q-exploratory-analysis/summary_template**: Aligned remaining template–script mismatches: binary header `variable`→`column`, text `vocabulary_size`→`vocab_size` with `total_docs` row, temporal columns now use dynamic `{col}_mean`/`{col}_median` pattern
+- **q-exploratory-analysis/SKILL.md**: Resolved inline-Python contradiction — preview step now uses `--preview` flag instead of ad-hoc Python snippet
+- **q-exploratory-analysis/SKILL.md**: Source annotation and table rules scoped to content sections with infrastructure section exemption
+- **q-exploratory-analysis/summary_template**: Crosstab example now includes Total row to match script's `margins=True` output
 
 ### Added
 
+- **q-exploratory-analysis**: `--preview` flag prints `df.head()`, `df.dtypes`, `df.nunique()` and exits without running analysis
 - **q-exploratory-analysis**: `--corr_deletion` CLI flag (`pairwise`|`listwise`) for user control over missing-data strategy in correlations
 - **q-exploratory-analysis**: Expanded STOPWORDS from ~70 to ~318 words (scikit-learn ENGLISH_STOP_WORDS, no new dependency)
 
