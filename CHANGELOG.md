@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 - **q-exploratory-analysis**: Correlations now use pairwise deletion by default instead of listwise, maximizing N per pair
 - **q-exploratory-analysis/SKILL.md**: Discrete descriptives description no longer claims "frequency distribution" output
 - **q-exploratory-analysis**: Missing-data flagging threshold aligned to >20% across SKILL.md, summary template, and Excel report
+- **q-exploratory-analysis/summary_template**: Aligned remaining template–script mismatches: binary header `variable`→`column`, text `vocabulary_size`→`vocab_size` with `total_docs` row, temporal columns now use dynamic `{col}_mean`/`{col}_median` pattern
 
 ### Added
 

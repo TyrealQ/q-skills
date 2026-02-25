@@ -24,11 +24,11 @@ The dataset contains 768 records across 12 variables spanning 36 monthly periods
 ## 2. Data Quality *(Source: `02_data_quality.csv`)*
 
 
-| Column    | Missing_n | Missing_pct | Duplicate_rows | Constant | Outlier_count |
-| --------- | --------- | ----------- | -------------- | -------- | ------------- |
-| income    | 42        | 5.5%        | —              | —        | 18            |
-| age       | 0         | 0.0%        | —              | —        | 3             |
-| *Overall* | —         | —           | 12             | 0        | —             |
+| column    | type       | missing_count | missing_pct | duplicate_rows | is_constant | mild_outliers_iqr1.5 | extreme_outliers_iqr3.0 |
+| --------- | ---------- | ------------- | ----------- | -------------- | ----------- | -------------------- | ----------------------- |
+| income    | continuous | 42            | 5.5%        | —              | —           | 15                   | 3                       |
+| age       | discrete   | 0             | 0.0%        | —              | —           | 2                    | 1                       |
+| *Overall* | —          | —             | —           | 12             | 0           | —                    | —                       |
 
 
 Income has 5.5% missing values — below the 20% review threshold. Twelve duplicate rows should be investigated before analysis.
@@ -38,7 +38,7 @@ Income has 5.5% missing values — below the 20% review threshold. Twelve duplic
 ## 3. Nominal Variables *(Source: `03_nominal_frequencies.csv`)*
 
 
-| variable | value   | count | pct   |
+| column   | value   | count | pct   |
 | -------- | ------- | ----- | ----- |
 | platform | YouTube | 476   | 62.0% |
 | platform | Twitch  | 154   | 20.1% |
@@ -52,7 +52,7 @@ YouTube dominates the sample at 62%, suggesting findings may primarily reflect Y
 ## 4. Binary Variables *(Source: `04_binary_summary.csv`)*
 
 
-| variable | value | count | proportion | CI95_lower | CI95_upper |
+| column   | value | count | proportion | CI95_lower | CI95_upper |
 | -------- | ----- | ----- | ---------- | ---------- | ---------- |
 | verified | True  | 512   | 0.667      | 0.633      | 0.700      |
 | verified | False | 256   | 0.333      | 0.300      | 0.367      |
@@ -67,26 +67,26 @@ Two-thirds of accounts are verified (66.7%, 95% CI [63.3%, 70.0%]).
 **Distribution:**
 
 
-| variable | value | count | pct   | cumulative_pct |
-| -------- | ----- | ----- | ----- | -------------- |
-| rating   | 1     | 38    | 4.9%  | 4.9%           |
-| rating   | 5     | 245   | 31.9% | 100.0%         |
+| column | value | count | pct   | cumulative_pct |
+| ------ | ----- | ----- | ----- | -------------- |
+| rating | 1     | 38    | 4.9%  | 4.9%           |
+| rating | 5     | 245   | 31.9% | 100.0%         |
 
 
 **Descriptives — Core:**
 
 
-| variable | N_valid | M_quasi_interval | Mdn  | SD   | IQR  | Skewness | Kurtosis |
-| -------- | ------- | ---------------- | ---- | ---- | ---- | -------- | -------- |
-| rating   | 768     | 3.82             | 4.00 | 1.14 | 2.00 | -0.65    | -0.32    |
+| variable | N_valid | missing_count | missing_pct | M_quasi_interval | Mdn  | Mode | SD   | IQR  | Skewness | Kurtosis |
+| -------- | ------- | ------------- | ----------- | ---------------- | ---- | ---- | ---- | ---- | -------- | -------- |
+| rating   | 768     | 0             | 0.0%        | 3.82             | 4.00 | 5    | 1.14 | 2.00 | -0.65    | -0.32    |
 
 
 **Descriptives — Detail:**
 
 
-| variable | Range | Min | Max | Q1_25th | Q3_75th | CV_pct | SE    | CI95_lower | CI95_upper | Mild_outliers_IQR1.5 | Extreme_outliers_IQR3.0 |
-| -------- | ----- | --- | --- | ------- | ------- | ------ | ----- | ---------- | ---------- | -------------------- | ----------------------- |
-| rating   | 4     | 1   | 5   | 3.00    | 5.00    | 29.8%  | 0.041 | 3.74       | 3.90       | 0                    | 0                       |
+| variable | Variance | Range | Min | Max | Q1_25th | Q3_75th | CV_pct | SE    | CI95_lower | CI95_upper | mild_outliers_IQR1.5 | extreme_outliers_IQR3.0 |
+| -------- | -------- | ----- | --- | --- | ------- | ------- | ------ | ----- | ---------- | ---------- | -------------------- | ----------------------- |
+| rating   | 1.30     | 4     | 1   | 5   | 3.00    | 5.00    | 29.8%  | 0.041 | 3.74       | 3.90       | 0                    | 0                       |
 
 
 Ratings are moderately left-skewed (skewness = -0.65) with the median at 4, indicating generally positive assessments. Quasi-interval mean (3.82) is reported for reference but should be interpreted cautiously given the ordinal scale.
@@ -98,17 +98,17 @@ Ratings are moderately left-skewed (skewness = -0.65) with the median at 4, indi
 **Core:**
 
 
-| variable  | N_valid | M    | Mdn  | SD   | IQR  | Skewness | Kurtosis |
-| --------- | ------- | ---- | ---- | ---- | ---- | -------- | -------- |
-| num_posts | 768     | 24.3 | 18.0 | 19.7 | 22.0 | 1.84     | 4.12     |
+| variable  | N_valid | missing_count | missing_pct | M    | Mdn  | Mode | SD   | IQR  | Skewness | Kurtosis |
+| --------- | ------- | ------------- | ----------- | ---- | ---- | ---- | ---- | ---- | -------- | -------- |
+| num_posts | 768     | 0             | 0.0%        | 24.3 | 18.0 | 12   | 19.7 | 22.0 | 1.84     | 4.12     |
 
 
 **Detail:**
 
 
-| variable  | Range | Min | Max | Q1_25th | Q3_75th | CV_pct | SE    | CI95_lower | CI95_upper | Mild_outliers_IQR1.5 | Extreme_outliers_IQR3.0 |
-| --------- | ----- | --- | --- | ------- | ------- | ------ | ----- | ---------- | ---------- | -------------------- | ----------------------- |
-| num_posts | 98    | 1   | 99  | 8.00    | 30.00   | 81.1%  | 0.711 | 22.9       | 25.7       | 24                   | 3                       |
+| variable  | Variance | Range | Min | Max | Q1_25th | Q3_75th | CV_pct | SE    | CI95_lower | CI95_upper | P10_10th | P90_90th | mild_outliers_IQR1.5 | extreme_outliers_IQR3.0 |
+| --------- | -------- | ----- | --- | --- | ------- | ------- | ------ | ----- | ---------- | ---------- | -------- | -------- | -------------------- | ----------------------- |
+| num_posts | 388.1    | 98    | 1   | 99  | 8.00    | 30.00   | 81.1%  | 0.711 | 22.9       | 25.7       | 4.0      | 52.0     | 24                   | 3                       |
 
 
 Post counts are right-skewed (1.84) with 24 IQR-flagged outliers representing highly active accounts.
@@ -120,17 +120,17 @@ Post counts are right-skewed (1.84) with 24 IQR-flagged outliers representing hi
 **Core:**
 
 
-| variable | N_valid | M     | Mdn   | SD    | IQR   | Skewness | Kurtosis |
-| -------- | ------- | ----- | ----- | ----- | ----- | -------- | -------- |
-| views    | 768     | 45200 | 12400 | 89100 | 31000 | 3.41     | 15.8     |
+| variable | N_valid | missing_count | missing_pct | M     | Mdn   | Mode  | SD    | IQR   | Skewness | Kurtosis |
+| -------- | ------- | ------------- | ----------- | ----- | ----- | ----- | ----- | ----- | -------- | -------- |
+| views    | 768     | 0             | 0.0%        | 45200 | 12400 | 8400  | 89100 | 31000 | 3.41     | 15.8     |
 
 
 **Detail:**
 
 
-| variable | Range  | Min | Max    | Q1_25th | Q3_75th | CV_pct | SE   | CI95_lower | CI95_upper | Mild_outliers_IQR1.5 | Extreme_outliers_IQR3.0 |
-| -------- | ------ | --- | ------ | ------- | ------- | ------ | ---- | ---------- | ---------- | -------------------- | ----------------------- |
-| views    | 998000 | 12  | 998012 | 2100    | 33100   | 197.1% | 3214 | 38900      | 51500      | 87                   | 12                      |
+| variable | Variance    | Range  | Min | Max    | Q1_25th | Q3_75th | CV_pct | SE   | CI95_lower | CI95_upper | P10_10th | P90_90th | mild_outliers_IQR1.5 | extreme_outliers_IQR3.0 |
+| -------- | ----------- | ------ | --- | ------ | ------- | ------- | ------ | ---- | ---------- | ---------- | -------- | -------- | -------------------- | ----------------------- |
+| views    | 7.94 × 10⁹ | 998000 | 12  | 998012 | 2100    | 33100   | 197.1% | 3214 | 38900      | 51500      | 620      | 142000   | 87                   | 12                      |
 
 
 > **Flags:** Views shows high skewness (3.41 > 2), high kurtosis (15.8 > 7), and extreme variability (CV = 197.1% > 100%). Median (12,400) better represents typical values than the mean (45,200).
@@ -142,18 +142,18 @@ Post counts are right-skewed (1.84) with 24 IQR-flagged outliers representing hi
 **Pearson (continuous + discrete):**
 
 
-| var1      | var2      | r        | p_value   |
-| --------- | --------- | -------- | --------- |
-| **views** | **likes** | **0.87** | **<.001** |
-| views     | num_posts | 0.34     | <.001     |
+| col1      | col2      | r        | p_value   | N       |
+| --------- | --------- | -------- | --------- | ------- |
+| **views** | **likes** | **0.87** | **<.001** | **768** |
+| views     | num_posts | 0.34     | <.001     | 768     |
 
 
 **Spearman (ordinal):**
 
 
-| var1   | var2         | rho  | p_value |
-| ------ | ------------ | ---- | ------- |
-| rating | satisfaction | 0.62 | <.001   |
+| col1   | col2         | rho  | p_value | N   |
+| ------ | ------------ | ---- | ------- | --- |
+| rating | satisfaction | 0.62 | <.001   | 768 |
 
 
 > **Flag:** Strong positive correlation between views and likes (r = 0.87) — these variables share substantial variance and may be redundant in regression models.
@@ -163,11 +163,11 @@ Post counts are right-skewed (1.84) with 24 IQR-flagged outliers representing hi
 ## 9. Group Comparisons *(Source: `11_grouped_by_platform.csv`)*
 
 
-| platform | variable | N   | M     | Mdn   | SD     |
-| -------- | -------- | --- | ----- | ----- | ------ |
-| YouTube  | views    | 476 | 58400 | 18200 | 102000 |
-| Twitch   | views    | 154 | 31200 | 8900  | 54300  |
-| TikTok   | views    | 138 | 22100 | 7100  | 41200  |
+| group_col | group_value | measure_col | N   | M     | SD     | Mdn   | IQR   |
+| --------- | ----------- | ----------- | --- | ----- | ------ | ----- | ----- |
+| platform  | YouTube     | views       | 476 | 58400 | 102000 | 18200 | 42000 |
+| platform  | Twitch      | views       | 154 | 31200 | 54300  | 8900  | 27000 |
+| platform  | TikTok      | views       | 138 | 22100 | 41200  | 7100  | 19000 |
 
 
 YouTube creators show the highest average views (M = 58,400) but also the greatest variability (SD = 102,000), suggesting a wide performance spread on that platform.
@@ -193,15 +193,18 @@ Verification rates vary by platform: YouTube (71.8%) > Twitch (63.6%) > TikTok (
 *Omit this section entirely if no text columns exist.*
 
 
-| metric          | value               |
-| --------------- | ------------------- |
-| avg_word_count  | 42.3                |
-| vocabulary_size | 8,412               |
-| top_unigram     | "video" (n=1,204)   |
-| top_bigram      | "check out" (n=387) |
+| column      | type    | item            | count |
+| ----------- | ------- | --------------- | ----- |
+| description | summary | total_docs      | 768   |
+| description | summary | avg_word_count  | 42    |
+| description | summary | vocab_size      | 8412  |
+| description | unigram | video           | 1204  |
+| description | unigram | channel         | 893   |
+| description | bigram  | check out       | 387   |
+| description | bigram  | new video       | 214   |
 
 
-Descriptions average 42 words with "video" and "check out" as dominant terms, reflecting promotional language patterns.
+Descriptions average 42 words with "video" (n = 1,204) and "check out" (n = 387) as dominant terms, reflecting promotional language patterns.
 
 ---
 
@@ -210,10 +213,12 @@ Descriptions average 42 words with "video" and "check out" as dominant terms, re
 *Omit this section entirely if no temporal column exists.*
 
 
-| period  | n_records | mean_views | mean_likes |
-| ------- | --------- | ---------- | ---------- |
-| 2022-01 | 18        | 32100      | 1240       |
-| 2024-12 | 28        | 61400      | 3180       |
+| period  | count | {col}_mean | {col}_median | … |
+| ------- | ----- | ---------- | ------------ | - |
+| 2022-01 | 18    | 32100      | 9800         | … |
+| 2024-12 | 28    | 61400      | 19200        | … |
+
+> **Note:** Measure columns are dynamically named `{col}_mean` and `{col}_median` for each continuous/discrete variable in the dataset (e.g., `views_mean`, `likes_median`).
 
 
 Views and engagement show steady growth over 36 months, with a notable acceleration in Q3 2024.

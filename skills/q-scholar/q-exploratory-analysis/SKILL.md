@@ -203,8 +203,8 @@ One section per measurement level plus infrastructure sections. Required structu
 
 **Table formatting rules:**
 - **Descriptive tables** (ordinal `06`, discrete `07`, continuous `08`): Split into two tables:
-  - *Core table:* variable, N_valid, M (or M_quasi_interval), Mdn, SD, IQR, Skewness, Kurtosis
-  - *Detail table:* variable, Range, Min, Max, Q1_25th, Q3_75th, CV_pct, SE, CI95_lower, CI95_upper, outlier counts
+  - *Core table:* variable, N_valid, missing_count, missing_pct, M (or M_quasi_interval), Mdn, Mode, SD, IQR, Skewness, Kurtosis
+  - *Detail table:* variable, Variance, Range, Min, Max, Q1_25th, Q3_75th, CV_pct, SE, CI95_lower, CI95_upper, mild_outliers_IQR1.5, extreme_outliers_IQR3.0, P10_10th, P90_90th (discrete/continuous only)
 - **Narrow CSVs** (frequencies `03`, binary `04`, ordinal distribution `05`, correlations `09`/`10`, crosstabs `12`): Use the same columns as the source CSV.
 - **Frequency tables:** Include all rows from the CSV (script already caps at top-N).
 - **Correlation tables:** Include all pairs; bold rows where abs(r/rho) > 0.7.
