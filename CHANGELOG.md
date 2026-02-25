@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.6] - 2026-02-25
+
+### Fixed
+
+- **q-exploratory-analysis**: Correlations now use pairwise deletion by default instead of listwise, maximizing N per pair
+- **q-exploratory-analysis/SKILL.md**: Discrete descriptives description no longer claims "frequency distribution" output
+- **q-exploratory-analysis**: Missing-data flagging threshold aligned to >20% across SKILL.md, summary template, and Excel report
+
+### Added
+
+- **q-exploratory-analysis**: `--corr_deletion` CLI flag (`pairwise`|`listwise`) for user control over missing-data strategy in correlations
+- **q-exploratory-analysis**: Expanded STOPWORDS from ~70 to ~318 words (scikit-learn ENGLISH_STOP_WORDS, no new dependency)
+
+### Changed
+
+- **q-infographics, q-presentations, q-exploratory-analysis**: Moved dependencies from `requirements.txt` into SKILL.md; removed requirements.txt files
+
 ## [1.5.5] - 2026-02-24
 
 ### Fixed

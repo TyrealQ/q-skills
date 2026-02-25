@@ -25,6 +25,16 @@ skills/q-infographics/
 |   `-- gen_image.py   # Image generator script
 ```
 
+## Dependencies
+
+```
+google-genai
+Pillow
+markitdown
+```
+
+Install: `pip install google-genai Pillow markitdown`
+
 ## Script Directory
 
 Agent execution instructions:

@@ -13,7 +13,18 @@ Universal exploratory data analysis (EDA) for tabular datasets. Previews the dat
 > step) by reading the CSVs, consulting `${SKILL_DIR}/references/summary_template.md` for
 > structure, and using the Write tool directly. Do **NOT** write inline Python for analysis.
 
-## 0. Script Deployment
+## 0. Dependencies
+
+```
+pandas
+numpy
+scipy
+openpyxl   # required for .xlsx input and Phase 6 Excel report
+```
+
+Install: `pip install pandas numpy scipy openpyxl`
+
+## 0b. Script Deployment
 
 Agent execution instructions:
 1. Determine this SKILL.md file's directory path as `SKILL_DIR`.
@@ -93,6 +104,7 @@ python scripts/run_eda.py data.xlsx \
 | `--output` | No | Output directory (default: `TABLE/`) |
 | `--top_n` | No | Top-N for frequency tables (default: 10) |
 | `--no_excel` | No | Skip Phase 6 (Excel report) |
+| `--corr_deletion` | No | Missing-data strategy for correlations: `pairwise` (default) or `listwise` |
 | `--interactive` | No | Prompt for ambiguous integers (standalone CLI only) |
 
 **Behavioral defaults:**
@@ -100,6 +112,7 @@ python scripts/run_eda.py data.xlsx \
 - Cross-tabs: all nominal column pairs are generated (no cap).
 - ID detection: requires `n > 10` rows; otherwise high-uniqueness columns stay as their detected numeric/string type.
 - `LOW_CARD_MAX = 20`: integers with <= 20 unique values are flagged as ambiguous (ordinal vs. discrete).
+- `--corr_deletion` omitted: uses **pairwise** deletion (drops missing per pair, maximizing N). Use `--corr_deletion listwise` for consistent N across all pairs.
 
 ## 3. Column-Type Coverage
 
@@ -134,14 +147,14 @@ Measurement-level-appropriate analysis for each column:
 - `04_binary_summary.csv` - count, proportion, 95% CI for all Binary columns
 - `05_ordinal_distribution.csv` - ordered frequency + cumulative %
 - `06_ordinal_descriptives.csv` - full quantitative metrics (M quasi-interval, Mdn, SD, IQR, SE, 95% CI, skewness, kurtosis, outliers)
-- `07_discrete_descriptives.csv` - frequency distribution + full quantitative metrics
+- `07_discrete_descriptives.csv` - full quantitative metrics (M, Mdn, Mode, SD, Var, Range, IQR, CV, Q1/Q3, skewness, kurtosis, SE, 95% CI, outlier counts)
 - `08_continuous_descriptives.csv` - full quantitative metrics (M, Mdn, Mode, SD, Var, Range, IQR, CV, Q1/Q3, skewness, kurtosis, SE, 95% CI, outlier counts)
 
 ### Phase 4: Bivariate & Multivariate Analysis
 Measurement-appropriate pairing analysis:
 
-- `09_pearson_correlation.csv` - Ratio-scale x Ratio-scale (Continuous + Discrete; r + p-value)
-- `10_spearman_correlation.csv` - Ordinal x Ordinal (rho + p-value)
+- `09_pearson_correlation.csv` - Ratio-scale x Ratio-scale (Continuous + Discrete; r + p-value; pairwise deletion by default)
+- `10_spearman_correlation.csv` - Ordinal x Ordinal (rho + p-value; pairwise deletion by default)
 - `11_grouped_by_{groupvar}.csv` - Continuous/Discrete/Ordinal descriptives per Nominal group
 - `12_crosstab_{nom1}_x_{nom2}.csv` - Nominal x Nominal contingency tables
 
@@ -242,7 +255,7 @@ Files are omitted when no columns of the relevant type exist (e.g., no text colu
 
 | Flag | Threshold | Severity |
 |------|-----------|----------|
-| Missing data | >10% of rows | review |
+| Missing data | >20% of rows | review |
 | Skewness | abs(skew) > 2 | distribution |
 | Kurtosis | abs(kurt) > 7 | distribution |
 | Correlation | abs(r/rho) > 0.7 | relationship |

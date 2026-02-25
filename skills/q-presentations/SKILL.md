@@ -19,6 +19,16 @@ Built on the foundation of [baoyu-slide-deck](https://github.com/nicepkg/baoyu-s
 /q-presentations  # Then paste content
 ```
 
+## Dependencies
+
+```
+google-genai
+Pillow
+python-dotenv
+```
+
+Install: `pip install google-genai Pillow python-dotenv`
+
 ## Script Directory
 
 Agent execution instructions:

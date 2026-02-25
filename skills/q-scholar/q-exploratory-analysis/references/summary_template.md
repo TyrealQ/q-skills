@@ -31,7 +31,7 @@ The dataset contains 768 records across 12 variables spanning 36 monthly periods
 | *Overall* | —         | —           | 12             | 0        | —             |
 
 
-Income has 5.5% missing values — below the 10% review threshold. Twelve duplicate rows should be investigated before analysis.
+Income has 5.5% missing values — below the 20% review threshold. Twelve duplicate rows should be investigated before analysis.
 
 ---
 

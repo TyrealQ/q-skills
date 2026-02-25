@@ -36,15 +36,58 @@ from scipy import stats
 # Constants
 # ---------------------------------------------------------------------------
 
+# Comprehensive English stopwords based on scikit-learn's ENGLISH_STOP_WORDS (~318 words).
+# Pure constant — no external dependency required.
 STOPWORDS = {
-    "a", "an", "the", "and", "or", "but", "in", "on", "at", "to", "for",
-    "of", "with", "by", "from", "is", "are", "was", "were", "be", "been",
-    "being", "have", "has", "had", "do", "does", "did", "will", "would",
-    "shall", "should", "may", "might", "must", "can", "could", "that",
-    "this", "these", "those", "it", "its", "i", "you", "he", "she", "we",
-    "they", "their", "them", "his", "her", "our", "your", "my", "not",
-    "no", "so", "if", "as", "up", "out", "about", "into", "than", "then",
-    "there", "what", "which", "who", "when", "where", "how", "all", "each",
+    "a", "about", "above", "after", "again", "against", "ain", "all", "am",
+    "an", "and", "any", "are", "aren", "arent", "as", "at", "be", "because",
+    "been", "before", "being", "below", "between", "both", "but", "by", "can",
+    "couldn", "couldnt", "could", "d", "did", "didn", "didnt", "do", "does",
+    "doesn", "doesnt", "doing", "don", "dont", "down", "during", "each",
+    "few", "for", "from", "further", "get", "got", "had", "hadn", "hadnt",
+    "has", "hasn", "hasnt", "have", "haven", "havent", "having", "he", "her",
+    "here", "hers", "herself", "him", "himself", "his", "how", "i", "if",
+    "in", "into", "is", "isn", "isnt", "it", "its", "itself", "just", "ll",
+    "m", "ma", "may", "me", "might", "mightn", "mightnt", "more", "most",
+    "mustn", "mustnt", "must", "my", "myself", "need", "needn", "neednt",
+    "neither", "no", "nor", "not", "now", "o", "of", "off", "on", "once",
+    "only", "or", "other", "our", "ours", "ourselves", "out", "over", "own",
+    "re", "s", "same", "shan", "shant", "shall", "she", "should", "shouldn",
+    "shouldnt", "shouldve", "so", "some", "such", "t", "than", "that",
+    "thatll", "the", "their", "theirs", "them", "themselves", "then",
+    "there", "these", "they", "this", "those", "through", "to", "too",
+    "under", "until", "up", "upon", "us", "ve", "very", "was", "wasn",
+    "wasnt", "we", "were", "weren", "werent", "what", "when", "where",
+    "which", "while", "who", "whom", "why", "will", "with", "won", "wont",
+    "would", "wouldn", "wouldnt", "y", "you", "your", "yours", "yourself",
+    "yourselves",
+    # Additional high-frequency words from scikit-learn's set
+    "also", "although", "always", "among", "amount", "another", "any",
+    "anybody", "anyhow", "anyone", "anything", "anyway", "anywhere",
+    "around", "back", "became", "become", "becomes", "becoming", "beforehand",
+    "behind", "beside", "besides", "bill", "bottom", "call", "con",
+    "de", "describe", "detail", "eg", "eight", "either", "eleven", "else",
+    "elsewhere", "empty", "enough", "etc", "even", "ever", "every",
+    "everyone", "everything", "everywhere", "except", "fifteen", "fifty",
+    "fill", "find", "fire", "first", "five", "former", "formerly", "forty",
+    "found", "four", "front", "full", "give", "go", "hence", "hereafter",
+    "hereby", "herein", "hereupon", "however", "hundred", "ie", "inc",
+    "indeed", "interest", "keep", "last", "latter", "latterly", "least",
+    "less", "ltd", "made", "many", "meanwhile", "mill", "mine", "moreover",
+    "mostly", "move", "much", "name", "namely", "never", "nevertheless",
+    "next", "nine", "nobody", "none", "noone", "nothing", "nowhere",
+    "often", "one", "onto", "others", "otherwise", "part", "per", "perhaps",
+    "please", "put", "quite", "rather", "really", "regarding", "s", "say",
+    "see", "seem", "seemed", "seeming", "seems", "serious", "several",
+    "show", "side", "since", "six", "sixty", "somehow", "someone",
+    "something", "sometime", "sometimes", "somewhere", "still", "system",
+    "take", "ten", "thereafter", "thereby", "therefore", "therein",
+    "thereupon", "thick", "thin", "third", "though", "three", "throughout",
+    "thru", "thus", "together", "top", "toward", "towards", "twelve",
+    "twenty", "two", "un", "us", "unless", "via", "want", "well",
+    "whatever", "whence", "whenever", "whereafter", "whereas", "whereby",
+    "wherein", "whereupon", "wherever", "whether", "whither", "whoever",
+    "whole", "whose", "within", "without", "yet",
 }
 
 LOW_CARD_MAX = 20  # integers with <= this many unique values are flagged as ambiguous
@@ -414,20 +457,26 @@ def ordinal_frequency(df: pd.DataFrame, col_types: dict) -> pd.DataFrame:
 # Phase 4: Bivariate Analysis
 # ---------------------------------------------------------------------------
 
-def pearson_correlation_matrix(df: pd.DataFrame, col_types: dict) -> pd.DataFrame:
+def pearson_correlation_matrix(df: pd.DataFrame, col_types: dict,
+                               deletion: str = "pairwise") -> pd.DataFrame:
     # Include both continuous AND discrete for Pearson (both are ratio-scale)
     ratio_cols = [c for c, t in col_types.items() if t in ("continuous", "discrete")]
     if len(ratio_cols) < 2:
         return pd.DataFrame()
 
-    sub = df[ratio_cols].dropna()
+    if deletion == "listwise":
+        df = df[ratio_cols].dropna()
+
     rows = []
     for c1, c2 in combinations(ratio_cols, 2):
-        s1, s2 = sub[c1], sub[c2]
-        n = len(s1)
+        if deletion == "pairwise":
+            pair = df[[c1, c2]].dropna()
+        else:
+            pair = df
+        n = len(pair)
         if n < 3:
             continue
-        r, p = stats.pearsonr(s1, s2)
+        r, p = stats.pearsonr(pair[c1], pair[c2])
         rows.append({
             "col1": c1, "col2": c2,
             "r": round(r, 4), "p_value": round(p, 4), "N": n,
@@ -435,19 +484,25 @@ def pearson_correlation_matrix(df: pd.DataFrame, col_types: dict) -> pd.DataFram
     return pd.DataFrame(rows)
 
 
-def spearman_correlation_matrix(df: pd.DataFrame, col_types: dict) -> pd.DataFrame:
+def spearman_correlation_matrix(df: pd.DataFrame, col_types: dict,
+                                deletion: str = "pairwise") -> pd.DataFrame:
     ord_cols = [c for c, t in col_types.items() if t == "ordinal"]
     if len(ord_cols) < 2:
         return pd.DataFrame()
 
-    sub = df[ord_cols].dropna()
+    if deletion == "listwise":
+        df = df[ord_cols].dropna()
+
     rows = []
     for c1, c2 in combinations(ord_cols, 2):
-        s1, s2 = sub[c1], sub[c2]
-        n = len(s1)
+        if deletion == "pairwise":
+            pair = df[[c1, c2]].dropna()
+        else:
+            pair = df
+        n = len(pair)
         if n < 3:
             continue
-        rho, p = stats.spearmanr(s1, s2)
+        rho, p = stats.spearmanr(pair[c1], pair[c2])
         rows.append({
             "col1": c1, "col2": c2,
             "rho": round(rho, 4), "p_value": round(p, 4), "N": n,
@@ -810,6 +865,12 @@ def main():
         "--no_excel", action="store_true",
         help="Skip Phase 6 (Excel report). CSVs only.",
     )
+    parser.add_argument(
+        "--corr_deletion", choices=["pairwise", "listwise"], default="pairwise",
+        help="Missing-data strategy for correlations. 'pairwise' (default): drop rows "
+             "per pair, maximizing N per correlation. 'listwise': drop any row with "
+             "missing values across all variables, giving consistent N across pairs.",
+    )
     args = parser.parse_args()
 
     VALID_COL_TYPES = {"id", "binary", "nominal", "ordinal", "discrete",
@@ -903,12 +964,12 @@ def main():
     # --- Phase 4: Bivariate ---
     print("\n=== Phase 4: Bivariate & Multivariate Analysis ===")
 
-    pearson = pearson_correlation_matrix(df, col_types)
+    pearson = pearson_correlation_matrix(df, col_types, deletion=args.corr_deletion)
     path = os.path.join(args.output, "09_pearson_correlation.csv")
     if save_csv(pearson, path):
         output_files.append(path)
 
-    spearman = spearman_correlation_matrix(df, col_types)
+    spearman = spearman_correlation_matrix(df, col_types, deletion=args.corr_deletion)
     path = os.path.join(args.output, "10_spearman_correlation.csv")
     if save_csv(spearman, path):
         output_files.append(path)
