@@ -228,7 +228,7 @@ Convert documents into compelling business stories and cartoon-style infographic
 
 ```text
 skills/q-infographics/
-|-- SKILL.md                              # Main skill file (includes dependencies)
+|-- SKILL.md                              # Main skill file
 |-- assets/
 |   `-- Logo_Q.png                        # Brand logo, auto-overlaid on infographics
 |-- prompts/
@@ -284,7 +284,7 @@ Convert content into branded slide decks with 16 visual style presets, layout-dr
 
 ```text
 q-presentations/
-|-- SKILL.md                              # Main skill file (includes dependencies)
+|-- SKILL.md                              # Main skill file
 |-- assets/
 |   `-- Logo_Q.png                        # Brand logo, auto-overlaid on slides
 |-- references/
