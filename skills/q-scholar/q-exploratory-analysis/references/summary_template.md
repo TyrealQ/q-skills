@@ -14,7 +14,6 @@
 | Rows           | 768                              |
 | Columns        | 12                               |
 | Temporal range | Jan 2022 – Dec 2024 (36 periods) |
-| Memory usage   | 1.2 MB                           |
 
 
 The dataset contains 768 records across 12 variables spanning 36 monthly periods.

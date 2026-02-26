@@ -254,7 +254,6 @@ def dataset_profile(df: pd.DataFrame, col_types: dict) -> pd.DataFrame:
             "nunique": df[col].nunique(dropna=True),
             "missing_count": df[col].isna().sum(),
             "missing_pct": round(df[col].isna().mean() * 100, 2),
-            "memory_kb": round(df[col].memory_usage(deep=True) / 1024, 2),
         })
     profile = pd.DataFrame(rows)
     profile.insert(0, "n_rows", n_rows)

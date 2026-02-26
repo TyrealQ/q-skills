@@ -18,6 +18,10 @@ All notable changes to this project will be documented in this file.
 - **q-exploratory-analysis**: `--corr_deletion` CLI flag (`pairwise`|`listwise`) for user control over missing-data strategy in correlations
 - **q-exploratory-analysis**: Expanded STOPWORDS from ~70 to ~318 words (scikit-learn ENGLISH_STOP_WORDS, no new dependency)
 
+### Removed
+
+- **q-exploratory-analysis**: `memory_kb` from dataset profile
+
 ### Changed
 
 - **q-infographics, q-presentations, q-exploratory-analysis**: Moved dependencies from `requirements.txt` into SKILL.md; removed requirements.txt files

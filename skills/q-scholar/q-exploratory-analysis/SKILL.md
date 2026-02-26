@@ -140,7 +140,7 @@ Claude presents suggested types during the interview; the user confirms or corre
 Loads the file, applies user-confirmed column types (passed via `--col_types`), auto-detects unambiguous types for remaining columns, and prints a schema summary: column name | detected type | nunique | missing%.
 
 ### Phase 1: Dataset Profile
-`01_dataset_profile.csv` - shape, column types, missing%, uniqueness, memory usage.
+`01_dataset_profile.csv` - shape, column types, missing%, uniqueness.
 
 ### Phase 2: Data Quality Assessment
 `02_data_quality.csv` - missing counts/%, duplicate rows, constant columns, outlier counts per Continuous/Discrete column (IQR method).
