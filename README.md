@@ -270,7 +270,7 @@ Convert content into branded slide decks with 16 visual style presets, layout-dr
 - Composable dimension system (texture + mood + typography + density)
 - Video-overlay-aware layout: internal layout-driven overlay-safe selection
 - Automatic Dr. Q logo branding with configurable placement and auto-invert for dark styles
-- Gemini 3.0 Pro image generation
+- Nano Banana 2 image generation
 - PPTX and PDF export
 - Partial workflows (outline-only, prompts-only, regenerate specific slides)
 

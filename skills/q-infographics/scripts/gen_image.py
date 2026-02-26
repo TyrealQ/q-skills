@@ -59,7 +59,7 @@ def generate(input_text, system_prompt_text, output_prefix):
         sys.exit(1)
 
     client = genai.Client(api_key=api_key)
-    model = "gemini-3-pro-image-preview"
+    model = "gemini-3.1-flash-image-preview"
 
     contents = [
         types.Content(

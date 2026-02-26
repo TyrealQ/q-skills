@@ -14,7 +14,7 @@ def generate_slide(prompt_text: str, output_path: str):
     client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 
     response = client.models.generate_content(
-        model="gemini-3-pro-image-preview",
+        model="gemini-3.1-flash-image-preview",
         contents=prompt_text,
         config=types.GenerateContentConfig(
             response_modalities=["IMAGE", "TEXT"],

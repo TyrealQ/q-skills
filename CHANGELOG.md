@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.7] - 2026-02-26
+
+### Changed
+
+- **q-presentations, q-infographics**: Update image generation model from `gemini-3-pro-image-preview` to `gemini-3.1-flash-image-preview`
+
 ## [1.5.6] - 2026-02-25
 
 ### Fixed
