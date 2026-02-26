@@ -6,7 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- **q-presentations, q-infographics**: Update image generation model from `gemini-3-pro-image-preview` to `gemini-3.1-flash-image-preview`
+- **q-presentations, q-infographics**: Update image generation model to Nano Banana 2
+- **q-infographics**: Update documentation references to use Nano Banana branding
 
 ## [1.5.6] - 2026-02-25
 

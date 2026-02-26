@@ -200,7 +200,7 @@ Help me write the methods and results sections for my topic modeling study on es
 
 ### q-infographics
 
-Convert documents into compelling business stories and cartoon-style infographics using Gemini 3.0 Pro.
+Convert documents into compelling business stories and cartoon-style infographics using Nano Banana.
 
 **Triggers:**
 
