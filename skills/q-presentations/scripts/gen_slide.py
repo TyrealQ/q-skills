@@ -11,7 +11,11 @@ from google.genai import types
 
 
 def generate_slide(prompt_text: str, output_path: str):
-    client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
+    api_key = os.environ.get("GEMINI_API_KEY")
+    if not api_key:
+        print("Error: GEMINI_API_KEY environment variable is not set.", file=sys.stderr)
+        sys.exit(1)
+    client = genai.Client(api_key=api_key)
 
     response = client.models.generate_content(
         model="gemini-3.1-flash-image-preview",

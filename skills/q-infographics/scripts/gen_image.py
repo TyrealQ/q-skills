@@ -1,13 +1,16 @@
 
 # To run this code you need to install the following dependencies:
-# pip install google-genai Pillow
+# pip install google-genai Pillow python-dotenv
 
 import mimetypes
 import os
 import sys
+from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 from PIL import Image
+
+load_dotenv()
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 LOGO_FILENAME = 'Logo_Q.png'

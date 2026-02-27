@@ -1,11 +1,14 @@
 
 # To run this code you need to install the following dependencies:
-# pip install google-genai
+# pip install google-genai python-dotenv
 
 import os
 import sys
+from dotenv import load_dotenv
 from google import genai
 from google.genai import types
+
+load_dotenv()
 
 def generate(input_text, system_prompt_text):
     api_key = os.environ.get("GEMINI_API_KEY")

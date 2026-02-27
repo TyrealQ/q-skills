@@ -5,7 +5,7 @@ Use this script to reclassify outlier documents (Topic = -1) using a predefined 
 Customized for Esports UGC data but adaptable for any domain.
 
 Usage:
-1. Set up your .env with GEMINI_KEY
+1. Set up your .env with GEMINI_API_KEY
 2. Customize VALID_TOPICS list
 3. Update specific file paths (BASE_DIR, input/output filenames)
 4. Customize system prompt file
@@ -26,11 +26,11 @@ from tqdm.auto import tqdm
 # Load API key
 load_dotenv()
 
-api_key = os.getenv("GEMINI_KEY")
+api_key = os.getenv("GEMINI_API_KEY")
 
 if not api_key:
     # Placeholder for actual error handling or setup instruction
-    print("Warning: Missing API key. Set GEMINI_KEY in .env file.")
+    print("Warning: Missing API key. Set GEMINI_API_KEY in .env file.")
 
 # Configuration
 # Default to Gemini 3 Flash, but allow override via env var
@@ -225,6 +225,6 @@ def main():
 if __name__ == "__main__":
     import sys
     if not client:
-        print("Error: Client not initialized. Check GEMINI_KEY.")
+        print("Error: Client not initialized. Check GEMINI_API_KEY.")
         sys.exit(1)
     main()
