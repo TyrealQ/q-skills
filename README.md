@@ -115,57 +115,6 @@ Then re-copy the skills to your skills directory (see Manual install above).
 
 ---
 
-## Environment Configuration
-
-Some skills (q-infographics, q-presentations, q-topic-finetuning) use the Google Gemini API and need an API key to generate images and content.
-
-### Getting Your API Key
-
-1. Go to [Google AI Studio](https://aistudio.google.com/apikey)
-2. Sign in with your Google account
-3. Click **Create API Key**
-4. Copy the key — you'll need it in the next step
-
-### Setting the API Key
-
-Create a `.env` file in your project's working directory:
-
-```
-GEMINI_API_KEY=your-api-key-here
-```
-
-> **Important:** Add `.env` to your `.gitignore` so you don't accidentally commit your key:
-> ```bash
-> echo ".env" >> .gitignore
-> ```
-
-All skills that use the Gemini API load this file automatically via `python-dotenv`. Alternatively, set the variable directly in your terminal:
-
-**macOS / Linux:**
-```bash
-export GEMINI_API_KEY=your-api-key-here
-```
-
-**Windows (PowerShell):**
-```powershell
-$env:GEMINI_API_KEY = "your-api-key-here"
-```
-
-**Windows (Command Prompt):**
-```cmd
-set GEMINI_API_KEY=your-api-key-here
-```
-
-To make it permanent, add the export line to your shell profile (`~/.bashrc`, `~/.zshrc`) or set it as a system environment variable on Windows.
-
-### Optional Variables
-
-| Variable | Purpose | Default |
-| -------- | ------- | ------- |
-| `GEMINI_MODEL` | Override the model used by q-topic-finetuning | `gemini-3-flash-preview` |
-
----
-
 ## Available Skills
 
 ### Academic Skills
@@ -408,6 +357,58 @@ Help me build a week 6 lecture + demo + assignment plan for a graduate analytics
 ```
 
 ---
+
+## Environment Configuration
+
+Some skills (q-infographics, q-presentations, q-topic-finetuning) use the Google Gemini API and need an API key to generate images and content.
+
+### Getting Your API Key
+
+1. Go to [Google AI Studio](https://aistudio.google.com/apikey)
+2. Sign in with your Google account
+3. Click **Create API Key**
+4. Copy the key — you'll need it in the next step
+
+### Setting the API Key
+
+Create a `.env` file in your project's working directory:
+
+```
+GEMINI_API_KEY=your-api-key-here
+```
+
+> **Important:** Add `.env` to your `.gitignore` so you don't accidentally commit your key:
+> ```bash
+> echo ".env" >> .gitignore
+> ```
+
+All skills that use the Gemini API load this file automatically via `python-dotenv`. Alternatively, set the variable directly in your terminal:
+
+**macOS / Linux:**
+```bash
+export GEMINI_API_KEY=your-api-key-here
+```
+
+**Windows (PowerShell):**
+```powershell
+$env:GEMINI_API_KEY = "your-api-key-here"
+```
+
+**Windows (Command Prompt):**
+```cmd
+set GEMINI_API_KEY=your-api-key-here
+```
+
+To make it permanent, add the export line to your shell profile (`~/.bashrc`, `~/.zshrc`) or set it as a system environment variable on Windows.
+
+### Optional Variables
+
+| Variable | Purpose | Default |
+| -------- | ------- | ------- |
+| `GEMINI_MODEL` | Override the model used by q-topic-finetuning | `gemini-3-flash-preview` |
+
+---
+
 ## Acknowledgments
 
 - Inspired by [baoyu-skills](https://github.com/JimLiu/baoyu-skills) by Jim Liu
