@@ -151,6 +151,11 @@ export GEMINI_API_KEY=your-api-key-here
 $env:GEMINI_API_KEY = "your-api-key-here"
 ```
 
+**Windows (Command Prompt):**
+```cmd
+set GEMINI_API_KEY=your-api-key-here
+```
+
 To make it permanent, add the export line to your shell profile (`~/.bashrc`, `~/.zshrc`) or set it as a system environment variable on Windows.
 
 ### Optional Variables

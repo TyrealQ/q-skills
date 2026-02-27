@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.8] - 2026-02-27
+
+### Added
+
+- **README**: Environment Configuration section with API key setup guide, `.env` usage, and optional variables
+- **q-infographics**: `python-dotenv` loading in `gen_image.py` and `gen_story.py` so `.env` files are picked up automatically
+
+### Fixed
+
+- **q-topic-finetuning**: Standardize env var name from `GEMINI_KEY` to `GEMINI_API_KEY` across all references
+- **q-presentations**: `gen_slide.py` now exits with a clear error instead of a raw `KeyError` when API key is missing
+
 ## [1.5.7] - 2026-02-26
 
 ### Changed
