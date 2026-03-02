@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.6.0] - 2026-03-02
+
+### Added
+
+- **utility-skills**: New plugin bundle with commit and ship skills for git workflow automation
+- **commit**: Stage and commit with smart file grouping and conventional commit messages
+- **ship**: Full ship cycle — update docs, commit, and push to remote
+
 ## [1.5.8] - 2026-02-27
 
 ### Added

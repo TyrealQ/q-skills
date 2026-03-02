@@ -16,6 +16,8 @@ q-skills/
 |   |   |-- q-topic-finetuning/
 |   |   |-- q-methods/
 |   |   `-- q-results/
+|   |-- commit/                # Git commit with smart file grouping
+|   |-- ship/                  # Full ship cycle: docs, commit, push
 |-- README.md
 |-- CHANGELOG.md
 `-- LICENSE

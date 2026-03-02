@@ -63,6 +63,7 @@ To install specific skills only:
 ```
 /plugin install academic-skills@q-skills
 /plugin install visual-content-skills@q-skills
+/plugin install utility-skills@q-skills
 ```
 
 ---
@@ -130,6 +131,13 @@ Then re-copy the skills to your skills directory (see Manual install above).
 | ----------------------------------- | -------------------------------------------------------- |
 | [q-infographics](#q-infographics)   | Convert documents into business stories and infographics |
 | [q-presentations](#q-presentations) | Convert content into branded slide decks with style presets |
+
+### Utility Skills
+
+| Skill                   | Description                                                              |
+| ----------------------- | ------------------------------------------------------------------------ |
+| [commit](#commit)       | Stage and commit with smart file grouping and conventional commits       |
+| [ship](#ship)           | Full ship cycle: update docs, commit, and push to remote                 |
 
 ---
 
@@ -355,6 +363,42 @@ q-educator/
 ```
 Help me build a week 6 lecture + demo + assignment plan for a graduate analytics course
 ```
+
+---
+
+### commit
+
+Stage and commit all uncommitted changes with smart file grouping and conventional commit messages. Analyzes changed files, groups by topic (content, skills, code, config), and generates descriptive commit messages.
+
+**Triggers:**
+
+- `/commit`
+- "Commit my changes"
+
+**Features:**
+
+- Automatic file classification by path pattern
+- Smart grouping: one commit per topic when changes span multiple areas
+- Conventional commit format (`feat:`, `fix:`, `docs:`, etc.)
+- Explicit file staging (never `git add .`)
+
+---
+
+### ship
+
+Full ship cycle: update documentation, stage, commit, and push to remote. Automatically updates CHANGELOG.md, CLAUDE.md, and READMEs affected by the current changes.
+
+**Triggers:**
+
+- `/ship`
+- "Ship my changes"
+
+**Features:**
+
+- Auto-updates CHANGELOG.md, CLAUDE.md, and relevant READMEs
+- Stale reference detection for deleted/renamed files
+- Smart commit grouping (same as commit skill)
+- Pushes to remote with upstream tracking
 
 ---
 
