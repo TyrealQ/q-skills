@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.7.0] - 2026-03-22
+
+### Changed
+
+- **marketplace**: Isolate plugin source directories to fix triple skill registration. Each plugin now caches only its own skills instead of the entire repo
+- **structure**: Skills moved from `skills/` to `plugins/<plugin-name>/skills/` for per-plugin isolation
+
 ## [1.6.0] - 2026-03-02
 
 ### Added
