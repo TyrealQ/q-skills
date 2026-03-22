@@ -1,11 +1,11 @@
 ---
-name: q-exploratory-analysis
-description: "Universal exploratory data analysis for tabular datasets. Interviews the user to confirm column measurement levels, then applies appropriate analysis for each: descriptive statistics and distribution shape for numeric variables, frequency tables for categorical, proportion analysis for binary, text frequency analysis for free-text fields, and temporal trend analysis for date columns. Produces a structured TABLE/ folder of CSV outputs and a holistic EXPLORATORY_SUMMARY.md with flagged insights. Use before methods/results writing in academic workflows."
+name: q-eda
+description: "Universal exploratory data analysis for tabular datasets. Confirms column measurement levels, runs measurement-appropriate statistics, and produces a tables/ folder of CSVs plus EXPLORATORY_SUMMARY.md. Use for EDA, descriptive statistics, data exploration, or before academic methods/results writing."
 ---
 
-# Q-Exploratory-Analysis
+# Q-EDA
 
-Universal exploratory data analysis (EDA) for tabular datasets. Previews the dataset, interviews the user to confirm column measurement levels, and applies statistically appropriate analysis for each variable type, producing a structured TABLE/ folder and a holistic EXPLORATORY_SUMMARY.md with flagged insights.
+Universal exploratory data analysis (EDA) for tabular datasets. Previews the dataset, interviews the user to confirm column measurement levels, and applies statistically appropriate analysis for each variable type, producing a structured tables/ folder and a holistic EXPLORATORY_SUMMARY.md with flagged insights.
 
 > **IMPORTANT:** This skill requires Bash execution. The pre-built `scripts/run_eda.py`
 > must be copied from `${SKILL_DIR}/scripts/` — do **NOT** write a new script or inline
@@ -13,7 +13,7 @@ Universal exploratory data analysis (EDA) for tabular datasets. Previews the dat
 > `EXPLORATORY_SUMMARY.md` yourself (Post-Script step) by reading the CSVs, consulting
 > `${SKILL_DIR}/references/summary_template.md`, and using the Write tool directly.
 >
-> **If in plan mode:** write a brief plan — *"Run q-exploratory-analysis skill: interview
+> **If in plan mode:** write a brief plan — *"Run q-eda skill: interview
 > user for context and column types, deploy and execute run_eda.py, write
 > EXPLORATORY_SUMMARY.md from generated CSVs."* — then call **ExitPlanMode** immediately.
 > Do NOT attempt Stages A/B, script deployment, or any analysis while plan mode is active.
@@ -93,7 +93,7 @@ After the context questions, **auto-detect column types and present for confirma
 python scripts/run_eda.py data.xlsx \
   --col_types rating=ordinal views=continuous description=text record_id=id \
   --group platform tier \
-  --output TABLE/
+  --output tables/
 ```
 
 > **Windows note:** Use `python` (not `python3`). If the system has both Python 2 and 3,
@@ -106,7 +106,7 @@ python scripts/run_eda.py data.xlsx \
 | `data` | Yes | Path to .xlsx or .csv |
 | `--col_types` | No | Confirmed types: `col=type` pairs. Valid: id, binary, nominal, ordinal, discrete, continuous, temporal, text. Unspecified columns auto-detected. |
 | `--group` | No | Nominal columns for grouped analysis |
-| `--output` | No | Output directory (default: `TABLE/`) |
+| `--output` | No | Output directory (default: `tables/`) |
 | `--top_n` | No | Top-N for frequency tables (default: 10) |
 | `--no_excel` | No | Skip Phase 6 (Excel report) |
 | `--corr_deletion` | No | Missing-data strategy for correlations: `pairwise` (default) or `listwise` |
@@ -188,7 +188,7 @@ generated CSVs. The template includes worked example rows for every table type.
 all `11_grouped_by_*.csv`, all `12_crosstab_*.csv`, all `13_text_*.csv`,
 `14_temporal_trends.csv`.
 
-**Step 2 — Write `TABLE/EXPLORATORY_SUMMARY.md`** directly using the Write tool.
+**Step 2 — Write `tables/EXPLORATORY_SUMMARY.md`** directly using the Write tool.
 
 **Content requirements:**
 One section per measurement level plus infrastructure sections. Required structure:
@@ -225,7 +225,7 @@ One section per measurement level plus infrastructure sections. Required structu
 ## 5. Output Directory Reference
 
 ```
-TABLE/
+tables/
 ├── 01_dataset_profile.csv
 ├── 02_data_quality.csv
 ├── 03_nominal_frequencies.csv

@@ -1,6 +1,6 @@
 """
 run_eda.py — Universal Exploratory Data Analysis (EDA) Runner
-q-exploratory-analysis sub-skill of q-scholar
+q-eda sub-skill of q-scholar
 
 Six-phase pipeline applying measurement-level-appropriate analysis
 based on Stevens' levels (Nominal, Ordinal, Discrete, Continuous)
@@ -8,9 +8,9 @@ plus Temporal, Text, and ID/key.
 
 Usage:
     python scripts/run_eda.py data.xlsx --preview
-    python scripts/run_eda.py data.xlsx --output TABLE/
-    python scripts/run_eda.py data.xlsx --col_types rating=ordinal description=text --group platform tier --output TABLE/
-    python scripts/run_eda.py data.xlsx --no_excel --output TABLE/
+    python scripts/run_eda.py data.xlsx --output tables/
+    python scripts/run_eda.py data.xlsx --col_types rating=ordinal description=text --group platform tier --output tables/
+    python scripts/run_eda.py data.xlsx --no_excel --output tables/
 """
 
 import argparse
@@ -846,10 +846,10 @@ def save_csv(df: pd.DataFrame, path: str) -> bool:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Universal EDA runner -- q-exploratory-analysis"
+        description="Universal EDA runner -- q-eda"
     )
     parser.add_argument("data", help="Path to input file (.xlsx or .csv)")
-    parser.add_argument("--output", default="TABLE/", help="Output directory (default: TABLE/)")
+    parser.add_argument("--output", default="tables/", help="Output directory (default: tables/)")
     parser.add_argument("--group", nargs="*", default=[], help="Nominal columns for grouping")
     parser.add_argument(
         "--col_types", nargs="*", default=[],

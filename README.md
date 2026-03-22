@@ -153,7 +153,7 @@ Academic manuscript writing suite for drafting journal-ready prose following APA
 | Sub-Skill | Description |
 | --------- | ----------- |
 | q-intro | Introduction drafting and refinement with argumentative architecture guidance |
-| q-exploratory-analysis | Universal EDA with user-confirmed column types and measurement-appropriate statistics |
+| q-eda | Universal EDA with user-confirmed column types and measurement-appropriate statistics |
 | q-topic-finetuning | Consolidate topic modeling outputs (BERTopic, LDA, NMF) into theory-driven frameworks |
 | q-methods | Methods section drafting in clear, narrative style |
 | q-results | Results section drafting with APA-compliant tables |
@@ -183,7 +183,7 @@ q-scholar/
 |-- q-intro/
 |   |-- SKILL.md                          # Introduction drafting skill
 |   `-- references/                       # Templates and interview questions
-|-- q-exploratory-analysis/
+|-- q-eda/
 |   |-- SKILL.md                          # Data exploration skill
 |   |-- scripts/                          # run_eda.py
 |   `-- references/                       # Summary template and examples

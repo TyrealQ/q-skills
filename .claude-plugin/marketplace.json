@@ -16,7 +16,7 @@
       "skills": [
         "./skills/q-scholar",
         "./skills/q-scholar/q-intro",
-        "./skills/q-scholar/q-exploratory-analysis",
+        "./skills/q-scholar/q-eda",
         "./skills/q-scholar/q-topic-finetuning",
         "./skills/q-scholar/q-methods",
         "./skills/q-scholar/q-results",

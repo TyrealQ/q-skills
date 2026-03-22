@@ -8,6 +8,10 @@ All notable changes to this project will be documented in this file.
 
 - **learn**: New skill for persisting user preferences, styles, and behavioral patterns across sessions
 
+### Changed
+
+- **q-eda**: Renamed from q-exploratory-analysis; output folder renamed from TABLE/ to tables/
+
 ### Fixed
 
 - **ship**: Add doc catch-up path for unpushed commits missing documentation updates
@@ -49,71 +53,71 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
-- **q-exploratory-analysis**: Correlations now use pairwise deletion by default instead of listwise, maximizing N per pair
-- **q-exploratory-analysis/SKILL.md**: Resolved inline-Python contradiction — preview step now uses `--preview` flag instead of ad-hoc Python snippet
-- **q-exploratory-analysis/SKILL.md**: Source annotation and table rules scoped to content sections with infrastructure section exemption
-- **q-exploratory-analysis/summary_template**: Crosstab example now includes Total row to match script's `margins=True` output
+- **q-eda**: Correlations now use pairwise deletion by default instead of listwise, maximizing N per pair
+- **q-eda/SKILL.md**: Resolved inline-Python contradiction — preview step now uses `--preview` flag instead of ad-hoc Python snippet
+- **q-eda/SKILL.md**: Source annotation and table rules scoped to content sections with infrastructure section exemption
+- **q-eda/summary_template**: Crosstab example now includes Total row to match script's `margins=True` output
 
 ### Added
 
-- **q-exploratory-analysis/SKILL.md**: Plan-mode guard that exits plan mode before attempting Bash-dependent stages (script deployment, `--preview`, EDA pipeline)
-- **q-exploratory-analysis**: `--preview` flag prints `df.head()`, `df.dtypes`, `df.nunique()` and exits without running analysis
-- **q-exploratory-analysis**: `--corr_deletion` CLI flag (`pairwise`|`listwise`) for user control over missing-data strategy in correlations
-- **q-exploratory-analysis**: Expanded STOPWORDS from ~70 to ~318 words (scikit-learn ENGLISH_STOP_WORDS, no new dependency)
+- **q-eda/SKILL.md**: Plan-mode guard that exits plan mode before attempting Bash-dependent stages (script deployment, `--preview`, EDA pipeline)
+- **q-eda**: `--preview` flag prints `df.head()`, `df.dtypes`, `df.nunique()` and exits without running analysis
+- **q-eda**: `--corr_deletion` CLI flag (`pairwise`|`listwise`) for user control over missing-data strategy in correlations
+- **q-eda**: Expanded STOPWORDS from ~70 to ~318 words (scikit-learn ENGLISH_STOP_WORDS, no new dependency)
 
 ### Removed
 
-- **q-exploratory-analysis**: `memory_kb` from dataset profile
+- **q-eda**: `memory_kb` from dataset profile
 
 ### Changed
 
-- **q-infographics, q-presentations, q-exploratory-analysis**: Moved dependencies from `requirements.txt` into SKILL.md; removed requirements.txt files
+- **q-infographics, q-presentations, q-eda**: Moved dependencies from `requirements.txt` into SKILL.md; removed requirements.txt files
 
 ## [1.5.5] - 2026-02-24
 
 ### Fixed
 
-- **q-exploratory-analysis/scripts/run_eda.py**: Filter NaT dates in `temporal_trends()` before period conversion to prevent crashes on unparseable dates
-- **q-exploratory-analysis/scripts/run_eda.py**: Validate `--col_types` input format (`col=type`) and reject unknown types with clear error messages
-- **q-exploratory-analysis/scripts/run_eda.py**: `save_csv()` now returns bool; CSV count only increments on successful writes (was overstated when data was empty)
-- **q-exploratory-analysis/scripts/run_eda.py**: Final message no longer claims Excel output when `openpyxl` import fails
-- **q-exploratory-analysis/SKILL.md**: Temporal analysis description corrected — no longer claims gap detection (not yet implemented)
-- **q-exploratory-analysis/scripts/run_eda.py**: `quantitative_summary()` n=1 edge case now returns full column schema instead of 3-field stub
-- **q-exploratory-analysis/scripts/run_eda.py**: `grouped_stats_by_nominal()` ordinal branch now includes M_quasi_interval and SD (was median/IQR only)
-- **q-exploratory-analysis/scripts/run_eda.py**: Removed crosstab and group-column caps (was [:4] and [:2])
+- **q-eda/scripts/run_eda.py**: Filter NaT dates in `temporal_trends()` before period conversion to prevent crashes on unparseable dates
+- **q-eda/scripts/run_eda.py**: Validate `--col_types` input format (`col=type`) and reject unknown types with clear error messages
+- **q-eda/scripts/run_eda.py**: `save_csv()` now returns bool; CSV count only increments on successful writes (was overstated when data was empty)
+- **q-eda/scripts/run_eda.py**: Final message no longer claims Excel output when `openpyxl` import fails
+- **q-eda/SKILL.md**: Temporal analysis description corrected — no longer claims gap detection (not yet implemented)
+- **q-eda/scripts/run_eda.py**: `quantitative_summary()` n=1 edge case now returns full column schema instead of 3-field stub
+- **q-eda/scripts/run_eda.py**: `grouped_stats_by_nominal()` ordinal branch now includes M_quasi_interval and SD (was median/IQR only)
+- **q-eda/scripts/run_eda.py**: Removed crosstab and group-column caps (was [:4] and [:2])
 
 ### Added
 
-- **q-exploratory-analysis/SKILL.md**: Windows CMD and PowerShell deployment commands
-- **q-exploratory-analysis/SKILL.md**: Behavioral defaults section documenting --group, cross-tab, ID detection, and LOW_CARD_MAX behavior
-- **q-exploratory-analysis/references/summary_template.md**: Split outlier column into mild (IQR 1.5) and extreme (IQR 3.0) in detail tables
+- **q-eda/SKILL.md**: Windows CMD and PowerShell deployment commands
+- **q-eda/SKILL.md**: Behavioral defaults section documenting --group, cross-tab, ID detection, and LOW_CARD_MAX behavior
+- **q-eda/references/summary_template.md**: Split outlier column into mild (IQR 1.5) and extreme (IQR 3.0) in detail tables
 
 ## [1.5.4] - 2026-02-22
 
 ### Fixed
 
-- **q-exploratory-analysis/run_eda.py**: Fixed ID heuristic misclassifying numeric metrics — high-cardinality numeric columns now classified as Continuous; only non-numeric columns with >95% uniqueness treated as identifiers
-- **q-exploratory-analysis/run_eda.py**: Pearson correlation now includes both Continuous and Discrete columns (was Continuous-only, producing empty correlations when all numeric columns were Discrete)
-- **q-exploratory-analysis/SKILL.md**: Resolved contradictory section omission rules — new two-tier rule: all source CSVs absent → omit section; some absent → include section with note
-- **q-exploratory-analysis/SKILL.md**: Fixed unreadable 22-24 column descriptive tables — split into core table (8 cols) and detail table (11 cols); narrow CSVs keep full columns
-- **q-exploratory-analysis/SKILL.md**: Replaced vague flagging severity scheme with explicit thresholds (missing >10%, skewness abs>2, kurtosis abs>7, correlation abs>0.7, CV >100%, ID-like >95%)
-- **q-exploratory-analysis/SKILL.md**: Fixed ordinal variables misplaced under "Categorical Variables" — restructured from 10 thematic sections to 13 measurement-level sections
-- **q-exploratory-analysis/SKILL.md**: Fixed temporal data referenced in two sections — scoped overview vs. full trends
-- **q-exploratory-analysis/SKILL.md**: Removed stale `DESCRIPTIVE_SUMMARY.md` style reference and incorrect "chi-square" claim
-- **q-infographics, q-topic-finetuning, q-exploratory-analysis**: Replaced hardcoded paths with `${SKILL_DIR}` pattern — all script/reference paths now resolve from skill cache
+- **q-eda/run_eda.py**: Fixed ID heuristic misclassifying numeric metrics — high-cardinality numeric columns now classified as Continuous; only non-numeric columns with >95% uniqueness treated as identifiers
+- **q-eda/run_eda.py**: Pearson correlation now includes both Continuous and Discrete columns (was Continuous-only, producing empty correlations when all numeric columns were Discrete)
+- **q-eda/SKILL.md**: Resolved contradictory section omission rules — new two-tier rule: all source CSVs absent → omit section; some absent → include section with note
+- **q-eda/SKILL.md**: Fixed unreadable 22-24 column descriptive tables — split into core table (8 cols) and detail table (11 cols); narrow CSVs keep full columns
+- **q-eda/SKILL.md**: Replaced vague flagging severity scheme with explicit thresholds (missing >10%, skewness abs>2, kurtosis abs>7, correlation abs>0.7, CV >100%, ID-like >95%)
+- **q-eda/SKILL.md**: Fixed ordinal variables misplaced under "Categorical Variables" — restructured from 10 thematic sections to 13 measurement-level sections
+- **q-eda/SKILL.md**: Fixed temporal data referenced in two sections — scoped overview vs. full trends
+- **q-eda/SKILL.md**: Removed stale `DESCRIPTIVE_SUMMARY.md` style reference and incorrect "chi-square" claim
+- **q-infographics, q-topic-finetuning, q-eda**: Replaced hardcoded paths with `${SKILL_DIR}` pattern — all script/reference paths now resolve from skill cache
 
 ### Added
 
-- **q-exploratory-analysis/SKILL.md**: Script Directory section, table sizing rules, source-citation mandate, and two new verification checklist items
-- **q-exploratory-analysis/references/summary_template.md**: Reference template with 13-section skeleton and worked example rows
+- **q-eda/SKILL.md**: Script Directory section, table sizing rules, source-citation mandate, and two new verification checklist items
+- **q-eda/references/summary_template.md**: Reference template with 13-section skeleton and worked example rows
 - **q-infographics, q-topic-finetuning**: Script Directory sections with resource tables
 - **CLAUDE.md**: Script Path Convention section documenting the `${SKILL_DIR}` standard
 
 ### Changed
 
-- **q-exploratory-analysis/run_eda.py**: Consolidated 4 type-override flags into single `--col_types col=type` pairs; inverted `--no_interactive` to `--interactive`; renamed Phase 7 to Phase 6
-- **q-exploratory-analysis/SKILL.md**: Reordered Section 4 (script phases first, Claude's narrative summary post-script); strengthened interview workflow; updated Column-Type Coverage table; added Windows `python` note
-- **q-exploratory-analysis/scripts/requirements.txt**: Removed unused matplotlib and seaborn dependencies
+- **q-eda/run_eda.py**: Consolidated 4 type-override flags into single `--col_types col=type` pairs; inverted `--no_interactive` to `--interactive`; renamed Phase 7 to Phase 6
+- **q-eda/SKILL.md**: Reordered Section 4 (script phases first, Claude's narrative summary post-script); strengthened interview workflow; updated Column-Type Coverage table; added Windows `python` note
+- **q-eda/scripts/requirements.txt**: Removed unused matplotlib and seaborn dependencies
 - **q-topic-finetuning**: Moved from top-level skill into q-scholar as sub-skill
 - **marketplace.json**: Reorganized from 5 one-per-skill plugins to 2 category plugins; bumped version
 - **q-scholar/SKILL.md**: Added q-topic-finetuning as fifth sub-skill; updated phase references
@@ -126,7 +130,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- **q-exploratory-analysis**: Renamed from q-descriptive-analysis; complete redesign around Stevens' levels of measurement (Nominal, Ordinal, Discrete, Continuous, Temporal, Text, ID/key)
+- **q-eda**: Renamed from q-descriptive-analysis; complete redesign around Stevens' levels of measurement (Nominal, Ordinal, Discrete, Continuous, Temporal, Text, ID/key)
   - Six-phase pipeline: Dataset Profile, Data Quality, Univariate, Bivariate/Multivariate, Specialized, Summary Report
   - Auto-detects column measurement level; flags ambiguous integers for interactive confirmation
   - Measurement-appropriate bivariate analysis: Pearson, Spearman, grouped descriptives, contingency tables
@@ -136,8 +140,8 @@ All notable changes to this project will be documented in this file.
   - Temporal analysis: range, gap detection, trend by month/year
   - Holistic EXPLORATORY_SUMMARY.md with flagged insights
   - Extracted all code from SKILL.md into `scripts/run_eda.py`; added `scripts/requirements.txt`
-- **q-exploratory-analysis**: Replaced auto-classification with interview-driven column type confirmation — Claude previews dataset, presents classification table, users confirm before script runs
-- **q-exploratory-analysis/run_eda.py**: Bug fixes — guard n=1, fix Float64 detection, clip binary CI, filter empty DataFrames, fix --no_excel message
+- **q-eda**: Replaced auto-classification with interview-driven column type confirmation — Claude previews dataset, presents classification table, users confirm before script runs
+- **q-eda/run_eda.py**: Bug fixes — guard n=1, fix Float64 detection, clip binary CI, filter empty DataFrames, fix --no_excel message
 - **q-scholar/SKILL.md**: Updated sub-skill name, description, and phase references
 - **README**: Expanded installation docs — added Node.js prerequisite, plugin marketplace method, plugin install commands, natural language install, and structured update sections
 

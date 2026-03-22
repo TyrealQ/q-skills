@@ -1,6 +1,6 @@
 ---
 name: q-scholar
-description: Comprehensive academic writing skill for drafting journal-ready manuscripts. Orchestrates specialized sub-skills for introduction sections (q-intro), exploratory analysis (q-exploratory-analysis), methods sections (q-methods), and results sections (q-results). Use when the user needs end-to-end support for academic manuscript preparation, from initial data exploration through publication-ready prose. Follows APA 7th edition formatting standards.
+description: Comprehensive academic writing skill for drafting journal-ready manuscripts. Orchestrates specialized sub-skills for introduction sections (q-intro), exploratory analysis (q-eda), methods sections (q-methods), and results sections (q-results). Use when the user needs end-to-end support for academic manuscript preparation, from initial data exploration through publication-ready prose. Follows APA 7th edition formatting standards.
 ---
 
 # Q-Scholar
@@ -14,8 +14,8 @@ Introduction drafting and refinement with argumentative architecture guidance. S
 
 Use for: Writing or refining introduction sections that move from phenomenon to theory to empirical contribution, with discipline-first literature grounding, cross-paragraph bridge architecture, and enumerated contributions.
 
-### q-exploratory-analysis
-Universal exploratory data analysis for tabular datasets. Interviews the user to confirm column measurement levels (Nominal, Ordinal, Discrete, Continuous, Temporal, Text) and applies statistically appropriate analysis for each type. Produces a structured TABLE/ folder of CSV outputs and a holistic EXPLORATORY_SUMMARY.md with flagged insights.
+### q-eda
+Universal exploratory data analysis for tabular datasets. Interviews the user to confirm column measurement levels (Nominal, Ordinal, Discrete, Continuous, Temporal, Text) and applies statistically appropriate analysis for each type. Produces a structured tables/ folder of CSV outputs and a holistic EXPLORATORY_SUMMARY.md with flagged insights.
 
 Use for: Initial data exploration, measurement-level-appropriate descriptive statistics, understanding dataset structure before formal analysis.
 
@@ -64,7 +64,7 @@ Assistant: [Invokes q-intro with interview workflow]
 ### Data Exploration First
 ```
 User: I have a new dataset and need to understand it before writing
-Assistant: [Invokes q-exploratory-analysis for exploration, then proceeds to writing sections]
+Assistant: [Invokes q-eda for exploration, then proceeds to writing sections]
 ```
 
 ## Quality Standards
@@ -90,7 +90,7 @@ q-scholar/
 │   └── references/
 │       ├── introduction_template.md
 │       └── interview_questions.md
-├── q-exploratory-analysis/
+├── q-eda/
 │   ├── SKILL.md                          # Data exploration skill
 │   ├── scripts/
 │   │   ├── run_eda.py                    # Six-phase EDA runner
@@ -125,8 +125,8 @@ Shared references (apply to all sub-skills):
 
 Sub-skill specific references:
 - q-intro/references/: introduction_template.md, interview_questions.md
-- q-exploratory-analysis/SKILL.md: workflow templates, script invocation
-- q-exploratory-analysis/scripts/run_eda.py: six-phase EDA pipeline
+- q-eda/SKILL.md: workflow templates, script invocation
+- q-eda/scripts/run_eda.py: six-phase EDA pipeline
 - q-topic-finetuning/references/: esports_ugc_example.md, SP_OUTLIER_TEMPLATE.txt
 - q-topic-finetuning/scripts/: classify_outliers.py, generate_implementation_plan.py, update_excel_with_labels.py
 - q-methods/references/: methods_template.md, appendix_template.md

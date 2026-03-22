@@ -10,7 +10,7 @@ q-skills/
 |   |-- academic-skills/skills/        # Academic writing & teaching
 |   |   |-- q-scholar/                 # Academic manuscript writing suite
 |   |   |   |-- q-intro/
-|   |   |   |-- q-exploratory-analysis/
+|   |   |   |-- q-eda/
 |   |   |   |-- q-topic-finetuning/
 |   |   |   |-- q-methods/
 |   |   |   `-- q-results/
