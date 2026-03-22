@@ -20,6 +20,7 @@ q-skills/
 |   |   `-- q-presentations/           # Content to branded slide decks
 |   `-- utility-skills/skills/         # Git workflow automation
 |       |-- commit/                    # Git commit with smart file grouping
+|       |-- learn/                     # Persist user preferences across sessions
 |       `-- ship/                      # Full ship cycle: docs, commit, push
 |-- README.md
 |-- CHANGELOG.md

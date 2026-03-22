@@ -137,6 +137,7 @@ Then re-copy the skills to your skills directory (see Manual install above).
 | Skill                   | Description                                                              |
 | ----------------------- | ------------------------------------------------------------------------ |
 | [commit](#commit)       | Stage and commit with smart file grouping and conventional commits       |
+| [learn](#learn)         | Persist user preferences and styles across sessions                      |
 | [ship](#ship)           | Full ship cycle: update docs, commit, and push to remote                 |
 
 ---
@@ -381,6 +382,26 @@ Stage and commit all uncommitted changes with smart file grouping and convention
 - Smart grouping: one commit per topic when changes span multiple areas
 - Conventional commit format (`feat:`, `fix:`, `docs:`, etc.)
 - Explicit file staging (never `git add .`)
+
+---
+
+### learn
+
+Persist user preferences, styles, and behavioral patterns to `~/CLAUDE.md`, `~/.claude/rules/`, or project memory. Extracts corrections, explicit rules, and positive reinforcement from the current conversation.
+
+**Triggers:**
+
+- `/learn`
+- "Remember this preference"
+- "Save this to CLAUDE.md"
+- "Update CM"
+
+**Features:**
+
+- Three-tier persistence: user instructions, user rules, project memory
+- Scans conversation for corrections, explicit rules, and reinforced behaviors
+- Deduplicates against existing preferences before saving
+- Keeps `~/CLAUDE.md` under 200 lines, migrating overflow to rule files
 
 ---
 

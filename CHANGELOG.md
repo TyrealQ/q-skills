@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [1.7.0] - 2026-03-22
 
+### Added
+
+- **learn**: New skill for persisting user preferences, styles, and behavioral patterns across sessions
+
 ### Changed
 
 - **marketplace**: Isolate plugin source directories to fix triple skill registration. Each plugin now caches only its own skills instead of the entire repo
