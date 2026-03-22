@@ -12,20 +12,35 @@ Automates the full cycle: update documentation -> stage -> commit -> push.
 
 ### Step 1: Review changes
 
-Run: `git status --short`
+Run all three commands to get the full picture:
 
-Classify each change:
-- `M` — modified, `??` — untracked, `D` — deleted, `R` — renamed
+```
+git status --short
+git diff --cached --name-status
+git log @{upstream}..HEAD --oneline 2>/dev/null
+```
 
-Identify the current branch and remote tracking status:
+Also identify the current branch and remote tracking status:
 ```
 git branch --show-current
 git rev-parse --abbrev-ref @{upstream} 2>/dev/null
 ```
 
+Classify uncommitted changes from `git status`:
+- `M` — modified, `??` — untracked, `D` — deleted, `R` — renamed
+
+**If the working tree is clean but unpushed commits exist**, this is the **doc catch-up path**:
+1. Run `git diff @{upstream}..HEAD --name-status` to list all files changed in unpushed commits
+2. Analyze those files in Step 2 as if they were uncommitted changes
+3. Proceed to Step 3 to check for missing documentation updates (CHANGELOG, README, CLAUDE.md, marketplace.json)
+4. If documentation updates are needed, make them, commit, and push
+5. If no documentation updates are needed, just push
+
+**If both the working tree is clean AND no unpushed commits exist**, report "nothing to ship" and stop.
+
 ### Step 2: Analyze what changed
 
-Read every modified/untracked file to understand the nature of the changes.
+Read every modified/untracked file (or every file from unpushed commits in the doc catch-up path) to understand the nature of the changes.
 
 | Path pattern | Type |
 |---|---|

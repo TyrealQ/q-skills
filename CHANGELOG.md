@@ -8,6 +8,11 @@ All notable changes to this project will be documented in this file.
 
 - **learn**: New skill for persisting user preferences, styles, and behavioral patterns across sessions
 
+### Fixed
+
+- **ship**: Add doc catch-up path for unpushed commits missing documentation updates
+- **commit**: Add `git diff --cached` check to detect already-staged files
+
 ### Changed
 
 - **marketplace**: Isolate plugin source directories to fix triple skill registration. Each plugin now caches only its own skills instead of the entire repo

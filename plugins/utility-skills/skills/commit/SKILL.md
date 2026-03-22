@@ -8,10 +8,20 @@ description: Stage and commit all uncommitted changes. Analyzes changed files, g
 ## Workflow
 
 ### Step 1: Review changes
-Run: `git status --short`
+
+Run both commands to get the full picture:
+
+```
+git status --short
+git diff --cached --name-status
+```
+
+`git status --short` shows unstaged modifications and untracked files. `git diff --cached` catches files that are already staged but not yet committed. Use the union of both outputs.
+
+**If both commands return empty**, report "nothing to commit" and stop.
 
 Classify each change:
-- `M` — modified, `??` — untracked, `D` — deleted, `R` — renamed
+- `M` — modified, `??` — untracked, `D` — deleted, `R` — renamed, `A` — staged new file
 
 ### Step 2: Analyze file paths to determine change type
 
