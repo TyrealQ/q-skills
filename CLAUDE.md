@@ -6,22 +6,27 @@ This file provides guidance to Claude Code when working with this repository.
 
 ```
 q-skills/
-|-- skills/                    # All skills in subdirectory
-|   |-- q-infographics/        # Document to infographic conversion
-|   |-- q-educator/            # Course content development toolkit
-|   |-- q-presentations/       # Content to branded slide decks
-|   |-- q-scholar/             # Academic manuscript writing suite
-|   |   |-- q-intro/
-|   |   |-- q-exploratory-analysis/
-|   |   |-- q-topic-finetuning/
-|   |   |-- q-methods/
-|   |   `-- q-results/
-|   |-- commit/                # Git commit with smart file grouping
-|   |-- ship/                  # Full ship cycle: docs, commit, push
+|-- plugins/
+|   |-- academic-skills/skills/        # Academic writing & teaching
+|   |   |-- q-scholar/                 # Academic manuscript writing suite
+|   |   |   |-- q-intro/
+|   |   |   |-- q-exploratory-analysis/
+|   |   |   |-- q-topic-finetuning/
+|   |   |   |-- q-methods/
+|   |   |   `-- q-results/
+|   |   `-- q-educator/                # Course content development toolkit
+|   |-- visual-content-skills/skills/  # Visual content generation
+|   |   |-- q-infographics/            # Document to infographic conversion
+|   |   `-- q-presentations/           # Content to branded slide decks
+|   `-- utility-skills/skills/         # Git workflow automation
+|       |-- commit/                    # Git commit with smart file grouping
+|       `-- ship/                      # Full ship cycle: docs, commit, push
 |-- README.md
 |-- CHANGELOG.md
 `-- LICENSE
 ```
+
+Each plugin has its own `source` directory in `plugins/`, so Claude Code caches only the skills that belong to that plugin.
 
 ## Skill Guidelines
 
@@ -52,10 +57,12 @@ All script, prompt, and reference paths in the skill MUST use `${SKILL_DIR}/...`
 
 ## Adding New Skills
 
-1. Create folder in `skills/` with lowercase name using hyphens
-2. Add `SKILL.md` with proper frontmatter
-3. Update `README.md` to include new skill
-4. Update `CHANGELOG.md` with version bump
+1. Identify which plugin the skill belongs to (academic, visual-content, or utility)
+2. Create folder in `plugins/<plugin-name>/skills/` with lowercase name using hyphens
+3. Add `SKILL.md` with proper frontmatter
+4. Add the skill path to the plugin's `skills` array in `.claude-plugin/marketplace.json`
+5. Update `README.md` to include new skill
+6. Update `CHANGELOG.md` with version bump
 
 ## Naming Convention
 

@@ -11,7 +11,7 @@
     {
       "name": "academic-skills",
       "description": "Academic manuscript writing suite, topic modeling consolidation, exploratory analysis, and course content development",
-      "source": "./",
+      "source": "./plugins/academic-skills/",
       "strict": false,
       "skills": [
         "./skills/q-scholar",
@@ -26,7 +26,7 @@
     {
       "name": "visual-content-skills",
       "description": "Convert documents into infographics and branded slide decks via Gemini",
-      "source": "./",
+      "source": "./plugins/visual-content-skills/",
       "strict": false,
       "skills": [
         "./skills/q-infographics",
@@ -36,7 +36,7 @@
     {
       "name": "utility-skills",
       "description": "Git workflow automation — smart commit grouping, documentation updates, and push",
-      "source": "./",
+      "source": "./plugins/utility-skills/",
       "strict": false,
       "skills": [
         "./skills/commit",
