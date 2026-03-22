@@ -1,6 +1,6 @@
 ---
 name: ship
-description: Update relevant documentation, commit all changes, and push to remote. Handles CHANGELOG.md, CLAUDE.md, READMEs, and any other docs affected by the current changes.
+description: Update docs (CHANGELOG, CLAUDE.md, READMEs), commit, and push. Use for shipping changes, deploying updates, or publishing to remote.
 user_invocable: true
 ---
 

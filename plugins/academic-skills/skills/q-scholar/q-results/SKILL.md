@@ -1,6 +1,6 @@
 ---
 name: q-results
-description: Draft results sections for academic manuscripts following APA 7th edition guidelines with narrative flow. Use when the user needs to write or refine a results section for research papers involving quantitative or mixed-methods analysis. Produces clear, flowing prose organized by research questions, with tables formatted per APA standards and detailed appendices for comprehensive data.
+description: Draft results sections for academic manuscripts with APA 7th tables and narrative flow. Use for writing results, presenting findings, formatting statistical tables, or reporting quantitative analysis.
 ---
 
 # Q-Results

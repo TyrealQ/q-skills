@@ -1,6 +1,6 @@
 ---
 name: q-topic-finetuning
-description: "Fine-tune and consolidate topic modeling outputs (BERTopic, LDA, etc.) into a theory-driven classification framework for academic manuscripts. Use when processing topic modeling results that need topic consolidation, theoretical classification, domain-specific preservation, multi-category handling, data verification, or Excel updates with final labels."
+description: "Consolidate topic modeling outputs (BERTopic, LDA, NMF) into theory-driven classification frameworks. Use for topic consolidation, reclassification, outlier handling, or updating Excel labels from topic models."
 ---
 
 # Q-Topic-Finetuning
