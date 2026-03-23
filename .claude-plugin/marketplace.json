@@ -5,13 +5,13 @@
   },
   "metadata": {
     "description": "End-to-end skills for academic writing, data analysis, teaching, and research communication",
-    "version": "1.7.0"
+    "version": "1.7.1"
   },
   "plugins": [
     {
       "name": "academic-skills",
       "description": "Academic manuscript writing suite, topic modeling consolidation, exploratory analysis, and course content development",
-      "source": "./plugins/academic-skills/",
+      "source": "./skills/academic-skills/",
       "strict": false,
       "skills": [
         "./skills/q-scholar",
@@ -26,7 +26,7 @@
     {
       "name": "visual-content-skills",
       "description": "Convert documents into infographics and branded slide decks via Gemini",
-      "source": "./plugins/visual-content-skills/",
+      "source": "./skills/visual-content-skills/",
       "strict": false,
       "skills": [
         "./skills/q-infographics",
@@ -36,7 +36,7 @@
     {
       "name": "utility-skills",
       "description": "Git workflow automation — smart commit grouping, documentation updates, and push",
-      "source": "./plugins/utility-skills/",
+      "source": "./skills/utility-skills/",
       "strict": false,
       "skills": [
         "./skills/commit",

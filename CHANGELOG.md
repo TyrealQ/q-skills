@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.7.1] - 2026-03-23
+
+### Changed
+
+- **structure**: Renamed top-level `plugins/` to `skills/`; updated marketplace source paths
+
 ## [1.7.0] - 2026-03-22
 
 ### Added

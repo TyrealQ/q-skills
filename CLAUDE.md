@@ -6,7 +6,7 @@ This file provides guidance to Claude Code when working with this repository.
 
 ```
 q-skills/
-|-- plugins/
+|-- skills/
 |   |-- academic-skills/skills/        # Academic writing & teaching
 |   |   |-- q-scholar/                 # Academic manuscript writing suite
 |   |   |   |-- q-intro/
@@ -27,7 +27,7 @@ q-skills/
 `-- LICENSE
 ```
 
-Each plugin has its own `source` directory in `plugins/`, so Claude Code caches only the skills that belong to that plugin.
+Each skill category has its own `source` directory in `skills/`, so Claude Code caches only the skills that belong to that category.
 
 ## Skill Guidelines
 
@@ -58,10 +58,10 @@ All script, prompt, and reference paths in the skill MUST use `${SKILL_DIR}/...`
 
 ## Adding New Skills
 
-1. Identify which plugin the skill belongs to (academic, visual-content, or utility)
-2. Create folder in `plugins/<plugin-name>/skills/` with lowercase name using hyphens
+1. Identify which category the skill belongs to (academic, visual-content, or utility)
+2. Create folder in `skills/<category-name>/skills/` with lowercase name using hyphens
 3. Add `SKILL.md` with proper frontmatter
-4. Add the skill path to the plugin's `skills` array in `.claude-plugin/marketplace.json`
+4. Add the skill path to the category's `skills` array in `.claude-plugin/marketplace.json`
 5. Update `README.md` to include new skill
 6. Update `CHANGELOG.md` with version bump
 
