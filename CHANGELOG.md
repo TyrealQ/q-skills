@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [1.7.1] - 2026-03-23
 
+### Added
+
+- **q-scholar**: Formula and equation formatting guidance in apa_style_guide.md (QCA paths, Boolean expressions, set notation)
+
 ### Changed
 
 - **structure**: Renamed top-level `plugins/` to `skills/`; updated marketplace source paths

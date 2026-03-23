@@ -138,6 +138,23 @@ Reference tables before they appear in the document:
 > Detailed breakdowns are available in Appendix B.
 > (see Appendix C for the full mapping)
 
+## Equations, Formulas, and Set Notation
+
+All formulas, expressions, and notation that contain operators or markdown-sensitive characters must use inline code formatting (backticks).
+
+This includes: QCA path expressions, Boolean formulas, set-theoretic notation, interaction terms, negations, and any expression using operators such as *, ~, +, _, <, >, or =.
+
+### Examples
+> QCA path: `~W*C*D*~R*T*~V`
+> Interaction term: `X1*X2*X3`
+> Set expression: `A*~B + C*D`
+> Negation: `~OUTCOME`
+> Calibration: `log(x + 1)`
+> Threshold: `incl.cut = 0.80`
+> Single negated condition in prose: `~P`
+
+For display equations on their own line, use fenced code blocks.
+
 ## Common Errors to Avoid
 
 1. Using em-dashes instead of other punctuation

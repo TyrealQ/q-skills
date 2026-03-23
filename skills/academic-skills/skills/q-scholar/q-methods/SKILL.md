@@ -52,7 +52,7 @@ Describe the human validation sampling strategy and coding procedures. Leave pla
 
 Avoid implementation language like "importing Python libraries" or "using pandas for data manipulation." Write conceptually: "Interview responses were organized by dimension" rather than "We filtered the DataFrame by question type."
 
-Use hyphens for compound modifiers (e.g., "high-confidence classifications"). Never use em-dashes. Spell out numbers below ten unless they represent measurements, statistics, or technical values.
+Use hyphens for compound modifiers (e.g., "high-confidence classifications"). Never use em-dashes. Spell out numbers below ten unless they represent measurements, statistics, or technical values. Wrap formulas, QCA paths, and operator-heavy expressions in inline code backticks (see ../references/apa_style_guide.md, "Equations, Formulas, and Set Notation").
 
 When referencing appendix sections: "Detailed parameters are provided in Appendix A" or "The complete system prompt is documented in Appendix E."
 

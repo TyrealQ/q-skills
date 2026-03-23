@@ -34,6 +34,7 @@ Brief synthesis of key findings without interpretation.
 - Write in complete paragraphs, avoid bullet points
 - Spell out numbers below 10 unless measurements, statistics, or percentages
 - Use italics for statistical symbols: M, SD, n, N, p, F, t, r
+- Wrap formulas, QCA paths, and operator-heavy expressions in inline code backticks (see ../references/apa_style_guide.md, "Equations, Formulas, and Set Notation")
 
 ## Appendix Strategy
 
