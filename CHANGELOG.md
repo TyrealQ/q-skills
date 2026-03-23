@@ -15,6 +15,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- **q-eda**: Classify high-cardinality whole-number columns as discrete instead of continuous
 - **ship**: Add doc catch-up path for unpushed commits missing documentation updates
 - **commit**: Add `git diff --cached` check to detect already-staged files
 

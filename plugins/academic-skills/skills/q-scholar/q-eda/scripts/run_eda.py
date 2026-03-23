@@ -137,8 +137,13 @@ def classify_columns(df: pd.DataFrame,
         # ID/key: nearly all unique values
         if nunique > 0.95 * n and n > 10:
             if pd.api.types.is_numeric_dtype(series):
-                # Numeric columns with near-unique values are metrics, not IDs
-                col_types[col] = "continuous"
+                # Check if all values are whole numbers (integer dtype or float without fractions)
+                if pd.api.types.is_integer_dtype(series) or (
+                    pd.api.types.is_float_dtype(series) and (series.dropna() % 1 == 0).all()
+                ):
+                    col_types[col] = "discrete"
+                else:
+                    col_types[col] = "continuous"
             else:
                 col_types[col] = "id"
             continue
