@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- **q-eda**: Renamed from q-exploratory-analysis; output folder renamed from TABLE/ to tables/
+- **q-eda**: Renamed from q-exploratory-analysis; output folder renamed from TABLE/ to tables-eda/
 - **all skills**: Condensed YAML descriptions to concise, trigger-rich format
 
 ### Fixed

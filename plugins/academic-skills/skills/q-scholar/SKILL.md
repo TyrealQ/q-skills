@@ -15,7 +15,7 @@ Introduction drafting and refinement with argumentative architecture guidance. S
 Use for: Writing or refining introduction sections that move from phenomenon to theory to empirical contribution, with discipline-first literature grounding, cross-paragraph bridge architecture, and enumerated contributions.
 
 ### q-eda
-Universal exploratory data analysis for tabular datasets. Interviews the user to confirm column measurement levels (Nominal, Ordinal, Discrete, Continuous, Temporal, Text) and applies statistically appropriate analysis for each type. Produces a structured tables/ folder of CSV outputs and a holistic EXPLORATORY_SUMMARY.md with flagged insights.
+Universal exploratory data analysis for tabular datasets. Interviews the user to confirm column measurement levels (Nominal, Ordinal, Discrete, Continuous, Temporal, Text) and applies statistically appropriate analysis for each type. Produces a structured tables-eda/ folder of CSV outputs and a holistic EXPLORATORY_SUMMARY.md with flagged insights.
 
 Use for: Initial data exploration, measurement-level-appropriate descriptive statistics, understanding dataset structure before formal analysis.
 

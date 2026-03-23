@@ -8,9 +8,9 @@ plus Temporal, Text, and ID/key.
 
 Usage:
     python scripts/run_eda.py data.xlsx --preview
-    python scripts/run_eda.py data.xlsx --output tables/
-    python scripts/run_eda.py data.xlsx --col_types rating=ordinal description=text --group platform tier --output tables/
-    python scripts/run_eda.py data.xlsx --no_excel --output tables/
+    python scripts/run_eda.py data.xlsx --output tables-eda/
+    python scripts/run_eda.py data.xlsx --col_types rating=ordinal description=text --group platform tier --output tables-eda/
+    python scripts/run_eda.py data.xlsx --no_excel --output tables-eda/
 """
 
 import argparse
@@ -849,7 +849,7 @@ def main():
         description="Universal EDA runner -- q-eda"
     )
     parser.add_argument("data", help="Path to input file (.xlsx or .csv)")
-    parser.add_argument("--output", default="tables/", help="Output directory (default: tables/)")
+    parser.add_argument("--output", default="tables-eda/", help="Output directory (default: tables-eda/)")
     parser.add_argument("--group", nargs="*", default=[], help="Nominal columns for grouping")
     parser.add_argument(
         "--col_types", nargs="*", default=[],
