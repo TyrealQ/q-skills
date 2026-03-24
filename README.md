@@ -122,7 +122,7 @@ Then re-copy the skills to your skills directory (see Manual install above).
 
 | Skill                         | Description                                                                 |
 | ----------------------------- | --------------------------------------------------------------------------- |
-| [q-scholar](#q-scholar)       | Academic manuscript writing suite (intro, EDA, topic modeling, methods, results) |
+| [q-scholar](#q-scholar)       | Academic manuscript writing suite (intro, exploratory data analysis, topic modeling, methods, results) |
 | [q-educator](#q-educator)     | Course content development for lectures, demos, assignments, and feedback   |
 
 ### Visual Content Skills
@@ -153,7 +153,7 @@ Academic manuscript writing suite for drafting journal-ready prose following APA
 | Sub-Skill | Description |
 | --------- | ----------- |
 | q-intro | Introduction drafting and refinement with argumentative architecture guidance |
-| q-eda | Universal EDA with user-confirmed column types and measurement-appropriate statistics |
+| q-eda | Universal exploratory data analysis with user-confirmed column types and measurement-appropriate statistics |
 | q-topic-finetuning | Consolidate topic modeling outputs (BERTopic, LDA, NMF) into theory-driven frameworks |
 | q-methods | Methods section drafting in clear, narrative style |
 | q-results | Results section drafting with APA-compliant tables |
@@ -166,7 +166,7 @@ Academic manuscript writing suite for drafting journal-ready prose following APA
 
 **Features:**
 
-- End-to-end manuscript support (data exploration -> methods -> results)
+- End-to-end manuscript support (exploratory data analysis -> methods -> results)
 - APA 7th edition formatting (tables, statistics, notation)
 - Narrative prose style (no bullet points or em-dashes)
 - Shared style guides and templates

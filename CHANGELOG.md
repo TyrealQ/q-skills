@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 
 - **structure**: Removed redundant `skills/` subdirectory from each category — skills now sit directly under their category folder (e.g., `skills/academic-skills/q-scholar/` instead of `skills/academic-skills/skills/q-scholar/`)
 - **marketplace.json**: Updated skill paths to match flattened structure
+- **README**: Expanded "EDA" abbreviation to "exploratory data analysis" for reader clarity
 
 ## [1.7.1] - 2026-03-23
 
