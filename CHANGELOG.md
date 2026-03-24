@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.7.2] - 2026-03-24
+
+### Changed
+
+- **structure**: Removed redundant `skills/` subdirectory from each category — skills now sit directly under their category folder (e.g., `skills/academic-skills/q-scholar/` instead of `skills/academic-skills/skills/q-scholar/`)
+- **marketplace.json**: Updated skill paths to match flattened structure
+
 ## [1.7.1] - 2026-03-23
 
 ### Added

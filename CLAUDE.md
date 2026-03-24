@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with this repository.
 ```
 q-skills/
 |-- skills/
-|   |-- academic-skills/skills/        # Academic writing & teaching
+|   |-- academic-skills/               # Academic writing & teaching
 |   |   |-- q-scholar/                 # Academic manuscript writing suite
 |   |   |   |-- q-intro/
 |   |   |   |-- q-eda/
@@ -15,10 +15,10 @@ q-skills/
 |   |   |   |-- q-methods/
 |   |   |   `-- q-results/
 |   |   `-- q-educator/                # Course content development toolkit
-|   |-- visual-content-skills/skills/  # Visual content generation
+|   |-- visual-content-skills/         # Visual content generation
 |   |   |-- q-infographics/            # Document to infographic conversion
 |   |   `-- q-presentations/           # Content to branded slide decks
-|   `-- utility-skills/skills/         # Git workflow automation
+|   `-- utility-skills/                # Git workflow automation
 |       |-- commit/                    # Git commit with smart file grouping
 |       |-- learn/                     # Persist user preferences across sessions
 |       `-- ship/                      # Full ship cycle: docs, commit, push
@@ -26,8 +26,6 @@ q-skills/
 |-- CHANGELOG.md
 `-- LICENSE
 ```
-
-Each skill category has its own `source` directory in `skills/`, so Claude Code caches only the skills that belong to that category.
 
 ## Skill Guidelines
 
@@ -59,7 +57,7 @@ All script, prompt, and reference paths in the skill MUST use `${SKILL_DIR}/...`
 ## Adding New Skills
 
 1. Identify which category the skill belongs to (academic, visual-content, or utility)
-2. Create folder in `skills/<category-name>/skills/` with lowercase name using hyphens
+2. Create folder in `skills/<category-name>/` with lowercase name using hyphens
 3. Add `SKILL.md` with proper frontmatter
 4. Add the skill path to the category's `skills` array in `.claude-plugin/marketplace.json`
 5. Update `README.md` to include new skill

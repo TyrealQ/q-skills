@@ -77,13 +77,13 @@ git clone https://github.com/TyrealQ/q-skills.git
 **Windows (PowerShell):**
 
 ```powershell
-Copy-Item -Recurse -Force q-skills\skills\q-* $env:USERPROFILE\.claude\skills\
+Copy-Item -Recurse -Force q-skills\skills\*\q-* $env:USERPROFILE\.claude\skills\
 ```
 
 **macOS/Linux:**
 
 ```bash
-cp -r q-skills/skills/q-* ~/.claude/skills/
+cp -r q-skills/skills/*/q-* ~/.claude/skills/
 ```
 
 > **Note:** The exact skills path depends on your AI assistant. Common locations: `~/.claude/skills/`, `~/.gemini/skills/`
