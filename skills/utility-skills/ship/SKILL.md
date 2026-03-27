@@ -120,9 +120,9 @@ Rules:
 - If code + docs changed together, use the type that matches the code change
 
 Examples by group type:
-- Content: `docs: add Basic-NLP sentiment analysis notebook`
-- Skills: `chore: update ship skill commit strategy`
-- Code: `feat: add batch processing to ScholarAnalyzer`
+- Content: `docs: add exploratory analysis notebook`
+- Skills: `chore: update commit skill workflow`
+- Code: `feat: add batch processing to pipeline`
 - Config: `chore: update project config`
 
 ### Step 6: Stage and commit

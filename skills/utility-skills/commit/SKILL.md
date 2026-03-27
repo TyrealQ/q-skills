@@ -53,9 +53,9 @@ Follow conventional commits format from `rules/git-workflow.md`:
 Types: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`, `perf`, `ci`
 
 Examples:
-- `docs: add Amodei NYT interview notes`
-- `feat: add auto-commit stop hook`
-- `fix: correct citation formatting in review`
+- `docs: add exploratory analysis notebook`
+- `feat: add batch processing to pipeline`
+- `fix: correct citation formatting in report`
 - `chore: update project config`
 
 Keep descriptions concise (under 70 chars).
