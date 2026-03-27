@@ -1,6 +1,6 @@
 # Literature Review Section Template
 
-This template provides fill-in-the-blank patterns for each structural component. Each section includes an architectural annotation explaining the logic behind the pattern.
+This template provides structural and conceptual guidance for each paragraph of a standalone literature review. The bracketed patterns illustrate the argumentative logic and the types of content each paragraph should contain, not the specific phrasing to use. Actual drafting should be dynamic and flexible: adapt sentence count, paragraph length, ordering, and wording to the manuscript's needs. Prioritize clarity, coherence, and flow over pattern replication. The eight-paragraph structure is a reference architecture; merge, split, or reorder paragraphs as the argument demands.
 
 ## Subsection 1: [Theory] in [Domain]
 

@@ -1,6 +1,6 @@
 # Introduction Section Template
 
-This template provides fill-in-the-blank patterns for each structural component. Each section includes an architectural annotation explaining the logic behind the pattern, not just the structure.
+This template provides structural and conceptual guidance for each component of an introduction. The bracketed patterns illustrate the argumentative logic and the types of content each paragraph should contain, not the specific phrasing to use. Actual drafting should be dynamic and flexible: adapt sentence count, paragraph length, ordering, and wording to the manuscript's needs. Prioritize clarity, coherence, and flow over pattern replication.
 
 ## Opening Hook
 
