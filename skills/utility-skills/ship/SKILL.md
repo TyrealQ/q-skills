@@ -75,12 +75,13 @@ For each applicable documentation file, read the current contents first, then up
 - Examples: adding a notebook -> update the directory's README; renaming a section -> update root README
 - **Skip when**: The change is self-evident from the file itself (e.g., adding a row to a resource table — the table IS the README)
 
-#### Stale reference check
-After identifying all changed, added, and deleted files, **grep documentation files for references that are now stale**:
+#### Stale and missing reference check
+After identifying all changed, added, and deleted files, **check documentation files for stale or missing references**:
 - **Deleted files**: Search README.md, CLAUDE.md, and any doc that might reference them (folder trees, file lists, dependency mentions)
 - **Renamed/moved files**: Update all path references
 - **Removed features or dependencies**: Remove or update mentions in all docs
-- Run: `git diff --name-status` to get the full list of deleted (`D`) and renamed (`R`) files, then search docs for those filenames
+- **New directories or files**: If CLAUDE.md or README.md contain folder trees, check whether newly added directories or files should appear in those trees
+- Run: `git diff --name-status` to get the full list of added (`A`/`??`), deleted (`D`), and renamed (`R`) files, then search docs for entries that need adding or removing
 
 #### Other docs
 - If any other documentation file is directly affected by the changes, update it too
