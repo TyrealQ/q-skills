@@ -11,7 +11,10 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - **q-scholar**: Added cross-section coordination principle to core writing principles
-- **q-intro**: Added scope separation guidance for manuscripts with standalone literature reviews
+- **q-intro**: Added scope separation guidance for manuscripts with standalone literature reviews; restructured SKILL.md to reference files at top and remove content duplicated in references
+- **q-intro, q-litreview**: Templates clarified as structural guidance, not verbatim scripts
+- **commit, ship**: Replaced project-specific examples with generic ones
+- **ship**: Stale reference check now also catches newly added directories missing from folder trees
 
 ## [1.7.2] - 2026-03-24
 
