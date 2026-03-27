@@ -9,7 +9,7 @@ This skill guides drafting and refinement of standalone literature review sectio
 
 ## Reference Files
 
-- **references/literature_review_template.md**: Fill-in-the-blank template with architectural annotations for each paragraph
+- **references/literature_review_template.md**: Structural guidance (not verbatim scripts); draft dynamically for clarity and flow
 - **references/interview_questions.md**: Structured interview protocol for gathering context and a refinement diagnostic checklist
 
 ## Core Principles
