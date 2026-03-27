@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.8.0] - 2026-03-27
+
+### Added
+
+- **q-litreview**: New sub-skill under q-scholar for drafting standalone literature review sections with progressive-argument architecture, earned research questions, and cross-section coordination with the introduction
+
+### Changed
+
+- **q-scholar**: Added cross-section coordination principle to core writing principles
+- **q-intro**: Added scope separation guidance for manuscripts with standalone literature reviews
+
 ## [1.7.2] - 2026-03-24
 
 ### Changed

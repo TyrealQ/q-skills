@@ -153,6 +153,7 @@ Academic manuscript writing suite for drafting journal-ready prose following APA
 | Sub-Skill | Description |
 | --------- | ----------- |
 | q-intro | Introduction drafting and refinement with argumentative architecture guidance |
+| q-litreview | Literature review drafting with progressive-argument architecture and cross-section coordination |
 | q-eda | Universal exploratory data analysis with user-confirmed column types and measurement-appropriate statistics |
 | q-topic-finetuning | Consolidate topic modeling outputs (BERTopic, LDA, NMF) into theory-driven frameworks |
 | q-methods | Methods section drafting in clear, narrative style |
@@ -182,7 +183,10 @@ q-scholar/
 |   `-- table_formatting.md               # APA 7th table examples
 |-- q-intro/
 |   |-- SKILL.md                          # Introduction drafting skill
-|   `-- references/                       # Templates and interview questions
+|   `-- references/                       # Template and interview questions
+|-- q-litreview/
+|   |-- SKILL.md                          # Literature review drafting skill
+|   `-- references/                       # Template and interview questions
 |-- q-eda/
 |   |-- SKILL.md                          # Data exploration skill
 |   |-- scripts/                          # run_eda.py

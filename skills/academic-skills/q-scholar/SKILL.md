@@ -14,6 +14,11 @@ Introduction drafting and refinement with argumentative architecture guidance. S
 
 Use for: Writing or refining introduction sections that move from phenomenon to theory to empirical contribution, with discipline-first literature grounding, cross-paragraph bridge architecture, and enumerated contributions.
 
+### q-litreview
+Literature review drafting as a standalone section following the introduction. Builds a progressive argument across two subsections: theoretical framework exposition and prior-research-to-new-approach pivot. Purely conceptual and theoretical; reserves measurement and analytical methodology for the methods section. Dense citation support with specific study findings woven into flowing prose.
+
+Use for: Writing literature review sections that trace theory, application, limitations, and new approach, with earned research questions emerging at the conclusion.
+
 ### q-eda
 Universal exploratory data analysis for tabular datasets. Interviews the user to confirm column measurement levels (Nominal, Ordinal, Discrete, Continuous, Temporal, Text) and applies statistically appropriate analysis for each type. Produces a structured tables-eda/ folder of CSV outputs and a holistic EXPLORATORY_SUMMARY.md with flagged insights.
 
@@ -46,6 +51,7 @@ Across all sub-skills, Q-Scholar maintains consistent standards:
 6. Tables: APA format with number, title, notes
 7. Appendices for technical details and comprehensive codebooks
 8. Placeholders for missing information (coauthor contributions, pending metrics)
+9. Cross-section coordination: when the intro and lit review treat the same literature, compress in the intro and elaborate in the lit review; each section should do distinct work
 
 ## Usage Patterns
 
@@ -90,6 +96,10 @@ q-scholar/
 │   └── references/
 │       ├── introduction_template.md
 │       └── interview_questions.md
+├── q-litreview/
+│   ├── SKILL.md                          # Literature review drafting skill
+│   └── references/
+│       └── literature_review_template.md
 ├── q-eda/
 │   ├── SKILL.md                          # Data exploration skill
 │   ├── scripts/
@@ -125,6 +135,7 @@ Shared references (apply to all sub-skills):
 
 Sub-skill specific references:
 - q-intro/references/: introduction_template.md, interview_questions.md
+- q-litreview/references/: literature_review_template.md
 - q-eda/SKILL.md: workflow templates, script invocation
 - q-eda/scripts/run_eda.py: six-phase EDA pipeline
 - q-topic-finetuning/references/: esports_ugc_example.md, SP_OUTLIER_TEMPLATE.txt
