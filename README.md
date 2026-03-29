@@ -179,8 +179,9 @@ Academic manuscript writing suite for drafting journal-ready prose following APA
 q-scholar/
 |-- SKILL.md                              # Orchestration skill
 |-- references/                           # Shared style guides
-|   |-- apa_style_guide.md                # Numbers, statistics, notation
-|   `-- table_formatting.md               # APA 7th table examples
+|   |-- apa_style_guide.md                # Numbers, statistics, notation, formulas
+|   |-- table_formatting.md               # APA 7th table examples
+|   `-- appendix_template.md              # Shared appendix structure (methods + results)
 |-- q-intro/
 |   |-- SKILL.md                          # Introduction drafting skill
 |   `-- references/                       # Template and interview questions
@@ -197,7 +198,7 @@ q-scholar/
 |   `-- references/                       # Worked example + outlier prompt template
 |-- q-methods/
 |   |-- SKILL.md                          # Methods drafting skill
-|   `-- references/                       # Methods and appendix templates
+|   `-- references/                       # Methods template
 `-- q-results/
     |-- SKILL.md                          # Results drafting skill
     `-- references/                       # Results template
