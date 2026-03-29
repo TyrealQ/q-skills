@@ -12,7 +12,7 @@ q-skills/
 |   |   |   |-- q-intro/
 |   |   |   |-- q-litreview/
 |   |   |   |-- q-eda/
-|   |   |   |-- q-topic-finetuning/
+|   |   |   |-- q-tf/
 |   |   |   |-- q-methods/
 |   |   |   `-- q-results/
 |   |   `-- q-educator/                # Course content development toolkit

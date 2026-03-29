@@ -1,6 +1,6 @@
 ---
 name: q-scholar
-description: Academic manuscript writing suite (APA 7th). Orchestrates q-intro, q-eda, q-topic-finetuning, q-methods, and q-results for end-to-end manuscript preparation. Use for writing papers, drafting sections, or academic writing support.
+description: Academic manuscript writing suite (APA 7th). Orchestrates q-intro, q-eda, q-tf, q-methods, and q-results for end-to-end manuscript preparation. Use for writing papers, drafting sections, or academic writing support.
 ---
 
 # Q-Scholar
@@ -23,7 +23,7 @@ All drafting sub-skills inherit these:
 | q-methods | Draft methods sections (data collection, analysis, validation procedures) |
 | q-results | Draft results sections (findings with APA tables and narrative flow) |
 | q-eda | Exploratory data analysis (measurement-appropriate statistics to CSV + summary) |
-| q-topic-finetuning | Topic model consolidation (raw topics to theory-driven classification) |
+| q-tf | Topic finetuning (raw topics to theory-driven classification) |
 
 ## Core Writing Principles
 

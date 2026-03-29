@@ -155,7 +155,7 @@ Academic manuscript writing suite for drafting journal-ready prose following APA
 | q-intro | Introduction drafting and refinement with argumentative architecture guidance |
 | q-litreview | Literature review drafting with progressive-argument architecture and cross-section coordination |
 | q-eda | Universal exploratory data analysis with user-confirmed column types and measurement-appropriate statistics |
-| q-topic-finetuning | Consolidate topic modeling outputs (BERTopic, LDA, NMF) into theory-driven frameworks |
+| q-tf | Topic finetuning to consolidate topic modeling outputs (BERTopic, LDA, NMF) into theory-driven classification frameworks |
 | q-methods | Methods section drafting in clear, narrative style |
 | q-results | Results section drafting with APA-compliant tables |
 
@@ -192,8 +192,8 @@ q-scholar/
 |   |-- SKILL.md                          # Data exploration skill
 |   |-- scripts/                          # run_eda.py
 |   `-- references/                       # Summary template and examples
-|-- q-topic-finetuning/
-|   |-- SKILL.md                          # Topic modeling consolidation skill
+|-- q-tf/
+|   |-- SKILL.md                          # Topic finetuning skill
 |   |-- scripts/                          # classify_outliers.py, plan & Excel updaters
 |   `-- references/                       # Worked example + outlier prompt template
 |-- q-methods/
@@ -430,7 +430,7 @@ Full ship cycle: update documentation, stage, commit, and push to remote. Automa
 
 ## Environment Configuration
 
-Some skills (q-infographics, q-presentations, q-topic-finetuning) use the Google Gemini API and need an API key to generate images and content.
+Some skills (q-infographics, q-presentations, q-tf) use the Google Gemini API and need an API key to generate images and content.
 
 ### Getting Your API Key
 
@@ -475,7 +475,7 @@ To make it permanent, add the export line to your shell profile (`~/.bashrc`, `~
 
 | Variable | Purpose | Default |
 | -------- | ------- | ------- |
-| `GEMINI_MODEL` | Override the model used by q-topic-finetuning | `gemini-3-flash-preview` |
+| `GEMINI_MODEL` | Override the model used by q-tf | `gemini-3-flash-preview` |
 
 ---
 

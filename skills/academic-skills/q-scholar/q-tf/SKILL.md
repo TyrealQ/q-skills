@@ -1,16 +1,16 @@
 ---
-name: q-topic-finetuning
-description: "Consolidate topic modeling outputs (BERTopic, LDA, NMF) into theory-driven classification frameworks. Use for topic consolidation, reclassification, outlier handling, or updating Excel labels from topic models."
+name: q-tf
+description: "Consolidate topic modeling outputs (BERTopic, LDA, NMF) into theory-driven classification frameworks. Use for topic finetuning, topic consolidation, reclassification, outlier handling, or updating Excel labels from topic models."
 ---
 
-# Q-Topic-Finetuning
+# Q-TF
 
 Fine-tune topic modeling outputs into consolidated, theory-driven topic frameworks for academic manuscripts.
 
 ## Folder Structure
 
 ```
-q-topic-finetuning/
+q-tf/
 ├── SKILL.md                                  # This file
 ├── scripts/
 │   ├── classify_outliers.py                  # Outlier reclassification via Gemini

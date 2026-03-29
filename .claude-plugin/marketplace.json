@@ -17,7 +17,7 @@
         "./q-scholar",
         "./q-scholar/q-intro",
         "./q-scholar/q-eda",
-        "./q-scholar/q-topic-finetuning",
+        "./q-scholar/q-tf",
         "./q-scholar/q-methods",
         "./q-scholar/q-results",
         "./q-educator"

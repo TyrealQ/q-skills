@@ -1,6 +1,6 @@
 # Esports UGC Example
 
-This reference shows a complete example of the q-topic-finetuning workflow applied to esports user-generated content with a legitimacy framework classification.
+This reference shows a complete example of the q-tf workflow applied to esports user-generated content with a legitimacy framework classification.
 
 ## Context
 

@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - **q-scholar**: Simplified orchestrator to sub-skill index and core writing principles; removed redundant folder tree, cross-references, usage examples, and generic quality statements
+- **q-tf**: Renamed from q-topic-finetuning
 - **q-scholar suite**: Standardized all drafting skills (q-intro, q-litreview, q-methods, q-results) to consistent section order (References, Core Principles, Architecture/Structure, Workflow, Scope, Checklist) with shared references at top and bullet-point instructions throughout
 - **q-scholar suite**: Consolidated duplicated APA formatting rules; each skill now references shared apa_style_guide.md for numbers, notation, punctuation, and formulas instead of restating rules inline
 - **q-scholar suite**: Added paragraph-density policy (3-12 sentences, no single-sentence paragraphs, no standalone intro paragraphs) across all drafting skills
