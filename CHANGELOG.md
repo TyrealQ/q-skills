@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
 - **q-methods**: Added appendix strategy with general inline-vs-appendix guidance and a user-refinement step for context-dependent standard-vs-detail boundaries
 - **q-results**: Added core vs. peripheral results separation with appendix strategy and user-refinement step for context-dependent boundaries
 - **apa_style_guide.md**: Expanded formula and backtick guidance to cover all expression types (regression equations, interaction terms, transformations, thresholds) with explicit in-table examples
+- **appendix_template.md**: Moved from q-methods/references to shared q-scholar/references; expanded to cover both methods appendices (configuration, specifications, codebooks) and results appendices (complete tables, robustness checks, supplementary breakdowns)
 
 ## [1.8.0] - 2026-03-27
 
