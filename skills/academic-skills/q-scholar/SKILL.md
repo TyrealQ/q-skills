@@ -5,140 +5,32 @@ description: Academic manuscript writing suite (APA 7th). Orchestrates q-intro, 
 
 # Q-Scholar
 
-Q-Scholar is an overarching academic writing skill that orchestrates specialized sub-skills to support the complete manuscript preparation workflow. It produces journal-ready prose following APA 7th edition standards.
+Orchestrates specialized sub-skills for academic manuscript preparation following APA 7th edition standards.
+
+## Shared References
+
+All drafting sub-skills inherit these:
+- **references/apa_style_guide.md** — numbers, statistics, notation, punctuation, formulas
+- **references/table_formatting.md** — APA 7th table structure and examples
 
 ## Sub-Skills
 
-### q-intro
-Introduction drafting and refinement with argumentative architecture guidance. Supports two modes: interview-based drafting from scratch, and diagnostic refinement of existing drafts. Produces flowing prose that establishes context through a single narrative arc, identifies literature gaps as natural consequences of the trajectory, motivates theoretical frameworks as resolutions to identified needs, and frames research questions with clear scope progression.
-
-Use for: Writing or refining introduction sections that move from phenomenon to theory to empirical contribution, with discipline-first literature grounding, cross-paragraph bridge architecture, and enumerated contributions.
-
-### q-litreview
-Literature review drafting as a standalone section following the introduction. Builds a progressive argument across two subsections: theoretical framework exposition and prior-research-to-new-approach pivot. Purely conceptual and theoretical; reserves measurement and analytical methodology for the methods section. Dense citation support with specific study findings woven into flowing prose.
-
-Use for: Writing literature review sections that trace theory, application, limitations, and new approach, with earned research questions emerging at the conclusion.
-
-### q-eda
-Universal exploratory data analysis for tabular datasets. Interviews the user to confirm column measurement levels (Nominal, Ordinal, Discrete, Continuous, Temporal, Text) and applies statistically appropriate analysis for each type. Produces a structured tables-eda/ folder of CSV outputs and a holistic EXPLORATORY_SUMMARY.md with flagged insights.
-
-Use for: Initial data exploration, measurement-level-appropriate descriptive statistics, understanding dataset structure before formal analysis.
-
-### q-topic-finetuning
-Fine-tune and consolidate topic modeling outputs (BERTopic, LDA, NMF) into theory-driven classification frameworks for academic manuscripts. Handles topic consolidation, theoretical classification, domain-specific preservation, multi-category assignments, and Excel label updates.
-
-Use for: Converting 50+ raw topics into 20-50 manuscript-ready categories, applying theoretical frameworks (legitimacy, stakeholder theory, sentiment) to topic clusters, generating reproducible Excel outputs with classification labels.
-
-### q-methods
-Methods section drafting in clear, narrative style. Produces flowing paragraphs organized by workflow stages with appropriate appendix cross-references for technical details. Maintains strict separation between methods and results: describes procedures and summarizes data collected, but reserves analysis findings for the results section.
-
-Use for: Writing data collection, preprocessing, analysis procedures, validation descriptions, and corpus summaries (sample size, date range, category distributions).
-
-### q-results
-Results section drafting following APA 7th edition guidelines. Produces narrative prose organized by research questions with properly formatted tables.
-
-Use for: Presenting findings, formatting statistical results, creating APA-compliant tables.
+| Skill | Purpose |
+|-------|---------|
+| q-intro | Draft or refine introduction sections (phenomenon to theory to contribution) |
+| q-litreview | Draft standalone literature reviews (progressive argument to earned RQs) |
+| q-methods | Draft methods sections (data collection, analysis, validation procedures) |
+| q-results | Draft results sections (findings with APA tables and narrative flow) |
+| q-eda | Exploratory data analysis (measurement-appropriate statistics to CSV + summary) |
+| q-topic-finetuning | Topic model consolidation (raw topics to theory-driven classification) |
 
 ## Core Writing Principles
 
-Across all sub-skills, Q-Scholar maintains consistent standards:
+All drafting sub-skills follow these standards:
 
-1. Narrative prose over bullet points
-2. No em-dashes; use hyphens for compound modifiers only
-3. No unnecessary bold or italic emphasis
-4. APA 7th statistical notation (italicized symbols)
-5. Numbers: spell out below 10 unless measurements/statistics
-6. Tables: APA format with number, title, notes
-7. Appendices for technical details and comprehensive codebooks
-8. Placeholders for missing information (coauthor contributions, pending metrics)
-9. Cross-section coordination: when the intro and lit review treat the same literature, compress in the intro and elaborate in the lit review; each section should do distinct work
-
-## Usage Patterns
-
-### Full Manuscript Support
-```
-User: Help me write the introduction, methods, and results for my topic modeling study
-Assistant: [Invokes q-intro, q-methods, then q-results in sequence]
-```
-
-### Targeted Section Drafting
-```
-User: Draft an introduction for my paper on esports legitimacy
-Assistant: [Invokes q-intro with interview workflow]
-```
-
-### Data Exploration First
-```
-User: I have a new dataset and need to understand it before writing
-Assistant: [Invokes q-eda for exploration, then proceeds to writing sections]
-```
-
-## Quality Standards
-
-All output should meet these criteria:
-- Ready for submission to peer-reviewed journals
-- Consistent formatting throughout
-- Complete information (or explicit placeholders)
-- Appropriate use of appendices
-- Logical organization and flow
-- Objective reporting without premature interpretation
-
-## Folder Structure
-
-```
-q-scholar/
-├── SKILL.md                              # This file (orchestration)
-├── references/                           # Shared style guides
-│   ├── apa_style_guide.md                # Numbers, statistics, notation
-│   └── table_formatting.md               # APA 7th table examples
-├── q-intro/
-│   ├── SKILL.md                          # Introduction drafting skill
-│   └── references/
-│       ├── introduction_template.md
-│       └── interview_questions.md
-├── q-litreview/
-│   ├── SKILL.md                          # Literature review drafting skill
-│   └── references/
-│       └── literature_review_template.md
-├── q-eda/
-│   ├── SKILL.md                          # Data exploration skill
-│   ├── scripts/
-│   │   ├── run_eda.py                    # Six-phase EDA runner
-│   │   └── requirements.txt              # Python dependencies
-│   └── references/
-│       └── summary_template.md           # 13-section summary template
-├── q-topic-finetuning/
-│   ├── SKILL.md                          # Topic modeling consolidation skill
-│   ├── scripts/
-│   │   ├── classify_outliers.py          # Outlier reclassification via Gemini
-│   │   ├── generate_implementation_plan.py
-│   │   └── update_excel_with_labels.py
-│   └── references/
-│       ├── esports_ugc_example.md        # Worked example
-│       └── SP_OUTLIER_TEMPLATE.txt       # Outlier classification prompt
-├── q-methods/
-│   ├── SKILL.md                          # Methods drafting skill
-│   └── references/
-│       ├── methods_template.md
-│       └── appendix_template.md
-└── q-results/
-    ├── SKILL.md                          # Results drafting skill
-    └── references/
-        └── results_template.md
-```
-
-## Cross-References
-
-Shared references (apply to all sub-skills):
-- references/apa_style_guide.md: numbers, statistics, notation
-- references/table_formatting.md: APA 7th table examples
-
-Sub-skill specific references:
-- q-intro/references/: introduction_template.md, interview_questions.md
-- q-litreview/references/: literature_review_template.md
-- q-eda/SKILL.md: workflow templates, script invocation
-- q-eda/scripts/run_eda.py: six-phase EDA pipeline
-- q-topic-finetuning/references/: esports_ugc_example.md, SP_OUTLIER_TEMPLATE.txt
-- q-topic-finetuning/scripts/: classify_outliers.py, generate_implementation_plan.py, update_excel_with_labels.py
-- q-methods/references/: methods_template.md, appendix_template.md
-- q-results/references/: results_template.md
+- Narrative prose; no bullet points, em-dashes, or standalone introductory paragraphs
+- Prefer 3-12 sentence paragraphs; merge pre-table intros into the post-table narrative
+- No unnecessary bold or italic emphasis in running text
+- Follow ../references/apa_style_guide.md for APA formatting, numbers, notation, and formulas
+- Use appendices for technical details; placeholders for pending information
+- Cross-section coordination: compress in the intro what the lit review elaborates; each section does distinct work

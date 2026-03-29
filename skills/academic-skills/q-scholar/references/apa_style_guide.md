@@ -140,18 +140,27 @@ Reference tables before they appear in the document:
 
 ## Equations, Formulas, and Set Notation
 
-All formulas, expressions, and notation that contain operators or markdown-sensitive characters must use inline code formatting (backticks).
+All formulas, expressions, and notation that contain operators or markdown-sensitive characters must use inline code formatting (backticks). This applies everywhere: running prose, table cells, and figure notes.
 
-This includes: QCA path expressions, Boolean formulas, set-theoretic notation, interaction terms, negations, and any expression using operators such as *, ~, +, _, <, >, or =.
+This includes any expression using operators such as *, ~, +, -, /, _, <, >, or =: mathematical formulas, Boolean expressions, set-theoretic notation, interaction terms, negations, regression equations, path expressions, threshold specifications, and log or other transformations.
 
-### Examples
-> QCA path: `~W*C*D*~R*T*~V`
-> Interaction term: `X1*X2*X3`
+### In-Text Examples
+> Regression: `Y = b0 + b1*X1 + b2*X2 + e`
+> Interaction: `X1*X2*X3`
 > Set expression: `A*~B + C*D`
-> Negation: `~OUTCOME`
-> Calibration: `log(x + 1)`
+> Transformation: `log(x + 1)`
 > Threshold: `incl.cut = 0.80`
-> Single negated condition in prose: `~P`
+> Negation: `~OUTCOME`
+> Single condition in prose: `~P`
+
+### In-Table Example
+
+| Model | Specification | *R*² |
+|-------|--------------|------:|
+| 1 | `Y = b0 + b1*X1` | .42 |
+| 2 | `Y = b0 + b1*X1 + b2*X1*X2` | .58 |
+
+Table cells use backticks identically to running prose.
 
 For display equations on their own line, use fenced code blocks.
 

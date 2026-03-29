@@ -5,58 +5,53 @@ description: Draft methods sections for academic manuscripts in narrative style 
 
 # Q-Methods
 
-This skill guides drafting of methods sections for academic manuscripts in a clear, narrative style suitable for broad scholarly audiences.
+Draft methods sections in clear narrative style for broad scholarly audiences.
+
+## References
+
+- **references/methods_template.md** — section template with placeholders
+- **references/appendix_template.md** — companion appendix structure
+- **../references/apa_style_guide.md** — APA formatting, numbers, notation, formulas
 
 ## Core Principles
 
-1. Write in flowing paragraphs without bullet points or em-dashes
-2. Use conceptual language; minimize technical jargon in main text
-3. Organize by logical workflow stages: data collection, preprocessing, analysis, validation
-4. Reference appendices for implementation details and technical parameters
-5. Include placeholders where coauthor contributions are pending
-6. Keep methods strictly separate from results: describe what was done and how, not what was found
+- Narrative prose; no bullet points, em-dashes, or standalone introductory paragraphs
+- Prefer 3-12 sentence paragraphs; merge pre-table intros into post-table narrative
+- Conceptual language; avoid implementation jargon ("Interview responses were organized by dimension" not "We filtered the DataFrame")
+- Organize by logical workflow stages: data collection, preprocessing, analysis, validation
+- Wrap all formulas and operator-heavy expressions in inline code backticks, in both prose and table cells (see ../references/apa_style_guide.md, "Equations, Formulas, and Set Notation")
+- Strict methods/results separation: describe what was done and how, not what was found
 
-## Scope Boundaries
-
-The methods section describes procedures and summarizes the data collected, but does not report analysis findings.
-
-**Include in methods:**
-- Sample size, date range, and demographic breakdown of collected data
-- Descriptive overview of the corpus (e.g., total documents, distribution across categories)
-- Preprocessing steps and resulting dataset dimensions
-- Analytical procedures and validation protocols
-
-**Reserve for results:**
-- Statistical findings and effect sizes
-- Pattern discoveries and thematic outcomes
-- Comparative analyses between groups
-- Any interpretation of what the data reveals
-
-## Standard Structure
+## Section Structure
 
 ### Data Collection and Preprocessing
 
-Describe sampling strategy, recruitment procedures, and data sources. If details are pending from coauthors, mark with explicit placeholders. Present preprocessing at a conceptual level without code-specific language, and reference the appendix for technical parameters and library specifications.
-
-Include a summary of the collected data: total sample size, date range, and breakdown by key variables. This descriptive overview establishes what was gathered before the analysis, distinct from reporting what the analysis found.
+Summarize sample size, date range, and breakdown by key variables. Describe preprocessing conceptually; reference appendix for technical parameters.
 
 ### Data Analysis
 
-Open with a brief pipeline overview that establishes the analytical approach. Organize by analytical stages (e.g., topic modeling, classification, validation). For each stage, justify the method choice, describe key parameters conceptually, and reference the appendix for technical details.
+Open with a pipeline overview. Justify method choices conceptually and reference appendix for technical details.
 
 ### Validation
 
-Describe the human validation sampling strategy and coding procedures. Leave placeholders for reliability metrics (e.g., Cohen's kappa, percent agreement) if not yet available.
+Describe human validation sampling and coding procedures. Leave placeholders for reliability metrics if pending.
 
-## Writing Style
+## Appendix Strategy
 
-Avoid implementation language like "importing Python libraries" or "using pandas for data manipulation." Write conceptually: "Interview responses were organized by dimension" rather than "We filtered the DataFrame by question type."
+The main text presents the analytical logic at a level accessible to the target audience; appendices provide the detail needed for reproducibility.
 
-Use hyphens for compound modifiers (e.g., "high-confidence classifications"). Never use em-dashes. Spell out numbers below ten unless they represent measurements, statistics, or technical values. Wrap formulas, QCA paths, and operator-heavy expressions in inline code backticks (see ../references/apa_style_guide.md, "Equations, Formulas, and Set Notation").
+**General guidance (apply by default):** If a parameter is needed to understand the analytical logic, include it in the main text (sample size, key thresholds, model names). If it is needed to replicate the analysis but not to follow the argument, place it in an appendix (full configuration tables, system prompts, coding rubrics, preprocessing specifications). Cross-reference appendices at the point of first relevance: "Detailed parameters are provided in Appendix A." Use placeholders for pending contributions.
 
-When referencing appendix sections: "Detailed parameters are provided in Appendix A" or "The complete system prompt is documented in Appendix E."
+**Then ask the user to refine** the standard-vs-detail boundary for their study, since it is context-dependent. A consistency threshold may be a standard parameter in one study but require appendix-level justification in another.
 
-## Reference Files
+## Scope
 
-- references/methods_template.md: Complete section template with placeholders
-- references/appendix_template.md: Companion appendix structure
+**Include:** Sample and corpus descriptive overview, preprocessing procedures, analytical methods, validation protocols.
+
+## Checklist
+
+- [ ] Conceptual language throughout (no library names or code-level details in main text)
+- [ ] Each workflow stage has appendix cross-references for technical parameters
+- [ ] No analysis findings reported (reserved for results)
+- [ ] Placeholders marked for pending contributions
+- [ ] Appendix structure follows references/appendix_template.md

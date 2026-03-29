@@ -5,44 +5,63 @@ description: Draft results sections for academic manuscripts with APA 7th tables
 
 # Q-Results
 
-This skill guides drafting of results sections for academic manuscripts in a clear, narrative style following APA 7th edition formatting standards.
+Draft results sections following APA 7th edition standards with narrative flow and properly formatted tables.
+
+## References
+
+- **references/results_template.md** — section template with structure and examples
+- **../references/apa_style_guide.md** — APA formatting, numbers, notation, formulas
+- **../references/table_formatting.md** — APA 7th table structure and examples
 
 ## Core Principles
 
-1. Write in flowing paragraphs that narrate findings coherently
-2. Organize by research questions or analytical stages, not by statistical test
-3. Integrate tables to support (not replace) the narrative
-4. Balance comprehensiveness with readability; use appendices for detailed tables
-5. Report findings objectively without interpretation (save for discussion)
-6. Follow APA 7th edition formatting for tables, numbers, and statistical notation
+- Narrative prose; no bullet points, em-dashes, or standalone introductory paragraphs
+- Prefer 3-12 sentence paragraphs; merge pre-table intros into post-table narrative
+- Organize by research questions or analytical stages, not by statistical test
+- Tables support the narrative, not replace it
+- Report findings objectively without interpretation (save for discussion)
+- No unnecessary bold or italic emphasis in running text
+- Wrap all formulas and operator-heavy expressions in inline code backticks, in both prose and table cells (see ../references/apa_style_guide.md, "Equations, Formulas, and Set Notation")
+- Focus the main text on core findings that directly address the research questions; move peripheral, supplementary, or exhaustive detail to appendices
 
-## Standard Structure
+## Section Structure
 
 ### Opening Overview
-Brief paragraph summarizing what analyses were conducted and what the results section covers.
+
+Summarize what analyses were conducted and what the results section covers.
 
 ### Results by Research Question
-For each major finding area: state what was analyzed, present key findings with statistics, reference supporting tables, and transition logically.
 
-### Summary Paragraph
+For each finding area: state what was analyzed, present key findings with statistics, reference supporting tables, and transition logically.
+
+### Summary
+
 Brief synthesis of key findings without interpretation.
-
-## Writing Style Guidelines
-
-- No em-dashes; use hyphens for compound modifiers only
-- No unnecessary bold or italic in running text
-- Write in complete paragraphs, avoid bullet points
-- Spell out numbers below 10 unless measurements, statistics, or percentages
-- Use italics for statistical symbols: M, SD, n, N, p, F, t, r
-- Wrap formulas, QCA paths, and operator-heavy expressions in inline code backticks (see ../references/apa_style_guide.md, "Equations, Formulas, and Set Notation")
 
 ## Appendix Strategy
 
-Move to appendices: complete codebooks, detailed breakdowns, technical validation details, full cross-tabulations. Reference in main text: "The complete codebook is provided in Appendix C."
+The main text tells the story of the findings; appendices provide the evidence trail for verification and reproducibility.
 
-## Reference Files
+**Core results (main text):** Findings that directly answer the research questions, including the key tables and statistics needed to follow the narrative. Present only the most informative tables inline; summarize patterns rather than exhaustively listing every pathway, configuration, or subgroup.
 
-For detailed guidance:
-- See references/results_template.md for complete section template
-- See ../references/table_formatting.md for APA 7th table examples (shared)
-- See ../references/apa_style_guide.md for numbers, statistics, and notation (shared)
+**Peripheral results (appendices):** Complete truth tables, full solution tables with all equivalent models, exhaustive cross-tabulations, detailed robustness checks, sensitivity analyses, and supplementary breakdowns by subgroup or condition. Reference these at the point of relevance: "complete results in Table A4" or "detailed breakdowns are available in Appendix B."
+
+**When to move results to an appendix:**
+- The detail supports but does not drive the narrative (e.g., full truth tables behind a summarized solution)
+- The table has more rows or columns than the reader needs to follow the argument
+- The finding confirms rather than advances the story (e.g., robustness checks, alternative specifications)
+- Multiple equivalent models or sensitivity tests produce similar conclusions
+
+**Then ask the user to refine** the core-vs-peripheral boundary for their study, since it is context-dependent. What counts as a core table in one analysis may be appendix material in another depending on the research questions and audience.
+
+## Scope
+
+**Include:** Statistical findings, pattern discoveries, comparative analyses, distribution results. **Reserve:** Theoretical interpretation, implications, causal explanations (discussion).
+
+## Checklist
+
+- [ ] Tables referenced before they appear; formatted per ../references/table_formatting.md
+- [ ] No interpretation beyond observational connectors ("consistent with," "suggesting")
+- [ ] Statistics formatted per ../references/apa_style_guide.md (italicized symbols, no leading zeros on bounded values)
+- [ ] Core findings in main text; peripheral detail in appendices with cross-references
+- [ ] Appendix cross-references at point of first relevance

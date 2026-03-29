@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.9.0] - 2026-03-29
+
+### Changed
+
+- **q-scholar**: Simplified orchestrator to sub-skill index and core writing principles; removed redundant folder tree, cross-references, usage examples, and generic quality statements
+- **q-scholar suite**: Standardized all drafting skills (q-intro, q-litreview, q-methods, q-results) to consistent section order (References, Core Principles, Architecture/Structure, Workflow, Scope, Checklist) with shared references at top and bullet-point instructions throughout
+- **q-scholar suite**: Consolidated duplicated APA formatting rules; each skill now references shared apa_style_guide.md for numbers, notation, punctuation, and formulas instead of restating rules inline
+- **q-scholar suite**: Added paragraph-density policy (3-12 sentences, no single-sentence paragraphs, no standalone intro paragraphs) across all drafting skills
+- **q-methods**: Added appendix strategy with general inline-vs-appendix guidance and a user-refinement step for context-dependent standard-vs-detail boundaries
+- **q-results**: Added core vs. peripheral results separation with appendix strategy and user-refinement step for context-dependent boundaries
+- **apa_style_guide.md**: Expanded formula and backtick guidance to cover all expression types (regression equations, interaction terms, transformations, thresholds) with explicit in-table examples
+
 ## [1.8.0] - 2026-03-27
 
 ### Added
