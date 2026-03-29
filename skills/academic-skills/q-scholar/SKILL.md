@@ -12,6 +12,7 @@ Orchestrates specialized sub-skills for academic manuscript preparation followin
 All drafting sub-skills inherit these:
 - **references/apa_style_guide.md** — numbers, statistics, notation, punctuation, formulas
 - **references/table_formatting.md** — APA 7th table structure and examples
+- **references/appendix_template.md** — shared appendix structure for methods and results
 
 ## Sub-Skills
 

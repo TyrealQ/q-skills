@@ -10,6 +10,7 @@ Draft results sections following APA 7th edition standards with narrative flow a
 ## References
 
 - **references/results_template.md** — section template with structure and examples
+- **../references/appendix_template.md** — shared appendix structure (methods and results)
 - **../references/apa_style_guide.md** — APA formatting, numbers, notation, formulas
 - **../references/table_formatting.md** — APA 7th table structure and examples
 

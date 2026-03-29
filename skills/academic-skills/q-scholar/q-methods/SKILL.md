@@ -10,7 +10,7 @@ Draft methods sections in clear narrative style for broad scholarly audiences.
 ## References
 
 - **references/methods_template.md** — section template with placeholders
-- **references/appendix_template.md** — companion appendix structure
+- **../references/appendix_template.md** — shared appendix structure (methods and results)
 - **../references/apa_style_guide.md** — APA formatting, numbers, notation, formulas
 
 ## Core Principles
@@ -54,4 +54,4 @@ The main text presents the analytical logic at a level accessible to the target 
 - [ ] Each workflow stage has appendix cross-references for technical parameters
 - [ ] No analysis findings reported (reserved for results)
 - [ ] Placeholders marked for pending contributions
-- [ ] Appendix structure follows references/appendix_template.md
+- [ ] Appendix structure follows ../references/appendix_template.md
