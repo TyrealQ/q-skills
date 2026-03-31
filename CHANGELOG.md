@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.9.1] - 2026-03-31
+
+### Changed
+
+- **commit**: Added CLAUDE.md freshness check (Step 1.5) to catch stale temporal markers before committing
+- **ship**: Added temporal marker awareness to CLAUDE.md update step
+
 ## [1.9.0] - 2026-03-29
 
 ### Changed

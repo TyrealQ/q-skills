@@ -23,6 +23,12 @@ git diff --cached --name-status
 Classify each change:
 - `M` — modified, `??` — untracked, `D` — deleted, `R` — renamed, `A` — staged new file
 
+### Step 1.5: Check CLAUDE.md freshness
+
+If the working directory has a `CLAUDE.md`, scan it for temporal markers (e.g., "Current position," dates, deadlines, status tables) that may be stale given the changes being committed. If any section reflects outdated state, update CLAUDE.md before proceeding to commit.
+
+Skip this step if the changes are trivial (e.g., config-only, no content or documentation changes).
+
 ### Step 2: Analyze file paths to determine change type
 
 | Path pattern | Type |

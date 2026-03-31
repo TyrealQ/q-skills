@@ -69,6 +69,7 @@ For each applicable documentation file, read the current contents first, then up
 - **When**: Changes affect project structure, dependencies, code patterns, or repo organization
 - **Skip when**: Changes are limited to content additions (e.g., adding a link to Resources)
 - Update only the affected sections — do not rewrite the entire file
+- Check for temporal markers (e.g., "Current position," dates, deadlines, status tables) that may be stale given the changes being shipped
 
 #### README files (root or section-level)
 - **When**: Changes affect content described by that README
