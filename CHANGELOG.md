@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.9.2] - 2026-04-02
+
+### Changed
+
+- **commit**: Merged CLAUDE.md freshness check into Step 2 with cascade check for downstream file consistency; expanded file type table to include R and CSV
+- **ship**: Added cascade check to Step 3 for verifying downstream reports match modified scripts; expanded file type table to include R and CSV; fixed broken YAML frontmatter
+
 ## [1.9.1] - 2026-03-31
 
 ### Changed

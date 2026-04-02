@@ -23,21 +23,31 @@ git diff --cached --name-status
 Classify each change:
 - `M` — modified, `??` — untracked, `D` — deleted, `R` — renamed, `A` — staged new file
 
-### Step 1.5: Check CLAUDE.md freshness
+### Step 2: Analyze changes and verify consistency
 
-If the working directory has a `CLAUDE.md`, scan it for temporal markers (e.g., "Current position," dates, deadlines, status tables) that may be stale given the changes being committed. If any section reflects outdated state, update CLAUDE.md before proceeding to commit.
-
-Skip this step if the changes are trivial (e.g., config-only, no content or documentation changes).
-
-### Step 2: Analyze file paths to determine change type
+#### Classify file paths
 
 | Path pattern | Type |
 |---|---|
 | `posts/`, `articles/`, `content/` | content/writing |
 | `.claude/skills/` | skill config |
-| `src/`, `*.go`, `*.py`, `*.ts` | code |
+| `src/`, `*.go`, `*.py`, `*.ts`, `*.R`, `*.r` | code/scripts |
 | `*.md` | documentation |
-| `*.json`, `*.yaml`, `*.toml` | config |
+| `*.json`, `*.yaml`, `*.toml`, `*.csv` | config/data |
+
+#### Cascade check
+
+If any modified files are scripts or data files:
+
+- **Identify downstream files**: Find all markdown reports, appendices, and documentation that reference outputs or data from the modified files — search for filename references, table headers, variable names, and output patterns
+- **Verify consistency**: Check that numbers, table data, file paths, and cross-references in downstream files match the current state of the modified scripts and their outputs
+- **Fix discrepancies**: Update any stale numbers, outdated references, or mismatched data in downstream files. Include these fixes in the commit
+
+Skip if changes are limited to documentation, config, or content files with no upstream scripts or data dependencies.
+
+#### CLAUDE.md freshness
+
+If the working directory has a `CLAUDE.md`, scan it for file paths, folder names, project structure references, or temporal markers that may be stale given the changes being committed. Update CLAUDE.md before proceeding if any section reflects outdated state.
 
 ### Step 3: Decide commit strategy
 
