@@ -1,6 +1,6 @@
 ---
 name: q-intro
-description: Draft or refine introduction sections for academic manuscripts. Interview-driven workflow producing flowing prose from phenomenon to theory to contribution. Use for writing introductions, literature framing, or research question development.
+description: Draft or refine introduction sections for academic manuscripts from phenomenon to theory to contribution. Use for writing introductions, literature framing, or research question development.
 ---
 
 # Q-Intro
@@ -52,13 +52,12 @@ Literature streams enter because the previous stream raised a question it cannot
 
 ## Workflow
 
-**Phase 1 (Interview):** Conduct structured interview per references/interview_questions.md. Begin with target venue to anchor disciplinary grounding.
-
-**Phase 2 (Draft):** Follow the five-component template in references/introduction_template.md.
-
-**Phase 3 (Tighten):** Apply Core Principles; ensure every sentence earns its place. Vary sentence length for rhythm, cut filler phrases, favor direct subject-verb openings.
-
-**Phase 4 (Refinement):** For existing drafts, use the refinement diagnostic in references/interview_questions.md (final section), then revise per the Argumentative Architecture.
+| Step | Action | Reference |
+|------|--------|-----------|
+| 1 | Interview: begin with target venue to anchor disciplinary grounding | references/interview_questions.md |
+| 2 | Draft the five-component introduction | references/introduction_template.md |
+| 3 | Tighten: vary sentence length, cut filler, favor direct subject-verb openings | Core Principles above |
+| 4 | Refinement (existing drafts): run diagnostic, then revise per Architecture | references/interview_questions.md (final section) |
 
 ## Scope
 

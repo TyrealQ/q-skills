@@ -39,6 +39,17 @@ For each finding area: state what was analyzed, present key findings with statis
 
 Brief synthesis of key findings without interpretation.
 
+## Workflow
+
+| Step | Action | Reference |
+|------|--------|-----------|
+| 1 | Identify research questions and corresponding analyses | — |
+| 2 | Draft sections organized by RQ, not by statistical test | references/results_template.md |
+| 3 | Format tables per APA 7th | ../references/table_formatting.md |
+| 4 | Separate core findings (main text) from peripheral detail (appendix) | ../references/appendix_template.md |
+| 5 | Ask user to refine the core-vs-peripheral boundary | — |
+| 6 | Tighten: apply Core Principles, ensure no interpretation beyond connectors | ../references/apa_style_guide.md |
+
 ## Appendix Strategy
 
 The main text tells the story of the findings; appendices provide the evidence trail for verification and reproducibility.

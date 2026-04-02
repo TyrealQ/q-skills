@@ -54,15 +54,13 @@ RQs should feel earned by the argument, connected to the preceding analysis rath
 
 ## Workflow
 
-**Phase 1 (Interview):** Conduct structured interview per references/interview_questions.md. If an introduction exists, read it first to identify literature it previews.
-
-**Phase 2 (Outline):** Map the progressive argument across 8 paragraphs (4 per subsection) per the Architecture above.
-
-**Phase 3 (Draft):** Follow references/literature_review_template.md. Write flowing paragraphs of 6-10 sentences.
-
-**Phase 4 (Coordination):** If an introduction exists, verify: intro compresses literature while lit review elaborates; theory defined in full here, referenced briefly in intro; concrete examples here, not intro; coined phrases in one section only; RQ framing differs between sections.
-
-**Phase 5 (Refinement):** For existing drafts, use the diagnostic in references/interview_questions.md, then revise per the Argumentative Architecture.
+| Step | Action | Reference |
+|------|--------|-----------|
+| 1 | Interview: if an introduction exists, read it first to identify literature it previews | references/interview_questions.md |
+| 2 | Outline: map progressive argument across 8 paragraphs (4 per subsection) | Architecture above |
+| 3 | Draft: write flowing paragraphs of 6-10 sentences | references/literature_review_template.md |
+| 4 | Coordination (if intro exists): verify intro compresses, lit review elaborates; theory defined here; concrete examples here; coined phrases in one section only; RQ framing differs | — |
+| 5 | Refinement (existing drafts): run diagnostic, then revise per Architecture | references/interview_questions.md |
 
 ## Scope
 

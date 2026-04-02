@@ -44,6 +44,16 @@ The main text presents the analytical logic at a level accessible to the target 
 
 **Then ask the user to refine** the standard-vs-detail boundary for their study, since it is context-dependent. A consistency threshold may be a standard parameter in one study but require appendix-level justification in another.
 
+## Workflow
+
+| Step | Action | Reference |
+|------|--------|-----------|
+| 1 | Gather context: sample, date range, key variables, analytical approach | — |
+| 2 | Draft sections per structure above | references/methods_template.md |
+| 3 | Separate main text (logic) from appendix (reproducibility detail) | ../references/appendix_template.md |
+| 4 | Ask user to refine the standard-vs-detail boundary | — |
+| 5 | Tighten: apply Core Principles, ensure conceptual language throughout | ../references/apa_style_guide.md |
+
 ## Scope
 
 **Include:** Sample and corpus descriptive overview, preprocessing procedures, analytical methods, validation protocols.

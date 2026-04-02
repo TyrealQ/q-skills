@@ -1,6 +1,6 @@
 ---
 name: commit
-description: Stage and commit all uncommitted changes. Analyzes changed files, groups by topic, and generates descriptive conventional commit messages. Use when the user wants to commit current changes or needs structured commits with conventional messages.
+description: Stage and commit uncommitted changes with conventional commit messages. Use for committing changes or grouping commits by topic.
 ---
 
 # Git Commit Skill

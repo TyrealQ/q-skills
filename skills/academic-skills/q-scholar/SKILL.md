@@ -1,6 +1,6 @@
 ---
 name: q-scholar
-description: Academic manuscript writing suite (APA 7th). Orchestrates q-intro, q-litreview, q-eda, q-tf, q-methods, and q-results for end-to-end manuscript preparation. Use for writing papers, drafting sections, or academic writing support.
+description: Orchestrate end-to-end academic manuscript preparation following APA 7th edition. Use for writing papers, drafting sections, or academic writing support.
 ---
 
 # Q-Scholar

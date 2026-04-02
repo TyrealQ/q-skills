@@ -2,17 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.9.3] - 2026-04-02
+## [2.0.0] - 2026-04-02
 
 ### Changed
 
-- **q-scholar**: Added q-litreview to frontmatter description; added Script Directory section with path resolution for sub-skills and shared references
-- **q-eda**: Fixed script invocation to use `${SKILL_DIR}` directly; replaced Claude-specific primitives (ExitPlanMode, AskUserQuestion, Write tool) with generic agent phrasing; unquoted frontmatter description; standardized Windows environment note
-- **q-tf**: Added Dependencies section with environment variables; added Script Invocation examples and Expected Outputs table; added Plan Mode Guard; unquoted frontmatter description
-- **q-infographics**: Fixed folder path from `skills/q-infographics/` to `skills/visual-content-skills/q-infographics/`; added Plan Mode Guard
-- **q-presentations**: Added Bun/Node.js runtime dependency for PPTX/PDF merge; added Plan Mode Guard
+- **All skills**: Standardized SKILL.md files to concise navigation format (~65-97 lines); detailed instructions migrated to `references/` files
+- **All skills**: Unified workflow sections to consistent `| Step | Action | Reference |` table format
+- **All skills**: Standardized frontmatter descriptions (imperative verb lead, concise triggers)
+- **q-scholar**: Added q-litreview to frontmatter description; added Script Directory section with path resolution
+- **q-educator**: Extracted 8 reference files (teaching philosophy, interview protocol, 5 deliverable templates, key phrases)
+- **q-eda**: Extracted 4 reference files (interview protocol with column types, invocation guide, summary instructions); fixed script invocation to use `${SKILL_DIR}` directly; replaced Claude-specific primitives with generic agent phrasing; inlined pipeline phases table
+- **q-tf**: Extracted 3 reference files (code patterns, preservation rules, outlier workflow); added Dependencies section with environment variables
+- **q-presentations**: Extracted 2 reference files (options, workflow detailed); added Bun/Node.js runtime dependency; added workflow summary table with per-step references
+- **q-infographics**: Moved prompt files from `prompts/` to `references/`; fixed folder path; added Plan Mode Guard and workflow summary table
+- **q-methods, q-results**: Added workflow table sections with step-by-step references
+- **q-intro, q-litreview**: Added Plan Mode Guards
 - **commit**: Added When to Use context to frontmatter description
-- **learn**: Removed stale references to non-existent `continuous-learning` and `learn-eval` skills
+- **learn**: Removed stale references to non-existent skills
 - **ship**: Added Verification Checklist section
 
 ## [1.9.2] - 2026-04-02

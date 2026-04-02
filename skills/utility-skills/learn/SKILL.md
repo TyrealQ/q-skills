@@ -1,6 +1,6 @@
 ---
 name: learn
-description: Persist user preferences and styles to ~/CLAUDE.md, ~/.claude/rules/, or project memory. Use when user says "remember this", "save preference", "update CLAUDE.md", "update CM", or after repeated corrections in a session.
+description: Persist user preferences and styles across sessions. Use for remember this, save preference, update CLAUDE.md, update CM, or after repeated corrections in a session.
 ---
 
 # Personal Preference Learning
