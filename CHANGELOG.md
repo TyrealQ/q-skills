@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.9.3] - 2026-04-02
+
+### Changed
+
+- **q-scholar**: Added q-litreview to frontmatter description; added Script Directory section with path resolution for sub-skills and shared references
+- **q-eda**: Fixed script invocation to use `${SKILL_DIR}` directly; replaced Claude-specific primitives (ExitPlanMode, AskUserQuestion, Write tool) with generic agent phrasing; unquoted frontmatter description; standardized Windows environment note
+- **q-tf**: Added Dependencies section with environment variables; added Script Invocation examples and Expected Outputs table; added Plan Mode Guard; unquoted frontmatter description
+- **q-infographics**: Fixed folder path from `skills/q-infographics/` to `skills/visual-content-skills/q-infographics/`; added Plan Mode Guard
+- **q-presentations**: Added Bun/Node.js runtime dependency for PPTX/PDF merge; added Plan Mode Guard
+- **commit**: Added When to Use context to frontmatter description
+- **learn**: Removed stale references to non-existent `continuous-learning` and `learn-eval` skills
+- **ship**: Added Verification Checklist section
+
 ## [1.9.2] - 2026-04-02
 
 ### Changed

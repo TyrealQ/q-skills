@@ -7,7 +7,7 @@ description: Persist user preferences and styles to ~/CLAUDE.md, ~/.claude/rules
 
 Extract preferences, styles, and behavioral patterns from the current conversation and persist them for all future sessions.
 
-**Scope:** This skill captures how the user works, writes, and wants agents to behave. It does NOT capture code patterns, error fixes, or debugging techniques (those are covered by `continuous-learning` and `learn-eval`).
+**Scope:** This skill captures how the user works, writes, and wants agents to behave. It does NOT capture code patterns, error fixes, or debugging techniques.
 
 ## Three-Tier Target Architecture
 

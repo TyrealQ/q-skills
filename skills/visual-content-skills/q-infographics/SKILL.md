@@ -12,7 +12,7 @@ Q-Infographics transforms source documents into business stories and infographic
 ## Folder Structure
 
 ```text
-skills/q-infographics/
+skills/visual-content-skills/q-infographics/
 |-- SKILL.md           # This file
 |-- requirements.txt   # Python dependencies
 |-- assets/
@@ -48,6 +48,11 @@ Agent execution instructions:
 | `scripts/gen_image.py` | Generate infographic image from story via Gemini API |
 | `prompts/story.txt` | Story generation prompt template |
 | `prompts/image.txt` | Infographic generation prompt template |
+
+> **If in plan mode:** write a brief plan — *"Run q-infographics skill: convert source
+> document to markdown, generate business story via Gemini, generate infographic image."*
+> — then exit plan mode immediately. Do NOT attempt document conversion, story generation,
+> or image generation while plan mode is active.
 
 ## When to Use
 

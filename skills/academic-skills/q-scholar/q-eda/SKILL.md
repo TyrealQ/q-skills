@@ -1,6 +1,6 @@
 ---
 name: q-eda
-description: "Universal exploratory data analysis for tabular datasets. Confirms column measurement levels, runs measurement-appropriate statistics, and produces a tables-eda/ folder of CSVs plus EXPLORATORY_SUMMARY.md. Use for EDA, descriptive statistics, data exploration, or before academic methods/results writing."
+description: Universal exploratory data analysis for tabular datasets. Confirms column measurement levels, runs measurement-appropriate statistics, and produces a tables-eda/ folder of CSVs plus EXPLORATORY_SUMMARY.md. Use for EDA, descriptive statistics, data exploration, or before academic methods/results writing.
 ---
 
 # Q-EDA
@@ -14,9 +14,9 @@ Universal exploratory data analysis (EDA) for tabular datasets. Previews the dat
 > `${SKILL_DIR}/references/summary_template.md`, and using the Write tool directly.
 >
 > **If in plan mode:** write a brief plan — *"Run q-eda skill: interview
-> user for context and column types, deploy and execute run_eda.py, write
-> EXPLORATORY_SUMMARY.md from generated CSVs."* — then call **ExitPlanMode** immediately.
-> Do NOT attempt Stages A/B, script deployment, or any analysis while plan mode is active.
+> user for context and column types, execute run_eda.py, write
+> EXPLORATORY_SUMMARY.md from generated CSVs."* — then exit plan mode immediately.
+> Do NOT attempt Stages A/B, script execution, or any analysis while plan mode is active.
 
 ## 0. Dependencies
 
@@ -44,8 +44,7 @@ mkdir -p scripts
 cp "${SKILL_DIR}/scripts/run_eda.py" scripts/run_eda.py
 ```
 
-> **Windows equivalent:** `mkdir scripts 2>nul & copy "%SKILL_DIR%\scripts\run_eda.py" scripts\run_eda.py`
-> Or in PowerShell: `New-Item -ItemType Directory -Force scripts; Copy-Item "$env:SKILL_DIR/scripts/run_eda.py" scripts/run_eda.py`
+> **Windows note:** The agent translates `${SKILL_DIR}` to the appropriate OS-native path at runtime.
 
 If the project already has `scripts/run_eda.py`, verify it matches the skill version
 before running (the skill version is authoritative).
@@ -81,7 +80,7 @@ After the context questions, **auto-detect column types and present for confirma
    | 4 | rating | 1, 2, 3, 4, 5 | 5 | Ordinal | low-cardinality integer - scale or count? |
    | ... | ... | ... | ... | ... | ... |
 
-4. **Ask for confirmation** - Use AskUserQuestion to present the table and ask:
+4. **Ask for confirmation** - Present the table and ask the user:
    "If these all look correct, select **Confirm all**. Otherwise, select **Corrections needed**."
 5. **Record confirmed types** and map to script arguments.
 6. **Invoke the script immediately** — Do NOT write inline Python. Map confirmed types to `--col_types` pairs and run `run_eda.py` per Section 2.
@@ -90,7 +89,7 @@ After the context questions, **auto-detect column types and present for confirma
 
 **Standard invocation (built from interview):**
 ```bash
-python scripts/run_eda.py data.xlsx \
+python "${SKILL_DIR}/scripts/run_eda.py" data.xlsx \
   --col_types rating=ordinal views=continuous description=text record_id=id \
   --group platform tier \
   --output tables-eda/
@@ -121,7 +120,7 @@ python scripts/run_eda.py data.xlsx \
 
 ## 3. Column-Type Coverage
 
-Claude presents suggested types during the interview; the user confirms or corrects before the script runs. Types follow Stevens' levels of measurement extended with Temporal, Text, and ID/key types.
+The agent presents suggested types during the interview; the user confirms or corrects before the script runs. Types follow Stevens' levels of measurement extended with Temporal, Text, and ID/key types.
 
 | Level | Detection Rule | Analysis Applied |
 |-------|---------------|-----------------|
@@ -172,15 +171,15 @@ Measurement-appropriate pairing analysis:
 
 ### Post-Script: Narrative Summary (Model-Authored)
 
-IMPORTANT: This step is performed by Claude after the script finishes. `EXPLORATORY_SUMMARY.md` is
-produced by Claude reading the generated CSVs and writing a formatted document with the Write tool.
+IMPORTANT: This step is performed by the agent after the script finishes. `EXPLORATORY_SUMMARY.md` is
+produced by reading the generated CSVs and writing a formatted document directly.
 
 **Before writing**, read `${SKILL_DIR}/references/summary_template.md`.
 This template shows the exact expected structure, table formats, and narrative style for
 each section. Use it as the structural blueprint — populate it with actual data from the
 generated CSVs. The template includes worked example rows for every table type.
 
-**Step 1 — Read the CSVs** using the Read tool:
+**Step 1 — Read the CSVs:**
 `01_dataset_profile.csv`, `02_data_quality.csv`, `03_nominal_frequencies.csv`,
 `04_binary_summary.csv`, `05_ordinal_distribution.csv`, `06_ordinal_descriptives.csv`,
 `07_discrete_descriptives.csv`, `08_continuous_descriptives.csv`,
@@ -188,7 +187,7 @@ generated CSVs. The template includes worked example rows for every table type.
 all `11_grouped_by_*.csv`, all `12_crosstab_*.csv`, all `13_text_*.csv`,
 `14_temporal_trends.csv`.
 
-**Step 2 — Write `tables-eda/EXPLORATORY_SUMMARY.md`** directly using the Write tool.
+**Step 2 — Write `tables-eda/EXPLORATORY_SUMMARY.md`** directly.
 
 **Content requirements:**
 One section per measurement level plus infrastructure sections. Required structure:
@@ -270,7 +269,7 @@ Files are omitted when no columns of the relevant type exist (e.g., no text colu
 ## 7. Design Principles
 
 1. **Exploratory-first** - No confirmatory statistics; builds the picture before hypothesis testing
-2. **User-confirmed classification** - Claude suggests measurement levels from heuristic rules; the user reviews and confirms before analysis runs
+2. **User-confirmed classification** - The agent suggests measurement levels from heuristic rules; the user reviews and confirms before analysis runs
 3. **Measurement-appropriate** - Uses median/IQR for Ordinal, Pearson for Continuous, Spearman for Ordinal, cross-tabulation for Nominal
 4. **Insight-flagging** - Summary reports patterns and warnings, not just numbers
 5. **Dual output** - CSVs for validation and import into results tables; markdown for interpretation
@@ -281,7 +280,7 @@ Files are omitted when no columns of the relevant type exist (e.g., no text colu
 - [ ] Column classification table presented to user; user confirmed or corrected types
 - [ ] Confirmed types passed via `--col_types` and grouping columns via `--group`
 - [ ] Each detected column type has at least one output file
-- [ ] `EXPLORATORY_SUMMARY.md` written by Claude via Write tool
+- [ ] `EXPLORATORY_SUMMARY.md` written by the agent
 - [ ] All 13 content sections present where applicable; sections for absent column types omitted per two-tier rule
 - [ ] Descriptive tables (ordinal/discrete/continuous) use core + detail split-table format
 - [ ] Every content section contains at least one populated markdown table and one narrative sentence. Infrastructure sections (e.g., Output Files) are exempt.

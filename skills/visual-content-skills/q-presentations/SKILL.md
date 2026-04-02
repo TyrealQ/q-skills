@@ -29,6 +29,14 @@ python-dotenv
 
 Install: `pip install google-genai Pillow python-dotenv`
 
+**Additional runtime dependency:**
+- **Bun** (via `npx -y bun`) — required for Step 8 (PPTX/PDF merge). Requires Node.js 18+ with npx available.
+
+> **If in plan mode:** write a brief plan — *"Run q-presentations skill: analyze content,
+> confirm style/audience preferences, generate outline and prompts, generate slide images,
+> overlay logo, merge to PPTX/PDF."* — then exit plan mode immediately. Do NOT attempt
+> content analysis, image generation, or file merging while plan mode is active.
+
 ## Script Directory
 
 Agent execution instructions:

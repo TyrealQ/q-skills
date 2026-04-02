@@ -1,11 +1,16 @@
 ---
 name: q-tf
-description: "Consolidate topic modeling outputs (BERTopic, LDA, NMF) into theory-driven classification frameworks. Use for topic finetuning, topic consolidation, reclassification, outlier handling, or updating Excel labels from topic models."
+description: Consolidate topic modeling outputs (BERTopic, LDA, NMF) into theory-driven classification frameworks. Use for topic finetuning, topic consolidation, reclassification, outlier handling, or updating Excel labels from topic models.
 ---
 
 # Q-TF
 
 Fine-tune topic modeling outputs into consolidated, theory-driven topic frameworks for academic manuscripts.
+
+> **If in plan mode:** write a brief plan — *"Run q-tf skill: load topic model output,
+> define final topic structure with theoretical framework, generate implementation plan,
+> update Excel with labels."* — then exit plan mode immediately.
+> Do NOT attempt topic analysis, script execution, or Excel updates while plan mode is active.
 
 ## Folder Structure
 
@@ -94,6 +99,23 @@ Some topics belong to multiple categories:
 - Track explicitly in assignments dictionary
 - Calculate overlap for reconciliation
 - Display as semicolon-separated: "Category A; Cross-cutting"
+
+## Dependencies
+
+```
+pandas
+openpyxl          # required for .xlsx input/output
+google-genai      # required for outlier classification via Gemini
+```
+
+Install: `pip install pandas openpyxl google-genai`
+
+**Environment variables:**
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `GEMINI_API_KEY` | For outlier classification only | Google Gemini API key |
+| `GEMINI_MODEL` | No | Model override (default: standard Flash model) |
 
 ## Required Inputs
 
@@ -185,16 +207,36 @@ df['Category_Theme'] = df['Topic'].apply(get_themes)
 | "Count mismatch?" | Explain multi-category overlap, show reconciliation |
 | "Keep original style" | Preserve existing template structure when updating |
 
-## Script Templates
+## Script Invocation
 
-See `${SKILL_DIR}/scripts/` for reference implementations:
-- `generate_implementation_plan.py` - Full plan generation
-- `update_excel_with_labels.py` - Excel column updates
+### Generate implementation plan
+
+```bash
+python "${SKILL_DIR}/scripts/generate_implementation_plan.py" \
+  --input topic_model_output.xlsx \
+  --output implementation_plan.md
+```
+
+### Update Excel with classification labels
+
+```bash
+python "${SKILL_DIR}/scripts/update_excel_with_labels.py" \
+  --input document_data.xlsx \
+  --output document_data_labeled.xlsx
+```
 
 Adapt these scripts by:
 1. Updating FINAL_TOPICS with your topic structure
 2. Replacing FINAL_LABELS with your labels
 3. Modifying theme categories to match your framework
+
+## Expected Outputs
+
+| Output | Description |
+|--------|-------------|
+| `implementation_plan.md` | Full classification plan with topic mappings and reconciliation |
+| `*_labeled.xlsx` | Source data with new columns: `Final_Topic_Code`, `Final_Topic_Label`, `Category_Theme` |
+| Outlier results (optional) | Updated `Final_Topic_Label`, `classification_confidence`, `key_phrases` columns |
 
 ## Verification Checklist
 

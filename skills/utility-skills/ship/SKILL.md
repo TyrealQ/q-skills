@@ -189,3 +189,15 @@ git push -u origin <current-branch>
 Run: `git log --oneline -3`
 
 Display the commit hash and message to confirm success.
+
+## Verification Checklist
+
+- [ ] All modified files reviewed and classified
+- [ ] Cascade check completed for script/data changes
+- [ ] CHANGELOG.md updated with today's date section
+- [ ] CLAUDE.md updated if project structure or dependencies changed
+- [ ] README files updated if content they describe changed
+- [ ] Stale and missing references resolved (deleted files, renamed paths)
+- [ ] Commit messages follow conventional commits format
+- [ ] No temp files or sensitive files staged
+- [ ] Push completed successfully

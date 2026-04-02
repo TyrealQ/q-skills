@@ -1,11 +1,18 @@
 ---
 name: q-scholar
-description: Academic manuscript writing suite (APA 7th). Orchestrates q-intro, q-eda, q-tf, q-methods, and q-results for end-to-end manuscript preparation. Use for writing papers, drafting sections, or academic writing support.
+description: Academic manuscript writing suite (APA 7th). Orchestrates q-intro, q-litreview, q-eda, q-tf, q-methods, and q-results for end-to-end manuscript preparation. Use for writing papers, drafting sections, or academic writing support.
 ---
 
 # Q-Scholar
 
 Orchestrates specialized sub-skills for academic manuscript preparation following APA 7th edition standards.
+
+## Script Directory
+
+Agent execution instructions:
+1. Determine this SKILL.md file's directory path as `SKILL_DIR`.
+2. Sub-skill path = `${SKILL_DIR}/<sub-skill>/SKILL.md`.
+3. Shared reference path = `${SKILL_DIR}/references/<ref-name>`.
 
 ## Shared References
 
