@@ -191,11 +191,11 @@ q-scholar/
 |-- q-eda/
 |   |-- SKILL.md                          # Data exploration skill
 |   |-- scripts/                          # run_eda.py
-|   `-- references/                       # Summary template and examples
+|   `-- references/                       # Interview protocol, invocation guide, summary template + instructions
 |-- q-tf/
 |   |-- SKILL.md                          # Topic finetuning skill
 |   |-- scripts/                          # classify_outliers.py, plan & Excel updaters
-|   `-- references/                       # Worked example + outlier prompt template
+|   `-- references/                       # Code patterns, preservation rules, outlier workflow, worked example
 |-- q-methods/
 |   |-- SKILL.md                          # Methods drafting skill
 |   `-- references/                       # Methods template
@@ -214,7 +214,7 @@ Help me write the methods and results sections for my topic modeling study on es
 
 ### q-infographics
 
-Convert documents into compelling business stories and cartoon-style infographics using Nano Banana.
+Convert documents into compelling business stories and cartoon-style infographics via the Gemini API.
 
 **Triggers:**
 
@@ -239,13 +239,14 @@ Convert documents into compelling business stories and cartoon-style infographic
 **Folder Structure:**
 
 ```text
-skills/q-infographics/
+skills/visual-content-skills/q-infographics/
 |-- SKILL.md                              # Main skill file
 |-- assets/
 |   `-- Logo_Q.png                        # Brand logo, auto-overlaid on infographics
-|-- prompts/
+|-- references/
 |   |-- story.txt                         # Story generation prompt
-|   `-- image.txt                         # Infographic generation prompt
+|   |-- image.txt                         # Infographic generation prompt
+|   `-- prompts_reference.md              # Prompt descriptions and key elements
 |-- scripts/
 |   |-- gen_story.py                      # Story generator script
 |   `-- gen_image.py                      # Image generator script
@@ -357,11 +358,19 @@ Course content development skill for university teaching workflows. Produces int
 q-educator/
 |-- SKILL.md
 `-- references/
-    |-- assignment_example.md
-    |-- demo_example.md
-    |-- email_example.md
-    |-- feedback_example.md
-    `-- lecture_example.md
+    |-- teaching_philosophy.md            # Six governing principles
+    |-- interview_protocol.md             # Six-question interview sequence
+    |-- lecture_template.md               # Lecture outline structure + design rules
+    |-- demo_template.md                  # Demo outline structure + design rules
+    |-- email_guidelines.md               # Follow-up email style rules
+    |-- assignment_template.md            # Assignment prompt structure + design rules
+    |-- feedback_template.md              # Per-group feedback structure + design rules
+    |-- key_phrases.md                    # Philosophy catchphrases
+    |-- lecture_example.md                # Example lecture outline
+    |-- demo_example.md                   # Example demo outline
+    |-- email_example.md                  # Example follow-up email
+    |-- assignment_example.md             # Example assignment prompt
+    `-- feedback_example.md               # Example per-group feedback
 ```
 
 **Example:**

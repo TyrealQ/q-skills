@@ -30,10 +30,19 @@ q-skills/
 
 ## Skill Guidelines
 
-Each skill follows the standard structure:
-- `SKILL.md` - Main skill file with YAML frontmatter (name, description)
-- `scripts/` - Python scripts for automation
-- `references/` - Reference documentation and examples
+Each skill follows the standard SKILL.md template (~65-97 lines):
+- YAML frontmatter (`name`, `description` — imperative verb lead, concise triggers)
+- Plan Mode Guard (script-based skills only)
+- `## Script Directory` / `## Dependencies` (if scripts exist)
+- `## References` — bulleted pointers to reference files, all referenced in body
+- `## Core Principles` — 5-7 terse, actionable bullets
+- `## Workflow` — `| Step | Action | Reference |` table format
+- `## Scope` (optional) — Include / Exclude
+- `## Checklist` — 4-8 verification items
+
+Supporting folders:
+- `scripts/` — Python scripts for automation
+- `references/` — detailed instructions, templates, examples (extracted from SKILL.md)
 
 Skill bundles (like q-scholar) can contain sub-skills:
 - Parent `SKILL.md` orchestrates sub-skills

@@ -9,7 +9,7 @@ Draft methods sections in clear narrative style for broad scholarly audiences.
 
 ## References
 
-- **references/methods_template.md** — section template with placeholders
+- **references/methods_template.md** — structural guidance (draft dynamically, not verbatim)
 - **../references/appendix_template.md** — shared appendix structure (methods and results)
 - **../references/apa_style_guide.md** — APA formatting, numbers, notation, formulas
 
@@ -22,19 +22,21 @@ Draft methods sections in clear narrative style for broad scholarly audiences.
 - Wrap all formulas and operator-heavy expressions in inline code backticks, in both prose and table cells (see ../references/apa_style_guide.md, "Equations, Formulas, and Set Notation")
 - Strict methods/results separation: describe what was done and how, not what was found
 
-## Section Structure
+## Section Architecture
+
+The template describes what goes where; this section describes why each element appears where it does and how sections connect narratively.
 
 ### Data Collection and Preprocessing
 
-Summarize sample size, date range, and breakdown by key variables. Describe preprocessing conceptually; reference appendix for technical parameters.
+Open by grounding the reader in the empirical scope — sample size, date range, breakdown by key variables. Describe preprocessing conceptually so the reader understands what was done to the data and why, without needing to see code or configuration. Technical parameters belong in the appendix; the main text explains the reasoning behind choices. End with a transition that motivates the analytical approach.
 
 ### Data Analysis
 
-Open with a pipeline overview. Justify method choices conceptually and reference appendix for technical details.
+Open with a pipeline overview that tells the reader the full analytical arc before diving into components. Each method choice should be justified conceptually — why this method fits this research question — not merely named. Reference the appendix for technical details (hyperparameters, prompts, thresholds). The reader should understand the analytical logic without consulting the appendix.
 
 ### Validation
 
-Describe human validation sampling and coding procedures. Leave placeholders for reliability metrics if pending.
+Describe human validation as a scholarly activity, not a mechanical procedure. Explain sampling rationale, coding protocols, and what the validation is designed to confirm. Leave placeholders for reliability metrics if pending, clearly marked for later completion.
 
 ## Appendix Strategy
 
@@ -49,7 +51,7 @@ The main text presents the analytical logic at a level accessible to the target 
 | Step | Action | Reference |
 |------|--------|-----------|
 | 1 | Gather context: sample, date range, key variables, analytical approach | — |
-| 2 | Draft sections per structure above | references/methods_template.md |
+| 2 | Draft sections per structure above; use template as structural guide, not verbatim script | references/methods_template.md |
 | 3 | Separate main text (logic) from appendix (reproducibility detail) | ../references/appendix_template.md |
 | 4 | Ask user to refine the standard-vs-detail boundary | — |
 | 5 | Tighten: apply Core Principles, ensure conceptual language throughout | ../references/apa_style_guide.md |

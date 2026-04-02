@@ -9,7 +9,7 @@ Draft results sections following APA 7th edition standards with narrative flow a
 
 ## References
 
-- **references/results_template.md** — section template with structure and examples
+- **references/results_template.md** — structural guidance (draft dynamically, not verbatim)
 - **../references/appendix_template.md** — shared appendix structure (methods and results)
 - **../references/apa_style_guide.md** — APA formatting, numbers, notation, formulas
 - **../references/table_formatting.md** — APA 7th table structure and examples
@@ -25,26 +25,28 @@ Draft results sections following APA 7th edition standards with narrative flow a
 - Wrap all formulas and operator-heavy expressions in inline code backticks, in both prose and table cells (see ../references/apa_style_guide.md, "Equations, Formulas, and Set Notation")
 - Focus the main text on core findings that directly address the research questions; move peripheral, supplementary, or exhaustive detail to appendices
 
-## Section Structure
+## Section Architecture
+
+The template describes what goes where; this section describes why each element appears where it does and how findings build narratively.
 
 ### Opening Overview
 
-Summarize what analyses were conducted and what the results section covers.
+Orient the reader to the full analytical landscape before presenting specific findings. Summarize what analyses were conducted, how the section is organized, and what the reader should expect. This paragraph earns the reader's attention by previewing the story the data tells.
 
 ### Results by Research Question
 
-For each finding area: state what was analyzed, present key findings with statistics, reference supporting tables, and transition logically.
+Organize by research question, not by statistical test — the reader follows the argument, not the toolchain. For each RQ: state what was analyzed, present key findings with statistics, reference supporting tables, and transition to the next RQ by connecting what was just found to what comes next. Tables support the narrative but do not replace it; every table should be introduced before it appears and interpreted after. Summarize patterns rather than exhaustively listing every result.
 
 ### Summary
 
-Brief synthesis of key findings without interpretation.
+Brief synthesis of key findings without interpretation. Connect the findings back to the research questions. Do not introduce new results or offer theoretical explanations — those belong in the discussion.
 
 ## Workflow
 
 | Step | Action | Reference |
 |------|--------|-----------|
 | 1 | Identify research questions and corresponding analyses | — |
-| 2 | Draft sections organized by RQ, not by statistical test | references/results_template.md |
+| 2 | Draft sections organized by RQ, not by statistical test; use template as structural guide, not verbatim script | references/results_template.md |
 | 3 | Format tables per APA 7th | ../references/table_formatting.md |
 | 4 | Separate core findings (main text) from peripheral detail (appendix) | ../references/appendix_template.md |
 | 5 | Ask user to refine the core-vs-peripheral boundary | — |

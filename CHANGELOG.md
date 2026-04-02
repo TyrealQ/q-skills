@@ -15,7 +15,7 @@ All notable changes to this project will be documented in this file.
 - **q-tf**: Extracted 3 reference files (code patterns, preservation rules, outlier workflow); added Dependencies section with environment variables
 - **q-presentations**: Extracted 2 reference files (options, workflow detailed); added Bun/Node.js runtime dependency; added workflow summary table with per-step references
 - **q-infographics**: Moved prompt files from `prompts/` to `references/`; fixed folder path; added Plan Mode Guard and workflow summary table
-- **q-methods, q-results**: Added workflow table sections with step-by-step references
+- **q-methods, q-results**: Added workflow table sections with step-by-step references; enriched Section Architecture with narrative reasoning guidance; added anti-replication preamble to templates
 - **q-intro, q-litreview**: Added Plan Mode Guards
 - **commit**: Added When to Use context to frontmatter description
 - **learn**: Removed stale references to non-existent skills

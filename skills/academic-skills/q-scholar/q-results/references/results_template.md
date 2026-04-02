@@ -1,6 +1,6 @@
 # Results Section Template
 
-This template provides a structured approach for drafting results sections following APA 7th edition guidelines.
+This template provides structural and conceptual guidance for drafting results sections following APA 7th edition guidelines. The bracketed patterns and example phrasings illustrate the type of content and narrative logic each section should contain, not the specific wording to use. Actual drafting should be dynamic and flexible: adapt section count, table placement, and level of detail to the manuscript's research questions and data. Prioritize narrative flow and reader orientation over mechanical pattern replication.
 
 ## Section Structure
 

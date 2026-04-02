@@ -1,5 +1,7 @@
 # Methods Section Template
 
+This template provides structural and conceptual guidance for each component of a methods section. The bracketed placeholders illustrate the type of content each section should contain, not the specific phrasing to use. Actual drafting should be dynamic and flexible: adapt paragraph count, level of detail, and wording to the manuscript's needs. Write in conceptual language accessible to a broad scholarly audience — describe what was done and why, not how the code ran. Prioritize clarity and narrative flow over mechanical pattern replication.
+
 ## Data Collection and Preprocessing
 
 [PLACEHOLDER: TO BE COMPLETED BY COAUTHOR. Provide description of data collection procedures including sampling strategy and participant recruitment, participant demographics, data collection protocol, timeframe, ethical considerations and IRB approval, and total sample size.]
