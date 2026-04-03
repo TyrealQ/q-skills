@@ -35,7 +35,7 @@ Classify each change:
 | `*.md` | documentation |
 | `*.json`, `*.yaml`, `*.toml`, `*.csv` | config/data |
 
-#### Cascade check
+#### Cascade check (skip if no scripts or data files changed)
 
 If any modified files are scripts or data files:
 
@@ -43,11 +43,9 @@ If any modified files are scripts or data files:
 - **Verify consistency**: Check that numbers, table data, file paths, and cross-references in downstream files match the current state of the modified scripts and their outputs
 - **Fix discrepancies**: Update any stale numbers, outdated references, or mismatched data in downstream files. Include these fixes in the commit
 
-Skip if changes are limited to documentation, config, or content files with no upstream scripts or data dependencies.
+#### CLAUDE.md freshness (always run)
 
-#### CLAUDE.md freshness
-
-If the working directory has a `CLAUDE.md`, scan it for file paths, folder names, project structure references, or temporal markers that may be stale given the changes being committed. Update CLAUDE.md before proceeding if any section reflects outdated state.
+If the working directory has a `CLAUDE.md`, read it and compare against the current project state — not just the changes being committed, but also decisions made during the session, new or renamed files on disk, and structural changes. Update CLAUDE.md before proceeding if any section reflects outdated state.
 
 ### Step 3: Decide commit strategy
 

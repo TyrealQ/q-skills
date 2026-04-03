@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.1] - 2026-04-03
+
+### Changed
+
+- **commit, ship**: Clarify cascade check skip condition in heading; strengthen CLAUDE.md freshness check to always run
+
 ## [2.0.0] - 2026-04-02
 
 ### Changed

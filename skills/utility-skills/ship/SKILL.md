@@ -71,10 +71,10 @@ For each applicable documentation file, read the current contents first, then up
 - Subsections: `Added`, `Changed`, `Removed`, `Fixed` — only include relevant ones
 - Each entry: one concise line describing the change from a user/reader perspective
 
-#### CLAUDE.md
+#### CLAUDE.md (always run)
 
-- **When**: Changes affect project structure, dependencies, code patterns, or repo organization
-- **Skip when**: Changes are limited to content additions (e.g., adding a link to Resources)
+- **When**: Always. Read CLAUDE.md and compare against the current project state — not just the changes being shipped, but also decisions made during the session, new or renamed files on disk, and structural changes
+- **Skip when**: Changes are limited to content additions (e.g., adding a link to Resources) AND no session-level decisions or structural changes occurred
 - Update only the affected sections — do not rewrite the entire file
 - Check for temporal markers (e.g., "Current position," dates, deadlines, status tables) that may be stale given the changes being shipped
 
@@ -84,15 +84,13 @@ For each applicable documentation file, read the current contents first, then up
 - Examples: adding a notebook -> update the directory's README; renaming a section -> update root README
 - **Skip when**: The change is self-evident from the file itself (e.g., adding a row to a resource table — the table IS the README)
 
-#### Cascade check
+#### Cascade check (skip if no scripts or data files changed)
 
 If any modified files are scripts or data files:
 
 - **Identify downstream files**: Find all markdown reports, appendices, and documentation that reference outputs or data from the modified files — search for filename references, table headers, variable names, and output patterns
 - **Verify consistency**: Check that numbers, table data, file paths, and cross-references in downstream files match the current state of the modified scripts and their outputs
 - **Fix discrepancies**: Update any stale numbers, outdated references, or mismatched data in downstream files. Include these fixes in the commit
-
-Skip if changes are limited to documentation, config, or content files with no upstream scripts or data dependencies.
 
 #### Stale and missing reference check
 
