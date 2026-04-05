@@ -56,15 +56,11 @@ Register q-skills as a plugin source in Claude Code, then install all or selecte
 
 **Step 2 — Install:**
 
-To install all skills at once, use [Option 2](#option-2-quick-install) or browse via the Claude Code plugin UI after Step 1.
-
-To install specific skills only:
-
 ```
-/plugin install academic-skills@q-skills
-/plugin install visual-content-skills@q-skills
-/plugin install utility-skills@q-skills
+/plugin install q-skills@q-skills
 ```
+
+> **Migrating from older installs?** If you previously installed `academic-skills@q-skills`, `visual-content-skills@q-skills`, or `utility-skills@q-skills`, uninstall them first, then install the unified `q-skills@q-skills` plugin above.
 
 ---
 
@@ -77,13 +73,13 @@ git clone https://github.com/TyrealQ/q-skills.git
 **Windows (PowerShell):**
 
 ```powershell
-Copy-Item -Recurse -Force q-skills\skills\*\q-* $env:USERPROFILE\.claude\skills\
+Copy-Item -Recurse -Force q-skills\skills\* $env:USERPROFILE\.claude\skills\
 ```
 
 **macOS/Linux:**
 
 ```bash
-cp -r q-skills/skills/*/q-* ~/.claude/skills/
+cp -r q-skills/skills/* ~/.claude/skills/
 ```
 
 > **Note:** The exact skills path depends on your AI assistant. Common locations: `~/.claude/skills/`, `~/.gemini/skills/`
@@ -239,7 +235,7 @@ Convert documents into compelling business stories and cartoon-style infographic
 **Folder Structure:**
 
 ```text
-skills/visual-content-skills/q-infographics/
+q-infographics/
 |-- SKILL.md                              # Main skill file
 |-- assets/
 |   `-- Logo_Q.png                        # Brand logo, auto-overlaid on infographics

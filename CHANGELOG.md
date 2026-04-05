@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.2] - 2026-04-05
+
+### Changed
+
+- **structure**: Flattened `skills/` by removing category subfolders (academic-skills, visual-content-skills, utility-skills); skills now sit directly under `skills/`
+- **marketplace**: Consolidated three plugin entries into a single `q-skills` plugin; install with `/plugin install q-skills@q-skills`
+- **README, CLAUDE.md**: Updated installation commands, folder trees, and skill-addition guidance to reflect flat structure
+
 ## [2.0.1] - 2026-04-03
 
 ### Changed

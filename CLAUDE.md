@@ -7,26 +7,33 @@ This file provides guidance to Claude Code when working with this repository.
 ```
 q-skills/
 |-- skills/
-|   |-- academic-skills/               # Academic writing & teaching
-|   |   |-- q-scholar/                 # Academic manuscript writing suite
-|   |   |   |-- q-intro/
-|   |   |   |-- q-litreview/
-|   |   |   |-- q-eda/
-|   |   |   |-- q-tf/
-|   |   |   |-- q-methods/
-|   |   |   `-- q-results/
-|   |   `-- q-educator/                # Course content development toolkit
-|   |-- visual-content-skills/         # Visual content generation
-|   |   |-- q-infographics/            # Document to infographic conversion
-|   |   `-- q-presentations/           # Content to branded slide decks
-|   `-- utility-skills/                # Git workflow automation
-|       |-- commit/                    # Git commit with smart file grouping
-|       |-- learn/                     # Persist user preferences across sessions
-|       `-- ship/                      # Full ship cycle: docs, commit, push
+|   |-- q-scholar/                     # Academic manuscript writing suite
+|   |   |-- q-intro/
+|   |   |-- q-litreview/
+|   |   |-- q-eda/
+|   |   |-- q-tf/
+|   |   |-- q-methods/
+|   |   `-- q-results/
+|   |-- q-educator/                    # Course content development toolkit
+|   |-- q-infographics/                # Document to infographic conversion
+|   |-- q-presentations/               # Content to branded slide decks
+|   |-- commit/                        # Git commit with smart file grouping
+|   |-- learn/                         # Persist user preferences across sessions
+|   `-- ship/                          # Full ship cycle: docs, commit, push
 |-- README.md
 |-- CHANGELOG.md
 `-- LICENSE
 ```
+
+## Skill Categories
+
+The filesystem is flat, but skills group conceptually:
+
+| Category       | Skills                          | Purpose                                            |
+| -------------- | ------------------------------- | -------------------------------------------------- |
+| Academic       | q-scholar, q-educator           | Manuscript writing, data analysis, teaching        |
+| Visual content | q-infographics, q-presentations | Document-to-visual generation                      |
+| Utility        | commit, learn, ship             | Git workflow automation, preference persistence    |
 
 ## Skill Guidelines
 
@@ -66,15 +73,15 @@ All script, prompt, and reference paths in the skill MUST use `${SKILL_DIR}/...`
 
 ## Adding New Skills
 
-1. Identify which category the skill belongs to (academic, visual-content, or utility)
-2. Create folder in `skills/<category-name>/` with lowercase name using hyphens
-3. Add `SKILL.md` with proper frontmatter
-4. Add the skill path to the category's `skills` array in `.claude-plugin/marketplace.json`
-5. Update `README.md` to include new skill
-6. Update `CHANGELOG.md` with version bump
+1. Create folder in `skills/` with lowercase hyphenated name (see Naming Convention below)
+2. Add `SKILL.md` with proper frontmatter
+3. Add the skill path to the `skills` array in `.claude-plugin/marketplace.json`
+4. Update `README.md` to include new skill
+5. Update `CHANGELOG.md` with version bump
 
 ## Naming Convention
 
-- Skill folders: `q-{name}` (lowercase, hyphens)
+- Skill folders: lowercase, hyphens
+- Academic and visual-content skills use the `q-` prefix (e.g., `q-scholar`, `q-infographics`)
+- Utility skills use bare verb names matching their invocation syntax (`commit`, `learn`, `ship`)
 - Scripts: `snake_case.py`
-- Always prefix with `q-` for consistency

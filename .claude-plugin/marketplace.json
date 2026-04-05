@@ -5,43 +5,28 @@
   },
   "metadata": {
     "description": "End-to-end skills for academic writing, data analysis, teaching, and research communication",
-    "version": "1.7.2"
+    "version": "2.0.2"
   },
   "plugins": [
     {
-      "name": "academic-skills",
-      "description": "Academic manuscript writing suite, topic modeling consolidation, exploratory analysis, and course content development",
-      "source": "./skills/academic-skills/",
-      "strict": false,
+      "name": "q-skills",
+      "description": "Academic writing, data analysis, visual content, and git workflow automation",
+      "source": "./",
+      "strict": true,
       "skills": [
-        "./q-scholar",
-        "./q-scholar/q-intro",
-        "./q-scholar/q-eda",
-        "./q-scholar/q-tf",
-        "./q-scholar/q-methods",
-        "./q-scholar/q-results",
-        "./q-educator"
-      ]
-    },
-    {
-      "name": "visual-content-skills",
-      "description": "Convert documents into infographics and branded slide decks via Gemini",
-      "source": "./skills/visual-content-skills/",
-      "strict": false,
-      "skills": [
-        "./q-infographics",
-        "./q-presentations"
-      ]
-    },
-    {
-      "name": "utility-skills",
-      "description": "Git workflow automation — smart commit grouping, documentation updates, and push",
-      "source": "./skills/utility-skills/",
-      "strict": false,
-      "skills": [
-        "./commit",
-        "./learn",
-        "./ship"
+        "./skills/q-scholar",
+        "./skills/q-scholar/q-intro",
+        "./skills/q-scholar/q-litreview",
+        "./skills/q-scholar/q-eda",
+        "./skills/q-scholar/q-tf",
+        "./skills/q-scholar/q-methods",
+        "./skills/q-scholar/q-results",
+        "./skills/q-educator",
+        "./skills/q-infographics",
+        "./skills/q-presentations",
+        "./skills/commit",
+        "./skills/learn",
+        "./skills/ship"
       ]
     }
   ]
