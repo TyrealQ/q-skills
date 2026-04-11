@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.3] - 2026-04-11
+
+### Changed
+
+- **q-infographics, q-presentations**: Bump image model to `gemini-3-pro-image-preview`
+
 ## [2.0.2] - 2026-04-05
 
 ### Changed
