@@ -118,7 +118,7 @@ Then re-copy the skills to your skills directory (see Manual install above).
 
 | Skill                         | Description                                                                 |
 | ----------------------------- | --------------------------------------------------------------------------- |
-| [q-scholar](#q-scholar)       | Academic manuscript writing suite (intro, exploratory data analysis, topic modeling, methods, results) |
+| [q-scholar](#q-scholar)       | Academic manuscript writing suite (multimodal feature extraction, exploratory data analysis, topic modeling, intro, literature review, methods, results) |
 | [q-educator](#q-educator)     | Course content development for lectures, demos, assignments, and feedback   |
 
 ### Visual Content Skills
@@ -148,10 +148,11 @@ Academic manuscript writing suite for drafting journal-ready prose following APA
 
 | Sub-Skill | Description |
 | --------- | ----------- |
-| q-intro | Introduction drafting and refinement with argumentative architecture guidance |
-| q-litreview | Literature review drafting with progressive-argument architecture and cross-section coordination |
+| q-multimodal | Multimodal feature extraction: pixel/video/audio features and Gemini visual semantic analysis |
 | q-eda | Universal exploratory data analysis with user-confirmed column types and measurement-appropriate statistics |
 | q-tf | Topic finetuning to consolidate topic modeling outputs (BERTopic, LDA, NMF) into theory-driven classification frameworks |
+| q-intro | Introduction drafting and refinement with argumentative architecture guidance |
+| q-litreview | Literature review drafting with progressive-argument architecture and cross-section coordination |
 | q-methods | Methods section drafting in clear, narrative style |
 | q-results | Results section drafting with APA-compliant tables |
 
@@ -178,12 +179,10 @@ q-scholar/
 |   |-- apa_style_guide.md                # Numbers, statistics, notation, formulas
 |   |-- table_formatting.md               # APA 7th table examples
 |   `-- appendix_template.md              # Shared appendix structure (methods + results)
-|-- q-intro/
-|   |-- SKILL.md                          # Introduction drafting skill
-|   `-- references/                       # Template and interview questions
-|-- q-litreview/
-|   |-- SKILL.md                          # Literature review drafting skill
-|   `-- references/                       # Template and interview questions
+|-- q-multimodal/
+|   |-- SKILL.md                          # Multimodal feature extraction skill
+|   |-- scripts/                          # pillow/, opensmile/, gemini/ (batch + standard)
+|   `-- references/                       # Feature definitions, Gemini workflows, checkpoint format
 |-- q-eda/
 |   |-- SKILL.md                          # Data exploration skill
 |   |-- scripts/                          # run_eda.py
@@ -192,6 +191,12 @@ q-scholar/
 |   |-- SKILL.md                          # Topic finetuning skill
 |   |-- scripts/                          # classify_outliers.py, plan & Excel updaters
 |   `-- references/                       # Code patterns, preservation rules, outlier workflow, worked example
+|-- q-intro/
+|   |-- SKILL.md                          # Introduction drafting skill
+|   `-- references/                       # Template and interview questions
+|-- q-litreview/
+|   |-- SKILL.md                          # Literature review drafting skill
+|   `-- references/                       # Template and interview questions
 |-- q-methods/
 |   |-- SKILL.md                          # Methods drafting skill
 |   `-- references/                       # Methods template

@@ -8,10 +8,11 @@ This file provides guidance to Claude Code when working with this repository.
 q-skills/
 |-- skills/
 |   |-- q-scholar/                     # Academic manuscript writing suite
-|   |   |-- q-intro/
-|   |   |-- q-litreview/
+|   |   |-- q-multimodal/
 |   |   |-- q-eda/
 |   |   |-- q-tf/
+|   |   |-- q-intro/
+|   |   |-- q-litreview/
 |   |   |-- q-methods/
 |   |   `-- q-results/
 |   |-- q-educator/                    # Course content development toolkit

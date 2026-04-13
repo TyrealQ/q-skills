@@ -2,11 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
-## [2.0.4] - 2026-04-13
+## [2.1.0] - 2026-04-13
+
+### Added
+
+- **q-scholar/q-multimodal**: port multimodal feature extraction skill (Pillow, openSMILE, Gemini batch/standard) as a q-scholar sub-skill
 
 ### Changed
 
 - **learn**: add inline trigger taxonomy, expanded frontmatter description, anti-patterns table, repetition threshold, conflict detection, and query mode
+- **q-scholar**: reorder sub-skills by research trajectory (data: multimodal, eda, tf → writing: intro, litreview, methods, results)
 
 ## [2.0.3] - 2026-04-11
 
