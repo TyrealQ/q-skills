@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.4] - 2026-04-13
+
+### Changed
+
+- **learn**: add inline trigger taxonomy, expanded frontmatter description, anti-patterns table, repetition threshold, conflict detection, and query mode
+
 ## [2.0.3] - 2026-04-11
 
 ### Changed

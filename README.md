@@ -397,20 +397,23 @@ Stage and commit all uncommitted changes with smart file grouping and convention
 
 ### learn
 
-Persist user preferences, styles, and behavioral patterns to `~/CLAUDE.md`, `~/.claude/rules/`, or project memory. Extracts corrections, explicit rules, and positive reinforcement from the current conversation.
+Persist user preferences, styles, and behavioral patterns to `~/CLAUDE.md`, `~/.claude/rules/`, or project memory. Extracts corrections, explicit rules, and positive reinforcement from the current conversation, and answers read-only queries about what has already been remembered.
 
 **Triggers:**
 
 - `/learn`
-- "Remember this preference"
-- "Save this to CLAUDE.md"
-- "Update CM"
+- "Remember this preference" / "Save this to CLAUDE.md" / "Update CM"
+- "Always do X" / "Never do Y" / "From now on…"
+- "Forget X" / "What do you remember about me?"
 
 **Features:**
 
 - Three-tier persistence: user instructions, user rules, project memory
-- Scans conversation for corrections, explicit rules, and reinforced behaviors
-- Deduplicates against existing preferences before saving
+- Inline trigger taxonomy (explicit rules, corrections, positive reinforcement, domain context, style edits)
+- Repetition threshold: single off-hand corrections stay tentative until repeated
+- Conflict detection: contradicting preferences surface side-by-side for explicit approval
+- Query mode: read-only lookup, section-level quoting, and confirmed forgetting
+- Anti-patterns guardrail: never infers from silence, hypotheticals, or third-party preferences
 - Keeps `~/CLAUDE.md` under 200 lines, migrating overflow to rule files
 
 ---
