@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.1] - 2026-04-14
+
+### Changed
+
+- **q-scholar**: Reorder sub-skills alphabetically (eda, intro, litreview, methods, multimodal, results, tf) across CLAUDE.md, README, SKILL.md, and marketplace.json
+
 ## [2.1.0] - 2026-04-13
 
 ### Added

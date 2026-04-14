@@ -25,13 +25,13 @@ All drafting sub-skills inherit these:
 
 | Skill | Purpose |
 |-------|---------|
-| q-multimodal | Multimodal feature extraction (Pillow, openSMILE, Gemini visual semantic analysis) |
 | q-eda | Exploratory data analysis (measurement-appropriate statistics to CSV + summary) |
-| q-tf | Topic finetuning (raw topics to theory-driven classification) |
 | q-intro | Draft or refine introduction sections (phenomenon to theory to contribution) |
 | q-litreview | Draft standalone literature reviews (progressive argument to earned RQs) |
 | q-methods | Draft methods sections (data collection, analysis, validation procedures) |
+| q-multimodal | Multimodal feature extraction (Pillow, openSMILE, Gemini visual semantic analysis) |
 | q-results | Draft results sections (findings with APA tables and narrative flow) |
+| q-tf | Topic finetuning (raw topics to theory-driven classification) |
 
 ## Core Writing Principles
 
