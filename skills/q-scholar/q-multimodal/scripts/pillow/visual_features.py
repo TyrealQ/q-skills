@@ -425,19 +425,21 @@ def analyze_image(idx, row, base_dir, file_col, active_categories):
 # DataFrame construction and subject processing
 # ---------------------------------------------------------------------------
 
-def build_output_df(rows, results, active_fields, id_cols=None):
+def build_output_df(rows, results, active_fields, id_cols=None, file_col="file_path"):
     """Merge source rows with extracted features."""
     source_df = pd.DataFrame(rows)
     if id_cols:
         keep = [c for c in id_cols if c in source_df.columns]
-        source_df = source_df[keep]
+    else:
+        keep = [c for c in [file_col] if c in source_df.columns]
+    source_df = source_df[keep]
 
     feature_rows = []
     ok_flags = []
     for r in results:
         row_data = {}
         for f in active_fields:
-            row_data[f] = r["data"].get(f, "")
+            row_data[f] = r["data"].get(f, np.nan)
         feature_rows.append(row_data)
         ok_flags.append(r["ok"])
 
@@ -467,7 +469,7 @@ def process_subject(name, subject_df, base_dir, file_col, max_workers,
                     results[idx] = {"ok": False, "data": {}, "error": str(e)}
                 img_bar.update(1)
 
-    out_df = build_output_df(rows, results, active_fields, id_cols)
+    out_df = build_output_df(rows, results, active_fields, id_cols, file_col=file_col)
     ckpt_dir = os.path.join(output_dir, "checkpoints")
     os.makedirs(ckpt_dir, exist_ok=True)
     out_path = os.path.join(ckpt_dir, f"{name}.xlsx")
@@ -499,7 +501,7 @@ def main():
     parser.add_argument("--group-col", default=None, help="Column to group rows by subject (default: auto from file path)")
     parser.add_argument("--file-col", default="file_path", help="Column containing image file paths")
     parser.add_argument("--id-cols", nargs="*", default=None,
-                        help="Source columns to keep in output (default: all). Example: --id-cols file_path shortcode")
+                        help="Source columns to keep in output (default: file column only). Example: --id-cols file_path shortcode")
     parser.add_argument("--features", default="rgb,hsv,texture,shape,spatial,quality",
                         help="Comma-separated feature categories to extract. "
                              "Available: rgb, hsv, texture, shape, spatial, quality, exif. "

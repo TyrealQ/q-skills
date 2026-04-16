@@ -6,6 +6,7 @@ read_input, save_excel, derive_subject, merge_checkpoints.
 """
 
 import os
+import re
 from pathlib import Path
 
 import pandas as pd
@@ -56,24 +57,30 @@ def save_excel(df, path):
 def derive_subject(row, file_col, group_col):
     """Derive subject name from group column or file path parent directory."""
     if group_col:
-        val = str(row.get(group_col, "unknown"))
-        val = val.rstrip("/").split("/")[-1]
-        return val
-    fp = str(row.get(file_col, ""))
-    parts = Path(fp).parts
-    if len(parts) >= 2:
-        return parts[-2]
-    return "default"
+        raw = row.get(group_col, None)
+        if raw is None or (isinstance(raw, float) and raw != raw):
+            val = "unknown"
+        else:
+            val = str(raw)
+        val = val.replace("\\", "/").rstrip("/")
+        val = val.split("/")[-1] if "/" in val else val
+    else:
+        fp = str(row.get(file_col, ""))
+        parts = fp.replace("\\", "/").rstrip("/").split("/")
+        val = parts[-2] if len(parts) >= 2 else "default"
+    return re.sub(r'[<>:"/\\|?*]', '_', val).strip('. ') or "default"
 
 
-def merge_checkpoints(checkpoint_dir, output_path, file_col="file_path", exclude_prefix="_"):
+def merge_checkpoints(checkpoint_dir, output_path, file_col="file_path",
+                      exclude_prefix="_", dedup_cols=None):
     """Merge all checkpoint xlsx files in a directory into one file.
 
     Args:
         checkpoint_dir: Directory containing per-subject checkpoint xlsx files.
         output_path: Path for the merged output xlsx file.
-        file_col: Column name for deduplication (default: "file_path").
+        file_col: Column name used as default dedup key (default: "file_path").
         exclude_prefix: Skip files whose name starts with this prefix.
+        dedup_cols: Columns for deduplication. Defaults to [file_col].
     Returns:
         Tuple of (merged_df, stats_dict) with keys: files, rows, deduped.
     """
@@ -100,10 +107,12 @@ def merge_checkpoints(checkpoint_dir, output_path, file_col="file_path", exclude
 
     merged = pd.concat(dfs, ignore_index=True)
     before = len(merged)
-    if file_col in merged.columns:
-        merged = merged.drop_duplicates(subset=[file_col], keep="last")
+    cols = dedup_cols if dedup_cols is not None else [file_col]
+    valid_cols = [c for c in cols if c in merged.columns]
+    if valid_cols:
+        merged = merged.drop_duplicates(subset=valid_cols, keep="last")
     else:
-        print(f"  Warning: column '{file_col}' not found, skipping deduplication", flush=True)
+        print(f"  Warning: dedup columns {cols} not found, skipping deduplication", flush=True)
     deduped = before - len(merged)
 
     save_excel(merged, output_path)

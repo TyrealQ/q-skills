@@ -13,9 +13,9 @@ Extracts audio from video/audio files via FFmpeg (16 kHz mono PCM WAV), then run
 | `--output-dir` | `output/opensmile` | Checkpoint output directory |
 | `--file-col` | `file_path` | Column containing file paths |
 | `--group-col` | (auto) | Column to group by subject; default: parent directory of file path |
-| `--id-cols` | identifier only | Additional source columns to keep in output beyond the file column |
+| `--id-cols` | file column only | Source columns to keep in output (default: file column only) |
 | `--feature-set` | `emobase` | openSMILE feature set (see table below) |
-| `--feature-level` | `functionals` | Extraction level: `functionals` (one row per file) or `lld` (frame-level) |
+| `--feature-level` | `functionals` | Extraction level: `functionals` (one row per file). Only `functionals` is supported. |
 | `--subjects` | all | Process only these subjects |
 | `--max-workers` | 10 | Concurrent workers |
 | `--preview` | off | Dry run: show pending subjects and counts, then exit |
@@ -33,8 +33,7 @@ For emobase with functionals level, the script filters to `_amean` and `_stddev`
 
 ## Feature Levels
 
-- `functionals` (default): One row per audio file. openSMILE computes statistical functionals (mean, std, etc.) over the entire file. This is the standard mode.
-- `lld`: One row per analysis frame (typically 10ms windows). Produces per-frame low-level descriptors. Much larger output. Note: the emobase amean/stddev column filter still applies when `--feature-set emobase` is used with `--feature-level lld`.
+- `functionals` (default): One row per audio file. openSMILE computes statistical functionals (mean, std, etc.) over the entire file. This is the only supported mode.
 
 ## Interpretable Scores (emobase only)
 
@@ -65,7 +64,7 @@ The `ok` column is `True` if audio was extracted and features computed successfu
 
 ## Audio Extraction
 
-FFmpeg extracts audio as 16 kHz mono PCM WAV to a temporary file. This standardized format ensures consistent openSMILE results regardless of source format or codec.
+FFmpeg extracts audio as 16 kHz mono PCM WAV to a temporary file. All input files — including native `.wav` files — are re-encoded through FFmpeg to ensure consistent 16 kHz mono PCM format regardless of source sample rate, bit depth, or channel count.
 
 Supported input formats: `.mp4`, `.mov`, `.avi`, `.mkv`, `.webm`, `.wav`, `.mp3`, `.flac`, `.ogg`, `.m4a`
 

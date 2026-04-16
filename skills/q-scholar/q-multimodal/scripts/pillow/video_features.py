@@ -124,10 +124,10 @@ def aggregate_video_features(frame_df, active_fields):
             agg[f"{col}_min"] = float(vals.min())
             agg[f"{col}_max"] = float(vals.max())
         else:
-            agg[f"{col}_mean"] = ""
-            agg[f"{col}_std"] = ""
-            agg[f"{col}_min"] = ""
-            agg[f"{col}_max"] = ""
+            agg[f"{col}_mean"] = np.nan
+            agg[f"{col}_std"] = np.nan
+            agg[f"{col}_min"] = np.nan
+            agg[f"{col}_max"] = np.nan
 
     for col in categorical_cols:
         vals = frame_df[col].dropna()
@@ -137,7 +137,7 @@ def aggregate_video_features(frame_df, active_fields):
             except Exception:
                 agg[f"{col}_mode"] = vals.iloc[0]
         else:
-            agg[f"{col}_mode"] = ""
+            agg[f"{col}_mode"] = np.nan
 
     agg["frame_count"] = len(frame_df)
     agg["ok_ratio"] = float(frame_df["ok"].sum() / max(len(frame_df), 1))
@@ -179,27 +179,28 @@ def process_subject(name, subject_df, base_dir, file_col, max_workers,
             for c in id_cols:
                 source_data[c] = row.get(c, "")
         else:
-            source_data = {k: v for k, v in row.items()}
+            source_data = {file_col: row.get(file_col, "")}
 
         if result["ok"] and result["frames"]:
+            any_frame_ok = any(fr["ok"] for fr in result["frames"])
+
             for fr in result["frames"]:
                 fr_row = dict(source_data)
                 fr_row["frame_number"] = fr["frame_number"]
                 fr_row["second"] = fr["second"]
                 for f in active_fields:
-                    fr_row[f] = fr["data"].get(f, "")
+                    fr_row[f] = fr["data"].get(f, np.nan)
                 fr_row["ok"] = fr["ok"]
                 frame_rows.append(fr_row)
 
-            # Build frame df for this video to aggregate
             vid_frame_df = pd.DataFrame([
-                {f: fr["data"].get(f, "") for f in active_fields} | {"ok": fr["ok"]}
+                {f: fr["data"].get(f, np.nan) for f in active_fields} | {"ok": fr["ok"]}
                 for fr in result["frames"]
             ])
             agg = aggregate_video_features(vid_frame_df, active_fields)
             vid_row = dict(source_data)
             vid_row.update(agg)
-            vid_row["ok"] = True
+            vid_row["ok"] = any_frame_ok
             video_rows.append(vid_row)
         else:
             vid_row = dict(source_data)
@@ -239,11 +240,13 @@ def process_subject(name, subject_df, base_dir, file_col, max_workers,
 # ---------------------------------------------------------------------------
 
 def _run_merge(args):
-    for kind, subdir, name in [("Frames", "frames", "_frame_features.xlsx"),
-                                ("Videos", "videos", "_video_features.xlsx")]:
+    for kind, subdir, name, dedup in [
+        ("Frames", "frames", "_frame_features.xlsx", [args.file_col, "frame_number"]),
+        ("Videos", "videos", "_video_features.xlsx", None),
+    ]:
         ckpt_dir = os.path.join(args.output_dir, subdir, "checkpoints")
         out_path = os.path.join(args.output_dir, subdir, name)
-        _, stats = merge_checkpoints(ckpt_dir, out_path, file_col=args.file_col)
+        _, stats = merge_checkpoints(ckpt_dir, out_path, file_col=args.file_col, dedup_cols=dedup)
         if stats["files"]:
             print(f"{kind}: merged {stats['files']} checkpoints -> {out_path} ({stats['rows']} rows)", flush=True)
 
@@ -256,7 +259,7 @@ def main():
     parser.add_argument("--merge", action="store_true", help="Merge all checkpoints into single files")
     parser.add_argument("--group-col", default=None, help="Column to group rows by subject")
     parser.add_argument("--file-col", default="file_path", help="Column containing video file paths")
-    parser.add_argument("--id-cols", nargs="*", default=None, help="Source columns to keep in output")
+    parser.add_argument("--id-cols", nargs="*", default=None, help="Source columns to keep in output (default: file column only)")
     parser.add_argument("--features", default="rgb,hsv,texture,shape,spatial,quality",
                         help="Comma-separated feature categories. Available: rgb,hsv,texture,shape,spatial,quality")
     parser.add_argument("--fps", type=float, default=1.0, help="Frames per second to extract (default: 1)")

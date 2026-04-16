@@ -43,7 +43,7 @@ except ImportError:
 AUDIO_VIDEO_EXTENSIONS = {".mp4", ".mov", ".avi", ".mkv", ".webm", ".wav", ".mp3", ".flac", ".ogg", ".m4a"}
 
 VALID_FEATURE_SETS = {"emobase", "eGeMAPSv02", "GeMAPSv01b", "ComParE_2016"}
-VALID_FEATURE_LEVELS = {"functionals", "lld"}
+VALID_FEATURE_LEVELS = {"functionals"}
 
 
 def _get_feature_set(name):
@@ -113,14 +113,10 @@ def analyze_audio(idx, row, base_dir, file_col, smile, feature_set_name):
 
     tmp_wav = None
     try:
-        # If not already wav, extract audio
-        if ext != ".wav":
-            fd, tmp_wav = tempfile.mkstemp(suffix=".wav", prefix="osmile_")
-            os.close(fd)
-            extract_audio_wav(abs_path, tmp_wav)
-            wav_path = tmp_wav
-        else:
-            wav_path = abs_path
+        fd, tmp_wav = tempfile.mkstemp(suffix=".wav", prefix="osmile_")
+        os.close(fd)
+        extract_audio_wav(abs_path, tmp_wav)
+        wav_path = tmp_wav
 
         # Run openSMILE
         features_df = smile.process_file(wav_path)
@@ -151,7 +147,7 @@ def analyze_audio(idx, row, base_dir, file_col, smile, feature_set_name):
                 else:
                     scores[score_name] = val
             else:
-                scores[score_name] = ""
+                scores[score_name] = np.nan
 
         return {"ok": True, "data": raw_data, "scores": scores, "error": ""}
     except Exception as e:
@@ -165,12 +161,14 @@ def analyze_audio(idx, row, base_dir, file_col, smile, feature_set_name):
 # DataFrame construction and subject processing
 # ---------------------------------------------------------------------------
 
-def build_output_df(rows, results, id_cols=None):
+def build_output_df(rows, results, id_cols=None, file_col="file_path"):
     """Merge source rows with scores + raw features."""
     source_df = pd.DataFrame(rows)
     if id_cols:
         keep = [c for c in id_cols if c in source_df.columns]
-        source_df = source_df[keep]
+    else:
+        keep = [c for c in [file_col] if c in source_df.columns]
+    source_df = source_df[keep]
 
     # Collect all raw column names from successful results
     raw_cols = set()
@@ -184,9 +182,9 @@ def build_output_df(rows, results, id_cols=None):
     for r in results:
         row = {}
         for s in score_names:
-            row[s] = r.get("scores", {}).get(s, "")
+            row[s] = r.get("scores", {}).get(s, np.nan)
         for c in raw_cols:
-            row[c] = r.get("data", {}).get(c, "")
+            row[c] = r.get("data", {}).get(c, np.nan)
         row["ok"] = r["ok"]
         out_rows.append(row)
 
@@ -215,7 +213,7 @@ def process_subject(name, subject_df, base_dir, file_col, max_workers,
                     results[idx] = {"ok": False, "data": {}, "scores": {}, "error": str(e)}
                 file_bar.update(1)
 
-    out_df = build_output_df(rows, results, id_cols)
+    out_df = build_output_df(rows, results, id_cols, file_col=file_col)
     ckpt_dir = os.path.join(output_dir, "checkpoints")
     os.makedirs(ckpt_dir, exist_ok=True)
     out_path = os.path.join(ckpt_dir, f"{name}.xlsx")
@@ -246,11 +244,11 @@ def main():
     parser.add_argument("--merge", action="store_true", help="Merge all checkpoints into a single file")
     parser.add_argument("--group-col", default=None, help="Column to group rows by subject")
     parser.add_argument("--file-col", default="file_path", help="Column containing file paths")
-    parser.add_argument("--id-cols", nargs="*", default=None, help="Source columns to keep in output")
+    parser.add_argument("--id-cols", nargs="*", default=None, help="Source columns to keep in output (default: file column only)")
     parser.add_argument("--feature-set", default="emobase",
                         help="openSMILE feature set: emobase (default), eGeMAPSv02, GeMAPSv01b, ComParE_2016")
     parser.add_argument("--feature-level", default="functionals",
-                        help="Extraction level: functionals (default, one row per file), lld (frame-level)")
+                        help="Extraction level: functionals (one row per file). Only functionals is supported.")
     parser.add_argument("--subjects", nargs="*", default=None, help="Process only these subjects")
     parser.add_argument("--max-workers", type=int, default=10, help="Number of concurrent workers")
     parser.add_argument("--preview", action="store_true", help="Dry run: show pending subjects and exit")
@@ -281,16 +279,10 @@ def main():
         print(f"Unknown feature level: {args.feature_level}. Available: {sorted(VALID_FEATURE_LEVELS)}", flush=True)
         return
 
-    if args.feature_level == "lld" and args.feature_set == "emobase":
-        print("Warning: --feature-level lld with emobase produces per-frame LLDs, not functionals. "
-              "The amean/stddev column filter will not apply.", flush=True)
-
     # Initialize openSMILE
-    feature_level = (opensmile.FeatureLevel.Functionals if args.feature_level == "functionals"
-                     else opensmile.FeatureLevel.LowLevelDescriptors)
     smile = opensmile.Smile(
         feature_set=_get_feature_set(args.feature_set),
-        feature_level=feature_level,
+        feature_level=opensmile.FeatureLevel.Functionals,
     )
     print(f"openSMILE: {args.feature_set}, level={args.feature_level}", flush=True)
 

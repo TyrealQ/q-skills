@@ -81,7 +81,7 @@ All local pipelines support `--merge` to compile per-subject checkpoints into a 
 
 **Behavior:**
 - Concatenates all `*.xlsx` in the checkpoint directory (sorted alphabetically)
-- Deduplicates by `file_path` column (keeps last occurrence)
+- Deduplicates by `file_path` column for single-row-per-file outputs (image, audio, video-level). Frame-level video output deduplicates by `[file_path, frame_number]` to preserve all frames.
 - Files starting with `_` are excluded from merge input (prevents self-inclusion on re-merge)
 - Uses `save_excel()` formatting (bold headers, auto-fit widths, frozen panes)
 

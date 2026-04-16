@@ -13,7 +13,7 @@ Extracts frames from videos via FFmpeg, then runs Pillow analysis per frame. Pro
 | `--output-dir` | `output/pillow_video` | Checkpoint output directory |
 | `--file-col` | `file_path` | Column containing file paths |
 | `--group-col` | (auto) | Column to group by subject; default: parent directory of file path |
-| `--id-cols` | identifier only | Additional source columns to keep in output beyond the file column |
+| `--id-cols` | file column only | Source columns to keep in output (default: file column only) |
 | `--features` | `rgb,hsv,texture,shape,spatial,quality` | Comma-separated feature categories (default: all except exif) |
 | `--fps` | 1.0 | Frames per second to extract |
 | `--subjects` | all | Process only these subjects |

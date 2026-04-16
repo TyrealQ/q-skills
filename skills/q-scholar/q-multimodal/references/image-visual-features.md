@@ -13,7 +13,7 @@ Extracts scalar visual features from pixel values using Pillow and numpy. No API
 | `--output-dir` | `output/pillow_image` | Checkpoint output directory |
 | `--file-col` | `file_path` | Column containing file paths |
 | `--group-col` | (auto) | Column to group by subject; default: parent directory of file path |
-| `--id-cols` | identifier only | Additional source columns to keep in output beyond the file column |
+| `--id-cols` | file column only | Source columns to keep in output (default: file column only) |
 | `--features` | `rgb,hsv,texture,shape,spatial,quality` | Comma-separated feature categories (default: all except exif) |
 | `--subjects` | all | Process only these subjects |
 | `--max-workers` | 10 | Concurrent workers for parallel image processing |
@@ -92,7 +92,7 @@ EXIF data is often empty for social media images. Include with `--features rgb,h
 
 ## Output
 
-Checkpoint path: `<output-dir>/<subject>.xlsx` (no `checkpoints/` subdirectory).
+Checkpoint path: `<output-dir>/checkpoints/<subject>.xlsx`
 
 Output columns: `identifier (--file-col) | additional id_cols (if specified) | selected feature columns | ok`
 

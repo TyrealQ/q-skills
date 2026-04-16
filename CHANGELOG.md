@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.1] - 2026-04-15
+
+### Fixed
+
+- **q-multimodal**: fix video frame merging dropping all but last frame per video during checkpoint merge
+- **q-multimodal**: fix video summaries using empty strings instead of NaN for missing numeric values
+- **q-multimodal**: fix video `ok` flag reporting success when no frames were actually analyzed
+- **q-multimodal**: fix subject-name extraction for Windows backslash paths and sanitize unsafe filename characters
+- **q-multimodal**: fix default output columns including all source columns instead of file column only
+
+### Changed
+
+- **q-multimodal**: remove LLD as supported audio feature level; only functionals is accepted
+- **q-multimodal**: normalize all audio inputs through FFmpeg including native WAV files
+
 ## [2.1.0] - 2026-04-13
 
 ### Added
