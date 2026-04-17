@@ -40,7 +40,7 @@ All scripts check for existing checkpoints before processing:
 | Pipeline | Output type | Columns | Breakdown |
 |----------|------------|---------|-----------|
 | Image visual | Per-subject | (user id_cols) + up to 47 features + ok | Width depends on `--id-cols` (default: file column only) and `--features` selection (default 34, all 47 with exif) |
-| Video visual | Frame-level | 38 | file_path + frame_number + second + 34 features + ok |
+| Video visual | Frame-level | 41 | file_path + frame_number + second + scene_id + scene_start + scene_end + 34 features + ok (scene columns are `NaN` when `--extractor ffmpeg`) |
 | Video visual | Video-level | ~130–140 | file_path + numeric features × 4 (mean/std/min/max) + categorical features × 1 (mode) + frame_count + ok_ratio + ok |
 | Audio (emobase) | Per-subject | 114 | file_path + 8 scores + 104 raw mean/std + ok |
 

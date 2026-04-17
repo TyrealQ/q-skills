@@ -48,7 +48,7 @@ Read the relevant reference file **before** executing a pipeline. These contain 
 | Pipeline | Python packages | System |
 |----------|----------------|--------|
 | Image visual | `Pillow`, `numpy`, `pandas`, `tqdm`, `openpyxl` | — |
-| Video visual | (same as image) | `ffmpeg` on PATH |
+| Video visual | (same as image) + `scenedetect[opencv]` | `ffmpeg` on PATH (for `--extractor ffmpeg`) |
 | Audio | `opensmile`, `pandas`, `tqdm`, `openpyxl` | `ffmpeg` on PATH |
 | Gemini | `google-genai`, `python-dotenv` (+ above) | `.env` with `GOOGLE_API_KEY1`-`4` |
 
@@ -61,7 +61,7 @@ Script path = `${SKILL_DIR}/scripts/<path>`. Read the pipeline's reference file 
 | Script | Input | Output | Reference |
 |--------|-------|--------|-----------|
 | `pillow/visual_features.py` | Images | 47 pixel features (color, texture, spatial, quality) | `image-visual-features.md` |
-| `pillow/video_features.py` | Videos | Frame-level + video-level aggregated features | `video-visual-features.md` |
+| `pillow/video_features.py` | Videos | Frame-level + video-level aggregated features (scene-based extraction by default, FFmpeg fixed-interval optional) | `video-visual-features.md` |
 | `opensmile/audio_features.py` | Video/audio | 8 interpretable scores + raw openSMILE features | `audio-features.md` |
 
 Shared utilities: `common.py` — `read_input()`, `save_excel()`, `derive_subject()`, `merge_checkpoints()`

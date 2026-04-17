@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.2.0] - 2026-04-16
+
+### Added
+
+- **q-multimodal**: add PySceneDetect as default video frame extractor with three sampling modes (`middle`, `boundaries`, `evenly-spaced`) and new `scene_id` / `scene_start` / `scene_end` columns in frame-level output
+- **q-multimodal**: add `--extractor ffmpeg` option to retain fixed-interval (`--fps`) frame extraction for dense temporal sampling
+
 ## [2.1.1] - 2026-04-15
 
 ### Fixed

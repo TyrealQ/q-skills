@@ -1,9 +1,13 @@
 """
-Video visual feature extraction: FFmpeg frame extraction + Pillow analysis.
+Video visual feature extraction: frame extraction + Pillow analysis.
 
-Extracts frames at a configurable FPS from video files, runs Pillow visual
-feature extraction on each frame, then produces dual output:
-  - Frame-level: one row per frame (temporal detail)
+Two frame-extraction strategies (selected via --extractor):
+  - scenedetect (default): PySceneDetect detects scene boundaries; 1+ frames
+    are sampled per scene per --frame-mode (middle / boundaries / evenly-spaced)
+  - ffmpeg: fixed-interval sampling at --fps
+
+Pillow visual feature extraction runs on each extracted frame, producing:
+  - Frame-level: one row per frame (temporal detail + scene metadata)
   - Video-level: one row per video (aggregated summary)
 
 Generic — no project-specific names. All paths come from CLI args.
@@ -36,14 +40,16 @@ from visual_features import (
 )
 
 VIDEO_EXTENSIONS = {".mp4", ".mov", ".avi", ".mkv", ".webm"}
+FRAME_MODES = {"middle", "boundaries", "evenly-spaced"}
 
 
 # ---------------------------------------------------------------------------
-# FFmpeg frame extraction
+# FFmpeg frame extraction (fixed-interval)
 # ---------------------------------------------------------------------------
 
-def extract_frames(video_path, output_dir, fps=1):
-    """Extract frames from video at given FPS. Returns list of frame file paths."""
+def extract_frames_ffmpeg(video_path, output_dir, fps=1.0):
+    """Extract frames at constant FPS via FFmpeg.
+    Returns list of {path, scene_id, scene_start, scene_end, timestamp}."""
     os.makedirs(output_dir, exist_ok=True)
     cmd = [
         "ffmpeg", "-i", video_path,
@@ -58,14 +64,134 @@ def extract_frames(video_path, output_dir, fps=1):
         raise RuntimeError(f"ffmpeg failed: {result.stderr.strip()}")
 
     frames = sorted(Path(output_dir).glob("*.jpg"))
-    return [str(f) for f in frames]
+    step = 1.0 / fps if fps > 0 else 1.0
+    return [
+        {
+            "path": str(f),
+            "scene_id": None,
+            "scene_start": None,
+            "scene_end": None,
+            "timestamp": i * step,
+        }
+        for i, f in enumerate(frames)
+    ]
+
+
+# ---------------------------------------------------------------------------
+# PySceneDetect frame extraction (scene-based)
+# ---------------------------------------------------------------------------
+
+def _target_frames_for_scene(start_frame, end_frame, frame_mode, frames_per_scene):
+    """Compute frame indices to sample from a scene given the mode.
+    Scene runs [start_frame, end_frame) in PySceneDetect convention."""
+    last = max(end_frame - 1, start_frame)
+    if frame_mode == "middle":
+        return [(start_frame + last) // 2]
+    if frame_mode == "boundaries":
+        if last == start_frame:
+            return [start_frame]
+        return [start_frame, last]
+    # evenly-spaced
+    n = max(int(frames_per_scene), 1)
+    if n == 1:
+        return [(start_frame + last) // 2]
+    span = last - start_frame
+    return [start_frame + int(round(k * span / (n - 1))) for k in range(n)]
+
+
+def extract_frames_scenedetect(video_path, output_dir, threshold=27.0,
+                               min_scene_len=15, frame_mode="middle",
+                               frames_per_scene=3):
+    """Detect scenes with PySceneDetect, sample frames per mode, write JPEGs.
+    Returns list of {path, scene_id, scene_start, scene_end, timestamp}."""
+    try:
+        from scenedetect import detect, ContentDetector
+        import cv2
+    except ImportError as e:
+        raise RuntimeError(
+            f"scenedetect extractor requires scenedetect[opencv]: {e}. "
+            "Install with: pip install scenedetect[opencv]"
+        )
+
+    if frame_mode not in FRAME_MODES:
+        raise ValueError(f"invalid frame_mode={frame_mode}; expected one of {sorted(FRAME_MODES)}")
+
+    os.makedirs(output_dir, exist_ok=True)
+
+    scene_list = detect(
+        video_path,
+        ContentDetector(threshold=threshold, min_scene_len=min_scene_len),
+    )
+
+    cap = cv2.VideoCapture(video_path)
+    if not cap.isOpened():
+        raise RuntimeError(f"opencv failed to open video: {video_path}")
+    try:
+        fps = cap.get(cv2.CAP_PROP_FPS) or 0.0
+        total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT) or 0)
+        if fps <= 0:
+            raise RuntimeError(f"opencv reported non-positive fps ({fps}) for {video_path}")
+
+        if not scene_list:
+            if total_frames <= 0:
+                return []
+            scenes = [(0, total_frames)]
+        else:
+            scenes = [(s.get_frames(), e.get_frames()) for s, e in scene_list]
+
+        results = []
+        for scene_idx, (start_f, end_f) in enumerate(scenes, start=1):
+            scene_start_sec = start_f / fps
+            scene_end_sec = end_f / fps
+            targets = _target_frames_for_scene(start_f, end_f, frame_mode, frames_per_scene)
+
+            for img_idx, target in enumerate(targets, start=1):
+                cap.set(cv2.CAP_PROP_POS_FRAMES, target)
+                ret, frame = cap.read()
+                if not ret or frame is None:
+                    continue
+                out_name = f"scene_{scene_idx:04d}_img_{img_idx:02d}.jpg"
+                out_path = os.path.join(output_dir, out_name)
+                cv2.imwrite(out_path, frame, [cv2.IMWRITE_JPEG_QUALITY, 95])
+                results.append({
+                    "path": out_path,
+                    "scene_id": scene_idx,
+                    "scene_start": float(scene_start_sec),
+                    "scene_end": float(scene_end_sec),
+                    "timestamp": float(target / fps),
+                })
+        return results
+    finally:
+        cap.release()
+
+
+# ---------------------------------------------------------------------------
+# Dispatcher
+# ---------------------------------------------------------------------------
+
+def extract_frames_dispatch(video_path, output_dir, extractor, fps=1.0,
+                            scene_threshold=27.0, min_scene_len=15,
+                            frame_mode="middle", frames_per_scene=3):
+    if extractor == "scenedetect":
+        return extract_frames_scenedetect(
+            video_path, output_dir,
+            threshold=scene_threshold,
+            min_scene_len=min_scene_len,
+            frame_mode=frame_mode,
+            frames_per_scene=frames_per_scene,
+        )
+    if extractor == "ffmpeg":
+        return extract_frames_ffmpeg(video_path, output_dir, fps=fps)
+    raise ValueError(f"unknown extractor: {extractor}")
 
 
 # ---------------------------------------------------------------------------
 # Per-video processing
 # ---------------------------------------------------------------------------
 
-def analyze_video(idx, row, base_dir, file_col, active_categories, fps):
+def analyze_video(idx, row, base_dir, file_col, active_categories,
+                  extractor, fps, scene_threshold, min_scene_len,
+                  frame_mode, frames_per_scene):
     """Extract frames from one video, analyze each. Returns {ok, frames, error}."""
     rel_path = row.get(file_col, "")
     if not rel_path:
@@ -81,15 +207,25 @@ def analyze_video(idx, row, base_dir, file_col, active_categories, fps):
 
     tmp_dir = tempfile.mkdtemp(prefix="vf_frames_")
     try:
-        frame_paths = extract_frames(abs_path, tmp_dir, fps)
-        if not frame_paths:
+        frames = extract_frames_dispatch(
+            abs_path, tmp_dir, extractor,
+            fps=fps,
+            scene_threshold=scene_threshold,
+            min_scene_len=min_scene_len,
+            frame_mode=frame_mode,
+            frames_per_scene=frames_per_scene,
+        )
+        if not frames:
             return {"ok": False, "frames": [], "error": "no frames extracted"}
 
         frame_results = []
-        for i, fp in enumerate(frame_paths):
-            result = analyze_image_from_path(fp, active_categories)
+        for i, fr in enumerate(frames):
+            result = analyze_image_from_path(fr["path"], active_categories)
             result["frame_number"] = i + 1
-            result["second"] = float(i) / fps if fps > 0 else float(i)
+            result["second"] = float(fr["timestamp"])
+            result["scene_id"] = fr["scene_id"]
+            result["scene_start"] = fr["scene_start"]
+            result["scene_end"] = fr["scene_end"]
             frame_results.append(result)
 
         return {"ok": True, "frames": frame_results, "error": ""}
@@ -150,14 +286,20 @@ def aggregate_video_features(frame_df, active_fields):
 # ---------------------------------------------------------------------------
 
 def process_subject(name, subject_df, base_dir, file_col, max_workers,
-                    output_dir, active_categories, active_fields, fps, id_cols=None):
+                    output_dir, active_categories, active_fields,
+                    extractor, fps, scene_threshold, min_scene_len,
+                    frame_mode, frames_per_scene, id_cols=None):
     """Process all videos for one subject, save frame-level and video-level checkpoints."""
     rows = subject_df.to_dict("records")
     results = [None] * len(rows)
 
     with ThreadPoolExecutor(max_workers=max_workers) as pool:
         futures = {
-            pool.submit(analyze_video, i, row, base_dir, file_col, active_categories, fps): i
+            pool.submit(
+                analyze_video, i, row, base_dir, file_col, active_categories,
+                extractor, fps, scene_threshold, min_scene_len,
+                frame_mode, frames_per_scene,
+            ): i
             for i, row in enumerate(rows)
         }
         with tqdm(total=len(rows), desc=f"  {name}", position=1, leave=False) as vid_bar:
@@ -188,6 +330,9 @@ def process_subject(name, subject_df, base_dir, file_col, max_workers,
                 fr_row = dict(source_data)
                 fr_row["frame_number"] = fr["frame_number"]
                 fr_row["second"] = fr["second"]
+                fr_row["scene_id"] = fr.get("scene_id")
+                fr_row["scene_start"] = fr.get("scene_start")
+                fr_row["scene_end"] = fr.get("scene_end")
                 for f in active_fields:
                     fr_row[f] = fr["data"].get(f, np.nan)
                 fr_row["ok"] = fr["ok"]
@@ -252,7 +397,7 @@ def _run_merge(args):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Extract visual features from video frames using FFmpeg + Pillow")
+    parser = argparse.ArgumentParser(description="Extract visual features from video frames using PySceneDetect or FFmpeg + Pillow")
     parser.add_argument("--input", default=None, help="Input xlsx file")
     parser.add_argument("--base-dir", default=None, help="Base directory for resolving relative file paths")
     parser.add_argument("--output-dir", default="output/pillow_video", help="Output directory")
@@ -262,7 +407,18 @@ def main():
     parser.add_argument("--id-cols", nargs="*", default=None, help="Source columns to keep in output (default: file column only)")
     parser.add_argument("--features", default="rgb,hsv,texture,shape,spatial,quality",
                         help="Comma-separated feature categories. Available: rgb,hsv,texture,shape,spatial,quality")
-    parser.add_argument("--fps", type=float, default=1.0, help="Frames per second to extract (default: 1)")
+    parser.add_argument("--extractor", choices=["scenedetect", "ffmpeg"], default="scenedetect",
+                        help="Frame extraction strategy (default: scenedetect)")
+    parser.add_argument("--frame-mode", choices=sorted(FRAME_MODES), default="middle",
+                        help="scenedetect only: frames sampled per detected scene (default: middle)")
+    parser.add_argument("--frames-per-scene", type=int, default=3,
+                        help="scenedetect only: N frames per scene when --frame-mode evenly-spaced (default: 3)")
+    parser.add_argument("--scene-threshold", type=float, default=27.0,
+                        help="scenedetect only: ContentDetector HSV threshold; lower = more scenes (default: 27.0)")
+    parser.add_argument("--min-scene-len", type=int, default=15,
+                        help="scenedetect only: minimum scene length in frames (default: 15)")
+    parser.add_argument("--fps", type=float, default=1.0,
+                        help="ffmpeg only: frames per second to extract (default: 1.0)")
     parser.add_argument("--subjects", nargs="*", default=None, help="Process only these subjects")
     parser.add_argument("--max-workers", type=int, default=10, help="Number of concurrent workers")
     parser.add_argument("--preview", action="store_true", help="Dry run: show pending subjects and exit")
@@ -292,7 +448,31 @@ def main():
         if cat in active_categories:
             active_fields.extend(FEATURE_CATEGORIES[cat])
     print(f"Feature categories: {sorted(active_categories)} ({len(active_fields)} columns)", flush=True)
-    print(f"FPS: {args.fps}", flush=True)
+    if args.extractor == "scenedetect":
+        mode_desc = args.frame_mode
+        if args.frame_mode == "evenly-spaced":
+            mode_desc += f", n={args.frames_per_scene}"
+        print(
+            f"Extractor: scenedetect (mode={mode_desc}, "
+            f"threshold={args.scene_threshold}, min_scene_len={args.min_scene_len})",
+            flush=True,
+        )
+        if args.fps != 1.0:
+            print("  (note: --fps is ignored with --extractor scenedetect)", flush=True)
+    else:
+        print(f"Extractor: ffmpeg (fps={args.fps})", flush=True)
+        ignored = [
+            f"--{name}={getattr(args, attr)}"
+            for name, attr, default in [
+                ("frame-mode", "frame_mode", "middle"),
+                ("frames-per-scene", "frames_per_scene", 3),
+                ("scene-threshold", "scene_threshold", 27.0),
+                ("min-scene-len", "min_scene_len", 15),
+            ]
+            if getattr(args, attr) != default
+        ]
+        if ignored:
+            print(f"  (note: ignored with --extractor ffmpeg: {', '.join(ignored)})", flush=True)
 
     df = read_input(args.input)
     print(f"Loaded {len(df)} rows from {args.input}", flush=True)
@@ -338,7 +518,9 @@ def main():
         group_df = pending[name].drop(columns=["_subject"])
         summary = process_subject(
             name, group_df, args.base_dir, args.file_col, args.max_workers,
-            args.output_dir, active_categories, active_fields, args.fps, args.id_cols,
+            args.output_dir, active_categories, active_fields,
+            args.extractor, args.fps, args.scene_threshold, args.min_scene_len,
+            args.frame_mode, args.frames_per_scene, args.id_cols,
         )
         summaries.append(summary)
         tqdm.write(f"  {summary['name']}: {summary['ok']}/{summary['total']} ok, "
