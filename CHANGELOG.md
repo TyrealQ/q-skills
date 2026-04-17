@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.3.0] - 2026-04-17
+
+### Added
+
+- **commit**: sweep editor/build temp files (`*.bak-*`, `__pycache__/`, `*.pyc`, `*.swp`, `.pytest_cache/`, etc.) from the working tree after each commit
+- **ship**: mirror cleanup step after push, with matching checklist item
+
 ## [2.2.0] - 2026-04-16
 
 ### Added

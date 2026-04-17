@@ -182,7 +182,21 @@ If no upstream is set:
 git push -u origin <current-branch>
 ```
 
-### Step 8: Confirm
+### Step 8: Cleanup temp files
+
+After the push succeeds, remove these patterns from the working tree (skip `.git/`):
+
+- Files: `*.bak-*`, `*.pyc`, `*.pyo`, `*.swp`, `*.swo`, `*~`, `.DS_Store`, `Thumbs.db`
+- Directories: `__pycache__/`, `.pytest_cache/`, `.mypy_cache/`, `.ruff_cache/`
+
+List matches first, then delete. If nothing matches, note "no temp files to clean" and proceed.
+
+```
+find . -not -path '*/.git/*' -type f \( -name '*.bak-*' -o -name '*.pyc' -o -name '*.pyo' -o -name '*.swp' -o -name '*.swo' -o -name '*~' -o -name '.DS_Store' -o -name 'Thumbs.db' \) -print -exec rm -f {} +
+find . -not -path '*/.git/*' -type d \( -name '__pycache__' -o -name '.pytest_cache' -o -name '.mypy_cache' -o -name '.ruff_cache' \) -print -exec rm -rf {} +
+```
+
+### Step 9: Confirm
 
 Run: `git log --oneline -3`
 
@@ -199,3 +213,4 @@ Display the commit hash and message to confirm success.
 - [ ] Commit messages follow conventional commits format
 - [ ] No temp files or sensitive files staged
 - [ ] Push completed successfully
+- [ ] Temp files cleaned after push

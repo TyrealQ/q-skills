@@ -85,6 +85,30 @@ Rules:
 - Specify files explicitly — never use `git add .` or `git add -A`
 - Exclude temp files (`*.bak-*`, `.DS_Store`, `node_modules/`)
 
-### Step 6: Confirm
+### Step 6: Cleanup temp files
+
+After the commit succeeds, remove these patterns from the working tree (skip `.git/`):
+
+- Files: `*.bak-*`, `*.pyc`, `*.pyo`, `*.swp`, `*.swo`, `*~`, `.DS_Store`, `Thumbs.db`
+- Directories: `__pycache__/`, `.pytest_cache/`, `.mypy_cache/`, `.ruff_cache/`
+
+List matches first, then delete. If nothing matches, note "no temp files to clean" and proceed.
+
+```
+find . -not -path '*/.git/*' -type f \( -name '*.bak-*' -o -name '*.pyc' -o -name '*.pyo' -o -name '*.swp' -o -name '*.swo' -o -name '*~' -o -name '.DS_Store' -o -name 'Thumbs.db' \) -print -exec rm -f {} +
+find . -not -path '*/.git/*' -type d \( -name '__pycache__' -o -name '.pytest_cache' -o -name '.mypy_cache' -o -name '.ruff_cache' \) -print -exec rm -rf {} +
+```
+
+### Step 7: Confirm
 
 Run: `git log --oneline -3`
+
+## Verification Checklist
+
+- [ ] All modified files reviewed and classified
+- [ ] Cascade check completed for script/data changes
+- [ ] CLAUDE.md updated if project structure or dependencies changed
+- [ ] Commit message follows conventional commits format
+- [ ] No temp files or sensitive files staged
+- [ ] Commit completed successfully
+- [ ] Temp files cleaned after commit

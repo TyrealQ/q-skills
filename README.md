@@ -397,6 +397,7 @@ Stage and commit all uncommitted changes with smart file grouping and convention
 - Smart grouping: one commit per topic when changes span multiple areas
 - Conventional commit format (`feat:`, `fix:`, `docs:`, etc.)
 - Explicit file staging (never `git add .`)
+- Auto-cleanup of editor/build temp files after each commit
 
 ---
 
@@ -438,6 +439,7 @@ Full ship cycle: update documentation, stage, commit, and push to remote. Automa
 - Stale reference detection for deleted/renamed files
 - Smart commit grouping (same as commit skill)
 - Pushes to remote with upstream tracking
+- Auto-cleanup of editor/build temp files after push
 
 ---
 
