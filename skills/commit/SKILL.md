@@ -5,6 +5,8 @@ description: Stage and commit uncommitted changes with conventional commit messa
 
 # Git Commit Skill
 
+Stages and commits uncommitted changes with conventional commit messages. Groups files by topic when multiple unrelated changes are pending, runs cascade and CLAUDE.md freshness checks, and sweeps temp files after each commit. Does not push — hand off to `/ship` for that.
+
 ## Workflow
 
 ### Step 1: Review changes
@@ -103,7 +105,7 @@ find . -not -path '*/.git/*' -type d \( -name '__pycache__' -o -name '.pytest_ca
 
 Run: `git log --oneline -3`
 
-## Verification Checklist
+## Checklist
 
 - [ ] All modified files reviewed and classified
 - [ ] Cascade check completed for script/data changes

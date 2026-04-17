@@ -1,6 +1,6 @@
 ---
 name: q-presentations
-description: Generate professional slide deck images from content with smart logo branding. Use when user asks to create slides, make a presentation, generate a deck, or PPT.
+description: Generate professional slide deck images from content with smart logo branding. Use for creating slides, presentations, decks, or PPT output.
 ---
 
 # Q-Presentations

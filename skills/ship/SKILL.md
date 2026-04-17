@@ -1,12 +1,11 @@
 ---
 name: ship
 description: Update docs (CHANGELOG, CLAUDE.md, READMEs), commit, and push. Use for shipping changes, deploying updates, or publishing to remote.
-user_invocable: true
 ---
 
 # Ship Skill
 
-Automates the full cycle: update documentation -> stage -> commit -> push.
+Automates the full cycle: update documentation, stage, commit, push, and sweep temp files. Groups related changes into one commit per topic and handles the doc catch-up path when the working tree is clean but commits are unpushed.
 
 ## Workflow
 
@@ -44,7 +43,6 @@ Classify uncommitted changes from `git status`:
 ### Step 2: Analyze what changed
 
 Read every modified/untracked file (or every file from unpushed commits in the doc catch-up path) to understand the nature of the changes.
-
 
 | Path pattern                                 | Type                                           |
 | -------------------------------------------- | ---------------------------------------------- |
@@ -101,10 +99,6 @@ After identifying all changed, added, and deleted files, **check documentation f
 - **Removed features or dependencies**: Remove or update mentions in all docs
 - **New directories or files**: If CLAUDE.md or README.md contain folder trees, check whether newly added directories or files should appear in those trees
 - Run: `git diff --name-status` to get the full list of added (`A`/`??`), deleted (`D`), and renamed (`R`) files, then search docs for entries that need adding or removing
-
-#### Other docs
-
-- If any other documentation file is directly affected by the changes, update it too
 
 ### Step 4: Decide commit strategy
 
@@ -202,15 +196,13 @@ Run: `git log --oneline -3`
 
 Display the commit hash and message to confirm success.
 
-## Verification Checklist
+## Checklist
 
 - [ ] All modified files reviewed and classified
 - [ ] Cascade check completed for script/data changes
 - [ ] CHANGELOG.md updated with today's date section
-- [ ] CLAUDE.md updated if project structure or dependencies changed
-- [ ] README files updated if content they describe changed
+- [ ] CLAUDE.md and README files updated if project structure or described content changed
 - [ ] Stale and missing references resolved (deleted files, renamed paths)
 - [ ] Commit messages follow conventional commits format
-- [ ] No temp files or sensitive files staged
 - [ ] Push completed successfully
 - [ ] Temp files cleaned after push
