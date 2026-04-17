@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 
 - **commit**: sweep editor/build temp files (`*.bak-*`, `__pycache__/`, `*.pyc`, `*.swp`, `.pytest_cache/`, etc.) from the working tree after each commit
 - **ship**: mirror cleanup step after push, with matching checklist item
+- **organize**: new utility skill for auditing project structure, aligning it to documented conventions, and archiving superseded content under `_archive/`. Detects case drift, superseded generations, orphan files, and tracked per-machine state. Hands off to `/commit` or `/ship`.
 
 ## [2.1.2] - 2026-04-16
 

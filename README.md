@@ -134,6 +134,7 @@ Then re-copy the skills to your skills directory (see Manual install above).
 | ----------------------- | ------------------------------------------------------------------------ |
 | [commit](#commit)       | Stage and commit with smart file grouping and conventional commits       |
 | [learn](#learn)         | Persist user preferences and styles across sessions                      |
+| [organize](#organize)   | Audit structure, align to conventions, archive superseded content        |
 | [ship](#ship)           | Full ship cycle: update docs, commit, and push to remote                 |
 
 ---
@@ -421,6 +422,28 @@ Persist user preferences, styles, and behavioral patterns to `~/CLAUDE.md`, `~/.
 - Query mode: read-only lookup, section-level quoting, and confirmed forgetting
 - Anti-patterns guardrail: never infers from silence, hypotheticals, or third-party preferences
 - Keeps `~/CLAUDE.md` under 200 lines, migrating overflow to rule files
+
+---
+
+### organize
+
+Audit project structure, align it to documented conventions, and archive superseded content under `_archive/`. Works on any project type (research, content, software, data). Writes a plan file, asks on ambiguous calls, and hands off to `/commit` or `/ship`.
+
+**Triggers:**
+
+- `/organize`
+- "Clean up this repo"
+- "Standardize folder structure"
+- "Archive old versions"
+
+**Features:**
+
+- Four-detector audit: case drift, superseded generations, orphan files, tracked per-machine state
+- Project-agnostic target structure (folder roles, naming rules, `_archive/` convention, `.gitignore` baseline)
+- Plan-first workflow — no moves until approved
+- Sync-safe moves (`shutil.copytree` + retry) for cloud-synced paths
+- Refreshes project-level docs file (structure diagram, conventions)
+- Hands off to `/commit` or `/ship`; never commits directly
 
 ---
 
