@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.4] - 2026-04-19
+
+### Fixed
+
+- **q-multimodal**: fix `talking_duration_mean/std` always being NaN under emobase by mapping to `voiceProb_sma` (was `voicingFinalUnclipped_sma`, an eGeMAPS-only LLD)
+
 ## [2.1.3] - 2026-04-17
 
 ### Added

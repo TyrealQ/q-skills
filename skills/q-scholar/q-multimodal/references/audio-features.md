@@ -47,8 +47,8 @@ Eight scores are mapped from openSMILE functionals columns and placed first in t
 | `pitch_std` | `F0_sma_stddev` | Hz | None |
 | `loudness_var_mean` | `pcm_zcr_sma_amean` | rate | None (zero-crossing rate) |
 | `loudness_var_std` | `pcm_zcr_sma_stddev` | rate | None |
-| `talking_duration_mean` | `voicingFinalUnclipped_sma_amean` | 0-1 | None (voicing probability) |
-| `talking_duration_std` | `voicingFinalUnclipped_sma_stddev` | 0-1 | None |
+| `talking_duration_mean` | `voiceProb_sma_amean` | 0-1 | None (voicing probability) |
+| `talking_duration_std` | `voiceProb_sma_stddev` | 0-1 | None |
 
 Scores are only computed when the emobase feature set is used. Other feature sets skip score computation and output raw features only.
 

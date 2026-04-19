@@ -52,7 +52,7 @@ def _get_feature_set(name):
         raise ImportError("opensmile is not installed. Run: pip install opensmile")
     return getattr(opensmile.FeatureSet, name)
 
-# LLD name patterns for the 4 interpretable scores (emobase column names)
+# LLD name patterns for the 8 interpretable scores (emobase column names)
 SCORE_MAPPINGS = {
     "loudness_mean": "pcm_loudness_sma_amean",
     "loudness_std": "pcm_loudness_sma_stddev",
@@ -60,8 +60,8 @@ SCORE_MAPPINGS = {
     "pitch_std": "F0_sma_stddev",
     "loudness_var_mean": "pcm_zcr_sma_amean",
     "loudness_var_std": "pcm_zcr_sma_stddev",
-    "talking_duration_mean": "voicingFinalUnclipped_sma_amean",
-    "talking_duration_std": "voicingFinalUnclipped_sma_stddev",
+    "talking_duration_mean": "voiceProb_sma_amean",
+    "talking_duration_std": "voiceProb_sma_stddev",
 }
 
 # Reference intensity for dB conversion (Eq. A.1)
