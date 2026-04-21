@@ -1,16 +1,11 @@
 ---
 name: q-infographics
-description: Convert documents into business stories and infographics via Gemini API. Use for turning reports, documents, or text into visual summaries or infographics.
+description: "Extract key data points, generate narrative summaries, and create branded infographic images from business documents via Gemini API. Use for data visualization, visual reports, executive summaries, turning documents into infographics, or making content visual."
 ---
 
 # Q-Infographics
 
 Transform source documents into business stories and infographic images using the Gemini API.
-
-> **If in plan mode:** write a brief plan — *"Run q-infographics skill: convert source
-> document to markdown, generate business story via Gemini, generate infographic image."*
-> — then exit plan mode immediately. Do NOT attempt document conversion, story generation,
-> or image generation while plan mode is active.
 
 ## Script Directory
 
@@ -36,17 +31,7 @@ markitdown
 
 Install: `pip install google-genai Pillow markitdown`
 
-Requires `GEMINI_API_KEY` environment variable. Load from `.env`:
-
-**PowerShell (Windows):**
-```powershell
-$env:GEMINI_API_KEY = (Get-Content path\to\.env | Where-Object { $_ -match '^GEMINI_API_KEY=' } | Select-Object -First 1).Split('=',2)[1]
-```
-
-**Bash (macOS/Linux):**
-```bash
-export $(cat /path/to/.env | xargs)
-```
+Requires `GEMINI_API_KEY` environment variable (load from `.env` if available).
 
 ## References
 

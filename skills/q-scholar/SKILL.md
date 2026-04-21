@@ -1,6 +1,6 @@
 ---
 name: q-scholar
-description: Orchestrate end-to-end academic manuscript preparation following APA 7th edition. Use for writing papers, drafting sections, or academic writing support.
+description: "Orchestrate end-to-end academic manuscript preparation following APA 7th edition, including introductions, literature reviews, methods, results, and data analysis. Use for writing research papers, thesis sections, APA formatting, citations, references, bibliography, or academic writing support."
 ---
 
 # Q-Scholar
@@ -32,6 +32,15 @@ All drafting sub-skills inherit these:
 | q-multimodal | Multimodal feature extraction (Pillow, openSMILE, Gemini visual semantic analysis) |
 | q-results | Draft results sections (findings with APA tables and narrative flow) |
 | q-tf | Topic finetuning (raw topics to theory-driven classification) |
+
+## Recommended Workflow
+
+For a full manuscript: q-eda → q-intro → q-litreview → q-methods → q-results. Use q-multimodal for media feature extraction and q-tf for topic classification as needed at any stage.
+
+**Validation checkpoints:**
+- After q-eda: confirm analysis outputs match research questions
+- After each drafting sub-skill: verify APA compliance and cross-section coherence
+- Before final assembly: ensure no duplicated arguments across intro, lit review, and methods
 
 ## Core Writing Principles
 

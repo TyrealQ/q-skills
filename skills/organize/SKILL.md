@@ -1,6 +1,6 @@
 ---
 name: organize
-description: Audit project structure, align layout to conventions, and archive superseded content. Use for cleaning up folders, standardizing layout, or preparing a workspace before committing.
+description: "Audit project structure, move misplaced files, rename directories to match conventions, and archive superseded content. Use for organizing files, project cleanup, tidying up, directory structure, cleaning up folders, standardizing layout, or preparing a workspace before committing."
 ---
 
 # Organize Skill

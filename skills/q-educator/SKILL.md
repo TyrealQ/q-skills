@@ -1,6 +1,6 @@
 ---
 name: q-educator
-description: Develop course content for university teaching via interview-driven workflow. Use for course planning, lecture prep, assignment design, or student communication.
+description: "Develop course content for university teaching via interview-driven workflow, including syllabi, lecture outlines, rubrics, and exam questions. Use for course planning, lecture prep, lesson plans, curriculum design, assignment design, grading rubrics, teaching materials, or student communication."
 ---
 
 # Q-Educator
@@ -34,7 +34,7 @@ Produce course materials for graduate-level, projects-first courses through an i
 
 ## Workflow
 
-**Step 1 (Interview):** Conduct six-question interview per references/interview_protocol.md. Only begin content generation after the interview is complete.
+**Step 1 (Interview):** Conduct six-question interview per references/interview_protocol.md. Only begin content generation after the interview is complete. Example opening: *"What's the one thing you want students to walk away being able to do after this lecture?"*
 
 **Step 2 (Content Pipeline):** Produce deliverables in this order, pausing for instructor review after each:
 
