@@ -5,7 +5,7 @@ description: Generate professional slide deck images from content with smart log
 
 # Q-Presentations
 
-Generate slide deck images from content via Gemini API with layout-driven overlay safety and smart logo branding. Built on [baoyu-slide-deck](https://github.com/nicepkg/baoyu-slide-deck).
+Generate slide deck images from content with layout-driven overlay safety and smart logo branding. Built on [baoyu-slide-deck](https://github.com/nicepkg/baoyu-slide-deck).
 
 > **If in plan mode:** write a brief plan — *"Run q-presentations skill: analyze content,
 > confirm style/audience preferences, generate outline and prompts, generate slide images,
