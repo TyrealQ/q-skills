@@ -6,6 +6,11 @@ This file provides guidance to Claude Code when working with this repository.
 
 ```
 q-skills/
+|-- .claude-plugin/
+|   `-- marketplace.json               # Plugin marketplace manifest (skills array, version)
+|-- illustrations/                     # Sample outputs referenced from README
+|   |-- q-infographics/
+|   `-- q-presentations/
 |-- skills/
 |   |-- q-scholar/                     # Academic manuscript writing suite
 |   |   |-- q-eda/
@@ -79,7 +84,7 @@ All script, prompt, and reference paths in the skill MUST use `${SKILL_DIR}/...`
 2. Add `SKILL.md` with proper frontmatter
 3. Add the skill path to the `skills` array in `.claude-plugin/marketplace.json`
 4. Update `README.md` to include new skill
-5. Update `CHANGELOG.md` with version bump
+5. Update `CHANGELOG.md` for user-facing changes and bump the marketplace version (skip the CHANGELOG entry for internal chores per the git-workflow policy, but still bump the version)
 
 ## Naming Convention
 
