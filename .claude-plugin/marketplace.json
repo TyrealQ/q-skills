@@ -12,7 +12,7 @@
       "name": "q-skills",
       "description": "Academic writing, data analysis, visual content, and git workflow automation",
       "source": "./",
-      "strict": true,
+      "strict": false,
       "skills": [
         "./skills/q-scholar",
         "./skills/q-scholar/q-eda",
