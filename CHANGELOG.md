@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.5] - 2026-04-22
+
+### Changed
+
+- **q-presentations**, **q-infographics**: default image generation model switched to `gpt-image-2`. Gemini (`gemini-3-pro-image-preview`) remains available via `IMAGE_MODEL=gemini` environment variable or `--model gemini` CLI flag. Requires new `openai` dependency and `OPENAI_API_KEY` environment variable; `GEMINI_API_KEY` still used for the Gemini fallback and for `gen_story.py`.
+
 ## [2.1.4] - 2026-04-19
 
 ### Fixed

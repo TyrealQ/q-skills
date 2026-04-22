@@ -20,14 +20,16 @@ Agent execution instructions:
 
 | Script | Purpose |
 |--------|---------|
-| `scripts/gen_slide.py` | Generate slide images via Gemini API |
+| `scripts/gen_slide.py` | Generate slide images via GPT Image 2 (default) or Gemini |
 | `scripts/overlay_logo.py` | Apply Dr. Q logo overlay |
 | `scripts/merge-to-pptx.ts` | Merge slides into PowerPoint (Bun/TS) |
 | `scripts/merge-to-pdf.ts` | Merge slides into PDF (Bun/TS) |
 
 ## Dependencies
 
-Install: `pip install google-genai Pillow python-dotenv` | Bun runtime (via `npx -y bun`, Node.js 18+).
+Install: `pip install openai google-genai Pillow python-dotenv` | Bun runtime (via `npx -y bun`, Node.js 18+).
+
+Default image model is `gpt-image-2` (requires `OPENAI_API_KEY`). Set `IMAGE_MODEL=gemini` or pass `--model gemini` to `gen_slide.py` to use `gemini-3-pro-image-preview` (requires `GEMINI_API_KEY`).
 
 ## References
 

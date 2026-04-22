@@ -216,7 +216,7 @@ Help me write the methods and results sections for my topic modeling study on es
 
 ### q-infographics
 
-Convert documents into compelling business stories and cartoon-style infographics via the Gemini API.
+Convert documents into compelling business stories and cartoon-style infographics. Image generation defaults to OpenAI GPT Image 2 with a Gemini fallback; story generation uses Gemini.
 
 **Triggers:**
 
@@ -235,8 +235,8 @@ Convert documents into compelling business stories and cartoon-style infographic
 
 **Requirements:**
 
-- `pip install google-genai Pillow python-dotenv markitdown`
-- `GEMINI_API_KEY` environment variable (see [Environment Configuration](#environment-configuration))
+- `pip install openai google-genai Pillow python-dotenv markitdown`
+- `OPENAI_API_KEY` (for default `gpt-image-2` image generation) and `GEMINI_API_KEY` (for story generation; also for the Gemini image fallback). Select the image backend via `IMAGE_MODEL=gpt|gemini` or `--model gpt|gemini`. See [Environment Configuration](#environment-configuration).
 
 **Folder Structure:**
 
@@ -285,14 +285,14 @@ Convert content into branded slide decks with 16 visual style presets, layout-dr
 - Composable dimension system (texture + mood + typography + density)
 - Video-overlay-aware layout: internal layout-driven overlay-safe selection
 - Automatic Dr. Q logo branding with configurable placement and auto-invert for dark styles
-- Nano Banana 2 image generation
+- Image generation via OpenAI GPT Image 2 by default, with Gemini (`gemini-3-pro-image-preview`) available as a fallback
 - PPTX and PDF export
 - Partial workflows (outline-only, prompts-only, regenerate specific slides)
 
 **Requirements:**
 
-- `pip install google-genai Pillow python-dotenv`
-- `GEMINI_API_KEY` environment variable
+- `pip install openai google-genai Pillow python-dotenv`
+- `OPENAI_API_KEY` (for default `gpt-image-2`) or `GEMINI_API_KEY` (when `IMAGE_MODEL=gemini` / `--model gemini`)
 - Bun available for PPTX/PDF merge scripts (`npx -y bun ...`)
 
 **Folder Structure:**
@@ -311,7 +311,7 @@ q-presentations/
 |   |-- dimensions/                       # Composable style dimensions (5 files)
 |   `-- styles/                           # 22 style definitions
 `-- scripts/
-    |-- gen_slide.py                      # Gemini API image generation
+    |-- gen_slide.py                      # Image generation (GPT Image 2 default; Gemini via --model gemini)
     |-- overlay_logo.py                   # Logo overlay with auto-invert
     |-- merge-to-pptx.ts                  # PPTX merge (Bun/TS)
     `-- merge-to-pdf.ts                   # PDF merge (Bun/TS)
@@ -468,21 +468,23 @@ Full ship cycle: update documentation, stage, commit, and push to remote. Automa
 
 ## Environment Configuration
 
-Some skills (q-infographics, q-presentations, q-tf) use the Google Gemini API and need an API key to generate images and content.
+Some skills need API keys:
 
-### Getting Your API Key
+- **OpenAI** (`OPENAI_API_KEY`) — default image generation backend (`gpt-image-2`) used by `q-presentations` and `q-infographics`.
+- **Google Gemini** (`GEMINI_API_KEY`) — story generation in `q-infographics`, topic classification in `q-tf`, multimodal analysis in `q-multimodal`, and the image-generation fallback (`gemini-3-pro-image-preview`) when `IMAGE_MODEL=gemini` or `--model gemini`.
 
-1. Go to [Google AI Studio](https://aistudio.google.com/apikey)
-2. Sign in with your Google account
-3. Click **Create API Key**
-4. Copy the key — you'll need it in the next step
+### Getting Your API Keys
 
-### Setting the API Key
+- OpenAI: [platform.openai.com/api-keys](https://platform.openai.com/api-keys)
+- Google Gemini: [Google AI Studio](https://aistudio.google.com/apikey)
+
+### Setting the API Keys
 
 Create a `.env` file in your project's working directory:
 
 ```
-GEMINI_API_KEY=your-api-key-here
+OPENAI_API_KEY=your-openai-key-here
+GEMINI_API_KEY=your-gemini-key-here
 ```
 
 > **Important:** Add `.env` to your `.gitignore` so you don't accidentally commit your key:
@@ -513,6 +515,7 @@ To make it permanent, add the export line to your shell profile (`~/.bashrc`, `~
 
 | Variable | Purpose | Default |
 | -------- | ------- | ------- |
+| `IMAGE_MODEL` | Image backend for q-presentations / q-infographics (`gpt` or `gemini`) | `gpt` |
 | `GEMINI_MODEL` | Override the model used by q-tf | `gemini-3-flash-preview` |
 
 ---

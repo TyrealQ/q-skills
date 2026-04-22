@@ -1,13 +1,14 @@
 
 # To run this code you need to install the following dependencies:
-# pip install google-genai Pillow python-dotenv
+# pip install google-genai openai Pillow python-dotenv
 
+import argparse
+import base64
 import mimetypes
 import os
 import sys
+
 from dotenv import load_dotenv
-from google import genai
-from google.genai import types
 from PIL import Image
 
 load_dotenv()
@@ -55,10 +56,48 @@ def apply_logo_overlay(image_path):
     print(f"Logo overlay applied to: {image_path}")
 
 
-def generate(input_text, system_prompt_text, output_prefix):
+def _generate_gpt(input_text, system_prompt_text, output_prefix):
+    api_key = os.environ.get("OPENAI_API_KEY")
+    if not api_key:
+        print("Error: OPENAI_API_KEY environment variable is not set.", file=sys.stderr)
+        sys.exit(1)
+
+    try:
+        from openai import OpenAI
+    except ImportError:
+        print("Error: openai package not installed — run: pip install openai", file=sys.stderr)
+        sys.exit(1)
+
+    client = OpenAI(api_key=api_key)
+    combined_prompt = f"{system_prompt_text}\n\n{input_text}"
+
+    try:
+        result = client.images.generate(
+            model="gpt-image-2",
+            prompt=combined_prompt,
+        )
+    except Exception as e:
+        print(f"\nError during API call: {e}", file=sys.stderr)
+        sys.exit(1)
+
+    image_bytes = base64.b64decode(result.data[0].b64_json)
+    base, _ = os.path.splitext(output_prefix)
+    final_filename = f"{base}.png"
+    save_binary_file(final_filename, image_bytes)
+    apply_logo_overlay(final_filename)
+
+
+def _generate_gemini(input_text, system_prompt_text, output_prefix):
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
         print("Error: GEMINI_API_KEY environment variable is not set.", file=sys.stderr)
+        sys.exit(1)
+
+    try:
+        from google import genai
+        from google.genai import types
+    except ImportError:
+        print("Error: google-genai package not installed — run: pip install google-genai", file=sys.stderr)
         sys.exit(1)
 
     client = genai.Client(api_key=api_key)
@@ -72,7 +111,7 @@ def generate(input_text, system_prompt_text, output_prefix):
             ],
         ),
     ]
-    
+
     generate_content_config = types.GenerateContentConfig(
         response_modalities=[
             "IMAGE",
@@ -130,13 +169,38 @@ def generate(input_text, system_prompt_text, output_prefix):
         print(f"\nError during API call: {e}", file=sys.stderr)
         sys.exit(1)
 
-if __name__ == "__main__":
-    if len(sys.argv) < 4:
-        print("Usage: python gen_image.py <input_story_file> <prompt_file> <output_image_prefix>")
-        sys.exit(1)
+
+def generate(input_text, system_prompt_text, output_prefix, model):
+    if model == "gpt":
+        _generate_gpt(input_text, system_prompt_text, output_prefix)
+    elif model == "gemini":
+        _generate_gemini(input_text, system_prompt_text, output_prefix)
     else:
-        with open(sys.argv[1], 'r', encoding='utf-8') as f:
-            i_text = f.read()
-        with open(sys.argv[2], 'r', encoding='utf-8') as f:
-            p_text = f.read()
-        generate(i_text, p_text, sys.argv[3])
+        print(f"Error: unknown model '{model}' (expected 'gpt' or 'gemini')", file=sys.stderr)
+        sys.exit(1)
+
+
+def main():
+    default_model = os.environ.get("IMAGE_MODEL", "gpt")
+    parser = argparse.ArgumentParser(description="Generate an infographic image from a story and prompt template.")
+    parser.add_argument("input_story_file", help="Path to the story text file")
+    parser.add_argument("prompt_file", help="Path to the system prompt / image-style file")
+    parser.add_argument("output_image_prefix", help="Output filename prefix (extension added based on provider)")
+    parser.add_argument(
+        "--model",
+        choices=["gpt", "gemini"],
+        default=default_model,
+        help="Image generation backend (default: env IMAGE_MODEL or 'gpt')",
+    )
+    args = parser.parse_args()
+
+    with open(args.input_story_file, "r", encoding="utf-8") as f:
+        i_text = f.read()
+    with open(args.prompt_file, "r", encoding="utf-8") as f:
+        p_text = f.read()
+
+    generate(i_text, p_text, args.output_image_prefix, args.model)
+
+
+if __name__ == "__main__":
+    main()

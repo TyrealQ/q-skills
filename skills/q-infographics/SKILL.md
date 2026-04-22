@@ -22,21 +22,24 @@ Agent execution instructions:
 | Resource | Purpose |
 |----------|---------|
 | `scripts/gen_story.py` | Generate business story from document via Gemini API |
-| `scripts/gen_image.py` | Generate infographic image from story via Gemini API |
+| `scripts/gen_image.py` | Generate infographic image via GPT Image 2 (default) or Gemini |
 | `references/story.txt` | Story generation prompt template |
 | `references/image.txt` | Infographic generation prompt template |
 
 ## Dependencies
 
 ```
+openai
 google-genai
 Pillow
 markitdown
 ```
 
-Install: `pip install google-genai Pillow markitdown`
+Install: `pip install openai google-genai Pillow markitdown`
 
-Requires `GEMINI_API_KEY` environment variable. Load from `.env`:
+Default infographic model is `gpt-image-2` (requires `OPENAI_API_KEY`). Set `IMAGE_MODEL=gemini` or pass `--model gemini` to `gen_image.py` to use `gemini-3-pro-image-preview` (requires `GEMINI_API_KEY`). Story generation (`gen_story.py`) always uses Gemini.
+
+Load keys from `.env`:
 
 **PowerShell (Windows):**
 ```powershell
