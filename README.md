@@ -328,11 +328,9 @@ Create a chalkboard-style slide deck from my research paper on AI agents
 
 ![01-slide-cover](illustrations/q-presentations/01-slide-cover.png)
 
-![02-slide-from-answers-to-outcomes](illustrations/q-presentations/02-slide-from-answers-to-outcomes.png)
+![02-slide-authenticity-trap](illustrations/q-presentations/02-slide-authenticity-trap.png)
 
-![03-slide-chatbot-vs-agent](illustrations/q-presentations/03-slide-chatbot-vs-agent.png)
-
-![04-slide-what-it-does-what-you-do](illustrations/q-presentations/04-slide-what-it-does-what-you-do.png)
+![03-slide-two-playbooks](illustrations/q-presentations/03-slide-two-playbooks.png)
 
 ---
 
