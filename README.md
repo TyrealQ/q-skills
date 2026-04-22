@@ -263,9 +263,9 @@ Create an infographic from my research paper on gamification in esports
 
 **Sample Outputs:**
 
-![DIGITAL_ENTREPRENEURSHIP_INFO1](illustrations/q-infographics/DIGITAL_ENTREPRENEURSHIP_INFO1.jpg)
+![DIGITAL_ENTREPRENEURSHIP_INFO1](illustrations/q-infographics/DIGITAL_ENTREPRENEURSHIP_INFO1.png)
 
-![DIGITAL_ENTREPRENEURSHIP_INFO2](illustrations/q-infographics/DIGITAL_ENTREPRENEURSHIP_INFO2.jpg)
+![DIGITAL_ENTREPRENEURSHIP_INFO2](illustrations/q-infographics/DIGITAL_ENTREPRENEURSHIP_INFO2.png)
 
 ---
 
