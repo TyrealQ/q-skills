@@ -133,6 +133,7 @@ Then re-copy the skills to your skills directory (see Manual install above).
 | Skill                   | Description                                                              |
 | ----------------------- | ------------------------------------------------------------------------ |
 | [commit](#commit)       | Stage and commit with smart file grouping and conventional commits       |
+| [handoff](#handoff)     | Wrap up a session into plan files, memory, and CLAUDE.md for clean resume |
 | [learn](#learn)         | Persist user preferences and styles across sessions                      |
 | [organize](#organize)   | Audit structure, align to conventions, archive superseded content        |
 | [ship](#ship)           | Full ship cycle: update docs, commit, and push to remote                 |
@@ -397,6 +398,26 @@ Stage and commit all uncommitted changes with smart file grouping and convention
 - Conventional commit format (`feat:`, `fix:`, `docs:`, etc.)
 - Explicit file staging (never `git add .`)
 - Auto-cleanup of editor/build temp files after each commit
+
+---
+
+### handoff
+
+Capture the load-bearing outcomes of a session, route them to the right durable location (plan file, auto-memory, project CLAUDE.md, user CLAUDE.md), and produce a copy-pasteable resume prompt for a fresh session. Use before `/compact` or at the end of a working session.
+
+**Triggers:**
+
+- `/handoff`
+- "Hand off this session" / "Wrap up"
+- "Update docs for next session"
+- Before running `/compact`
+
+**Features:**
+
+- Four-step workflow: survey the session → locate destinations → apply updates → produce resume prompt
+- Destination routing table that places each outcome (decisions, conventions, lessons, banned terms) in its single durable home, never duplicated
+- Self-contained resume prompt under ~250 words with required sections (Context, Read first, Where we left off, Conventions to honor, Next task, Known gotchas)
+- Anti-patterns guardrail: no session logs in project files, no new doc locations without asking, no extracting unvalidated lessons
 
 ---
 

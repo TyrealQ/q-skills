@@ -24,6 +24,7 @@ q-skills/
 |   |-- q-infographics/                # Document to infographic conversion
 |   |-- q-presentations/               # Content to branded slide decks
 |   |-- commit/                        # Git commit with smart file grouping
+|   |-- handoff/                       # Capture session decisions for clean resume
 |   |-- learn/                         # Persist user preferences across sessions
 |   |-- organize/                      # Audit structure, align to conventions, archive
 |   `-- ship/                          # Full ship cycle: docs, commit, push
@@ -40,7 +41,7 @@ The filesystem is flat, but skills group conceptually:
 | -------------- | ------------------------------- | -------------------------------------------------- |
 | Academic       | q-scholar, q-educator           | Manuscript writing, data analysis, teaching        |
 | Visual content | q-infographics, q-presentations | Document-to-visual generation                      |
-| Utility        | commit, learn, organize, ship   | Git workflow, preference persistence, structure audit |
+| Utility        | commit, handoff, learn, organize, ship | Git workflow, session handoff, preference persistence, structure audit |
 
 ## Skill Guidelines
 

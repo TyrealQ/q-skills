@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.7] - 2026-05-05
+
+### Added
+
+- **handoff**: new utility skill that captures session decisions, conventions, and lessons into plan files, auto-memory, and project/user CLAUDE.md so a fresh session can resume cleanly. Produces a copy-pasteable resume prompt under ~250 words. Use for "hand off", "wrap up", or before `/compact`.
+
 ## [2.1.6] - 2026-05-05
 
 ### Changed
