@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.6] - 2026-05-05
+
+### Changed
+
+- **q-eda**: add explicit re-presentation step to the column-classification interview. When the user requests corrections, the skill now re-presents the complete updated classification table alongside the confirmed Stage A answers and waits for explicit final approval before invoking `run_eda.py`.
+
 ## [2.1.5] - 2026-04-22
 
 ### Changed

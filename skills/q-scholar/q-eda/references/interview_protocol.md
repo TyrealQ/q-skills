@@ -46,5 +46,11 @@ Types follow Stevens' levels of measurement extended with Temporal, Text, and ID
 
 4. **Ask for confirmation** - Present the table and ask the user:
    "If these all look correct, select **Confirm all**. Otherwise, select **Corrections needed**."
-5. **Record confirmed types** and map to script arguments.
-6. **Invoke the script immediately** — Do NOT write inline Python. Map confirmed types to `--col_types` pairs and run `run_eda.py` per invocation_guide.md.
+5. **After corrections (loop until approved)** — If the user selects **Corrections needed** or revises any row:
+   - Apply the requested edits to the classification table.
+   - Re-present the **entire updated classification table** (every row, in the same `# | Column | Sample Values | Unique | Suggested Type | Notes` format), not only the changed rows.
+   - Above the re-presented table, restate the confirmed Stage A answers (research questions, temporal column) as a short recap so the full context is reviewed in one place.
+   - Ask the user to approve the consolidated artifact: *"Here is the updated classification with your corrections applied, alongside the Stage A context. Confirm this final version, or list any further corrections."*
+   - Repeat this loop until the user explicitly approves; only then proceed.
+6. **Record confirmed types** and map to script arguments.
+7. **Invoke the script immediately** — Do NOT write inline Python. Map confirmed types to `--col_types` pairs and run `run_eda.py` per invocation_guide.md.

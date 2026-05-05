@@ -45,6 +45,7 @@ Install: `pip install pandas numpy scipy openpyxl`
 
 - Exploratory-first: no confirmatory statistics; build the picture before hypothesis testing
 - User-confirmed classification: suggest measurement levels; user confirms before analysis runs
+- Whole-artifact re-presentation on revision: when the user requests corrections, re-present the complete updated classification table alongside the confirmed Stage A answers as a single consolidated proof, and obtain explicit final approval before invoking `run_eda.py`
 - Measurement-appropriate methods: median/IQR for ordinal, Pearson for continuous, Spearman for ordinal, cross-tabs for nominal
 - Insight-flagging: report patterns and warnings, not just numbers
 - Dual output: CSVs for validation and import; markdown for interpretation
@@ -81,6 +82,7 @@ Files are omitted when no columns of that type exist. Output directory: `tables-
 ## Checklist
 
 - [ ] Column classification table presented and confirmed by user
+- [ ] If corrections were requested, full updated classification table re-presented alongside Stage A context and explicitly approved before script invocation
 - [ ] Confirmed types passed via `--col_types`; grouping columns via `--group`
 - [ ] Each detected column type has at least one output file
 - [ ] `EXPLORATORY_SUMMARY.md` follows references/summary_template.md structure
