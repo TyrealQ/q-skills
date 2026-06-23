@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.2.0] - 2026-06-22
+
+### Added
+
+- **q-multimodal**: new librosa music-native audio pipeline (`librosa/music_features.py`) alongside openSMILE. Extracts 13 interpretable tier-1 scores (tempo, onset rate, beat strength, key/mode via Krumhansl–Schmuckler, harmonic ratio, spectral timbre) plus a raw tier-2 block (chroma, MFCC, spectral contrast, tonnetz). Generic CLI with `curated`/`scores`/`full` feature sets, per-subject checkpoints, and resume support. openSMILE covers speech/prosody; librosa covers music-native features.
+
 ## [2.1.7] - 2026-05-05
 
 ### Added

@@ -196,7 +196,7 @@ q-scholar/
 |   `-- references/                       # Methods template
 |-- q-multimodal/
 |   |-- SKILL.md                          # Multimodal feature extraction skill
-|   |-- scripts/                          # pillow/, opensmile/, gemini/ (batch + standard)
+|   |-- scripts/                          # pillow/, opensmile/, librosa/, gemini/ (batch + standard)
 |   `-- references/                       # Feature definitions, Gemini workflows, checkpoint format
 |-- q-results/
 |   |-- SKILL.md                          # Results drafting skill

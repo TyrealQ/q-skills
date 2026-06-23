@@ -19,7 +19,7 @@ Do this once when adopting the skill in a new project. The canonical layout is a
   - System prompt file (Gemini only)
 - **Default: point at files in place.** Set `pipeline_config.py` fields or CLI `--input` / `--base-dir` arguments to the absolute paths you found. Never move user data without explicit confirmation.
 - **Materialize** only `scripts/` and `output/` under `<BASE_DIR>`. Copy the pipelines actually being used from `${SKILL_DIR}/scripts/` into `<BASE_DIR>/scripts/`:
-  - **Local pipelines**: `pillow/`, `opensmile/`, `common.py`
+  - **Local pipelines**: `pillow/`, `opensmile/`, `librosa/`, `common.py`
   - **Gemini pipelines**: `gemini/batch/`, `gemini/standard/`, `gemini/pipeline_config.py` (template → adapt in place or copy to `<BASE_DIR>/scripts/pipeline_config.py`)
   - `output/` is auto-created by scripts on first run
 - **Scan input columns** (adapt reader to file format):
@@ -34,6 +34,7 @@ Read the relevant reference file **before** executing a pipeline. These contain 
 - `references/image-visual-features.md` — all feature categories, column definitions, computation notes
 - `references/video-visual-features.md` — frame extraction, aggregation logic, dual output format
 - `references/audio-features.md` — openSMILE feature sets, interpretable scores, feature levels
+- `references/music-features.md` — librosa feature sets, tier-1 music scores, raw tonal/timbre block
 
 **Gemini pipelines:**
 - `references/gemini-batch-workflow.md` — full 6-step batch pipeline, retry workflow, error handling
@@ -50,6 +51,7 @@ Read the relevant reference file **before** executing a pipeline. These contain 
 | Image visual | `Pillow`, `numpy`, `pandas`, `tqdm`, `openpyxl` | — |
 | Video visual | (same as image) + `scenedetect[opencv]` | `ffmpeg` on PATH (for `--extractor ffmpeg`) |
 | Audio | `opensmile`, `pandas`, `tqdm`, `openpyxl` | `ffmpeg` on PATH |
+| Music | `librosa`, `numpy`, `scipy`, `soundfile`, `pandas`, `tqdm`, `openpyxl` | `ffmpeg` on PATH (compressed/video formats, via audioread) |
 | Gemini | `google-genai`, `python-dotenv` (+ above) | `.env` with `GOOGLE_API_KEY1`-`4` |
 
 ## Pipelines
@@ -63,6 +65,9 @@ Script path = `${SKILL_DIR}/scripts/<path>`. Read the pipeline's reference file 
 | `pillow/visual_features.py` | Images | 47 pixel features (color, texture, spatial, quality) | `image-visual-features.md` |
 | `pillow/video_features.py` | Videos | Frame-level + video-level aggregated features (scene-based extraction by default, FFmpeg fixed-interval optional) | `video-visual-features.md` |
 | `opensmile/audio_features.py` | Video/audio | 8 interpretable scores + raw openSMILE features | `audio-features.md` |
+| `librosa/music_features.py` | Audio/video | 13 music-native scores + raw librosa features | `music-features.md` |
+
+`librosa/music_features.py` complements `opensmile/audio_features.py`: openSMILE covers speech/prosody, librosa covers music-native features (tempo, key/mode, harmony, timbre).
 
 Shared utilities: `common.py` — `read_input()`, `save_excel()`, `derive_subject()`, `merge_checkpoints()`
 
@@ -95,7 +100,7 @@ python 5review.py --config /path/to/config.py --merge
 
 ## Adapting for New Projects
 
-**Local pipelines** (Pillow, openSMILE): No modification needed. All project-specific values come from CLI args.
+**Local pipelines** (Pillow, openSMILE, librosa): No modification needed. All project-specific values come from CLI args.
 
 **Gemini pipelines**: Config-driven, no script modification needed. Scripts are copied to the project in step 2 above, then:
 
