@@ -1,6 +1,0 @@
-# Normalize line endings across machines (Dropbox/cross-OS safe).
-# Git stores text with LF and checks it out as LF everywhere.
-* text=auto eol=lf
-
-# Binary assets: never normalize.
-*.png binary
