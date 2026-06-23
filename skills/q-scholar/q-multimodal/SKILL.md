@@ -1,6 +1,6 @@
 ---
 name: q-multimodal
-description: Extract visual, video, and audio features from media. Use for pixel features (Pillow), video frames (FFmpeg+Pillow), audio features (openSMILE), and visual semantic analysis (Gemini API batch or standard).
+description: Extract visual, video, and audio features from media. Use for pixel features (Pillow), video frames (FFmpeg+Pillow), speech/audio features (openSMILE), music features (librosa), and visual semantic analysis (Gemini API batch or standard).
 ---
 
 # Q-Multimodal
