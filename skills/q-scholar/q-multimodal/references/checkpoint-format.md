@@ -18,7 +18,9 @@ Merged output drops `retry_count`.
 
 ## Local Pipeline Checkpoints (Pillow, Video, openSMILE)
 
-Column order: `id_cols (or all source columns) | feature columns | ok`
+Column order: `id_cols + file column | feature columns | (audio diagnostics) | ok`
+
+The file column is always retained, so every row is asset-specific — output filenames and ids survive checkpoints and merges. Audio checkpoints append the diagnostics block (`audio_stream_present`, `audio_signal_ok`, `audio_status`, `audio_rms_dbfs`, `audio_peak_dbfs`, `audio_duration_s`, `audio_error`) before `ok`; see `audio-features.md`.
 
 ### Excel Formatting
 
@@ -39,10 +41,10 @@ All scripts check for existing checkpoints before processing:
 
 | Pipeline | Output type | Columns | Breakdown |
 |----------|------------|---------|-----------|
-| Image visual | Per-subject | (user id_cols) + up to 47 features + ok | Width depends on `--id-cols` (default: file column only) and `--features` selection (default 34, all 47 with exif) |
-| Video visual | Frame-level | 41 | file_path + frame_number + second + scene_id + scene_start + scene_end + 34 features + ok (scene columns are `NaN` when `--extractor ffmpeg`) |
-| Video visual | Video-level | ~130–140 | file_path + numeric features × 4 (mean/std/min/max) + categorical features × 1 (mode) + frame_count + ok_ratio + ok |
-| Audio (emobase) | Per-subject | 114 | file_path + 8 scores + 104 raw mean/std + ok |
+| Image visual | Per-subject | id_cols + file col + up to 47 features + ok | Width depends on `--id-cols` and `--features` selection (default 34, all 47 with exif) |
+| Video visual | Frame-level | ~41+ | id_cols + file col + frame_number + second + scene_id + scene_start + scene_end + 34 features + ok (scene columns are `NaN` when `--extractor ffmpeg`) |
+| Video visual | Video-level | ~130–140 | id_cols + file col + numeric features × 4 (mean/std/min/max) + categorical features × 1 (mode) + frame_count + ok_ratio + ok |
+| Audio (emobase) | Per-subject | ~121 | id_cols + file col + 8 scores + 104 raw mean/std + 7 diagnostics + ok |
 
 ### Output Directory Structure
 
@@ -81,7 +83,7 @@ All local pipelines support `--merge` to compile per-subject checkpoints into a 
 
 **Behavior:**
 - Concatenates all `*.xlsx` in the checkpoint directory (sorted alphabetically)
-- Deduplicates by `file_path` column for single-row-per-file outputs (image, audio, video-level). Frame-level video output deduplicates by `[file_path, frame_number]` to preserve all frames.
+- Deduplicates on the asset-level key: `id_cols + file column` (image, audio, video-level); frame-level adds `frame_number`. Never on an id alone — multi-asset posts keep one row per file.
 - Files starting with `_` are excluded from merge input (prevents self-inclusion on re-merge)
 - Uses `save_excel()` formatting (bold headers, auto-fit widths, frozen panes)
 

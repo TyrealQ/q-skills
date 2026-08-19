@@ -24,7 +24,7 @@ Do this once when adopting the skill in a new project. The canonical layout is a
   - `output/` is auto-created by scripts on first run
 - **Scan input columns** (adapt reader to file format):
   `python -c "import pandas as pd; print(list(pd.read_<FORMAT>('INPUT', nrows=1).columns))"`
-- **Confirm** `--id-cols` with the user. By default only the identifier column (from `--file-col`) is kept; the user may want additional columns carried through to the output.
+- **Confirm** `--id-cols` with the user. The file column (`--file-col`) is always retained in output — every row identifies its exact media asset — and `--id-cols` adds further columns (e.g. a post id) carried through checkpoints and merges.
 
 ## References
 
@@ -64,7 +64,7 @@ Script path = `${SKILL_DIR}/scripts/<path>`. Read the pipeline's reference file 
 |--------|-------|--------|-----------|
 | `pillow/visual_features.py` | Images | 47 pixel features (color, texture, spatial, quality) | `image-visual-features.md` |
 | `pillow/video_features.py` | Videos | Frame-level + video-level aggregated features (scene-based extraction by default, FFmpeg fixed-interval optional) | `video-visual-features.md` |
-| `opensmile/audio_features.py` | Video/audio | 8 interpretable scores + raw openSMILE features | `audio-features.md` |
+| `opensmile/audio_features.py` | Video/audio | 8 interpretable scores + raw openSMILE features + stream/signal diagnostics (`audio_status`, configurable silence threshold) | `audio-features.md` |
 | `librosa/music_features.py` | Audio/video | 13 music-native scores + raw librosa features | `music-features.md` |
 
 `librosa/music_features.py` complements `opensmile/audio_features.py`: openSMILE covers speech/prosody, librosa covers music-native features (tempo, key/mode, harmony, timbre).

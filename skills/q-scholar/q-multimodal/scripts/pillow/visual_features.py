@@ -22,7 +22,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import numpy as np
 import pandas as pd
-from common import read_input, save_excel, derive_subject, merge_checkpoints
+from common import read_input, save_excel, derive_subject, merge_checkpoints, source_columns
 from PIL import Image, ImageFilter, ExifTags
 from tqdm import tqdm
 
@@ -426,12 +426,9 @@ def analyze_image(idx, row, base_dir, file_col, active_categories):
 # ---------------------------------------------------------------------------
 
 def build_output_df(rows, results, active_fields, id_cols=None, file_col="file_path"):
-    """Merge source rows with extracted features."""
+    """Merge source rows with extracted features; file_col is always retained."""
     source_df = pd.DataFrame(rows)
-    if id_cols:
-        keep = [c for c in id_cols if c in source_df.columns]
-    else:
-        keep = [c for c in [file_col] if c in source_df.columns]
+    keep = [c for c in source_columns(id_cols, file_col) if c in source_df.columns]
     source_df = source_df[keep]
 
     feature_rows = []
@@ -487,7 +484,11 @@ def process_subject(name, subject_df, base_dir, file_col, max_workers,
 def _run_merge(args):
     ckpt_dir = os.path.join(args.output_dir, "checkpoints")
     out_path = os.path.join(args.output_dir, "_image_features.xlsx")
-    _, stats = merge_checkpoints(ckpt_dir, out_path, file_col=args.file_col)
+    # Merge key: id columns + file column — never an id alone, so
+    # multi-asset posts keep one row per file.
+    dedup = source_columns(args.id_cols, args.file_col)
+    _, stats = merge_checkpoints(ckpt_dir, out_path, file_col=args.file_col,
+                                 dedup_cols=dedup)
     if stats["files"]:
         print(f"Merged {stats['files']} checkpoints -> {out_path} ({stats['rows']} rows)", flush=True)
 
@@ -536,7 +537,8 @@ def main():
             active_fields.extend(FEATURE_CATEGORIES[cat])
     print(f"Feature categories: {sorted(active_categories)} ({len(active_fields)} columns)", flush=True)
 
-    df = read_input(args.input)
+    # id/file columns as strings from the read point (never through float)
+    df = read_input(args.input, str_cols=source_columns(args.id_cols, args.file_col))
     print(f"Loaded {len(df)} rows from {args.input}", flush=True)
 
     if args.file_col not in df.columns:

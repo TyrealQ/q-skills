@@ -32,7 +32,7 @@ from tqdm import tqdm
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from common import read_input, save_excel, derive_subject, merge_checkpoints
+from common import read_input, save_excel, derive_subject, merge_checkpoints, source_columns
 from visual_features import (
     CATEGORY_ORDER,
     FEATURE_CATEGORIES,
@@ -316,12 +316,8 @@ def process_subject(name, subject_df, base_dir, file_col, max_workers,
     video_rows = []
 
     for row, result in zip(rows, results):
-        source_data = {}
-        if id_cols:
-            for c in id_cols:
-                source_data[c] = row.get(c, "")
-        else:
-            source_data = {file_col: row.get(file_col, "")}
+        # file_col is always retained so frame/video rows stay asset-specific.
+        source_data = {c: row.get(c, "") for c in source_columns(id_cols, file_col)}
 
         if result["ok"] and result["frames"]:
             any_frame_ok = any(fr["ok"] for fr in result["frames"])
@@ -385,9 +381,13 @@ def process_subject(name, subject_df, base_dir, file_col, max_workers,
 # ---------------------------------------------------------------------------
 
 def _run_merge(args):
+    # Merge keys: id columns + file column (+frame_number for frames) —
+    # never an id alone, so multi-asset posts keep one row per file.
     for kind, subdir, name, dedup in [
-        ("Frames", "frames", "_frame_features.xlsx", [args.file_col, "frame_number"]),
-        ("Videos", "videos", "_video_features.xlsx", None),
+        ("Frames", "frames", "_frame_features.xlsx",
+         source_columns(args.id_cols, args.file_col, extra=["frame_number"])),
+        ("Videos", "videos", "_video_features.xlsx",
+         source_columns(args.id_cols, args.file_col)),
     ]:
         ckpt_dir = os.path.join(args.output_dir, subdir, "checkpoints")
         out_path = os.path.join(args.output_dir, subdir, name)
@@ -474,7 +474,8 @@ def main():
         if ignored:
             print(f"  (note: ignored with --extractor ffmpeg: {', '.join(ignored)})", flush=True)
 
-    df = read_input(args.input)
+    # id/file columns as strings from the read point (never through float)
+    df = read_input(args.input, str_cols=source_columns(args.id_cols, args.file_col))
     print(f"Loaded {len(df)} rows from {args.input}", flush=True)
 
     if args.file_col not in df.columns:

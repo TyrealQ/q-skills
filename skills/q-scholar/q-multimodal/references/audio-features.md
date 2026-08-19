@@ -2,7 +2,7 @@
 
 Script: `scripts/opensmile/audio_features.py`
 
-Extracts audio from video/audio files via FFmpeg (16 kHz mono PCM WAV), then runs openSMILE for prosodic and voice quality features. Outputs 8 interpretable scores plus full raw features.
+Preflights ffmpeg + ffprobe, probes each file for an audio stream (ffprobe), extracts audio via FFmpeg (16 kHz mono PCM WAV), measures RMS/peak/duration from the PCM samples, then runs openSMILE for prosodic and voice quality features. Outputs 8 interpretable scores, full raw features, and stream/signal diagnostics.
 
 ## All CLI Flags
 
@@ -13,9 +13,10 @@ Extracts audio from video/audio files via FFmpeg (16 kHz mono PCM WAV), then run
 | `--output-dir` | `output/opensmile` | Checkpoint output directory |
 | `--file-col` | `file_path` | Column containing file paths |
 | `--group-col` | (auto) | Column to group by subject; default: parent directory of file path |
-| `--id-cols` | file column only | Source columns to keep in output (default: file column only) |
+| `--id-cols` | — | Extra source columns to keep in output; the file column is always retained regardless |
 | `--feature-set` | `emobase` | openSMILE feature set (see table below) |
 | `--feature-level` | `functionals` | Extraction level: `functionals` (one row per file). Only `functionals` is supported. |
+| `--silence-threshold-dbfs` | `-80.0` | RMS at or below this is classified `silent_or_near_silent` |
 | `--subjects` | all | Process only these subjects |
 | `--max-workers` | 10 | Concurrent workers |
 | `--preview` | off | Dry run: show pending subjects and counts, then exit |
@@ -58,9 +59,21 @@ Scores are only computed when the emobase feature set is used. Other feature set
 
 Checkpoint path: `<output-dir>/checkpoints/<subject>.xlsx`
 
-Output columns (emobase default): `identifier (--file-col) | additional id_cols (if specified) | 8 scores | 104 raw features | ok`.
+Output columns (emobase default): `id_cols + file column (always retained) | 8 scores | 104 raw features | diagnostics | ok`.
 
-The `ok` column is `True` if audio was extracted and features computed successfully.
+## Diagnostics and Status
+
+| Column | Meaning |
+|--------|---------|
+| `audio_stream_present` | nullable boolean: container has an audio stream (ffprobe); missing when undeterminable |
+| `audio_signal_ok` | nullable boolean: RMS above `--silence-threshold-dbfs` |
+| `audio_status` | `ok`, `silent_or_near_silent`, `no_audio_stream`, `file_not_found`, `unsupported_format`, `probe_error`, `extraction_error`, `feature_error` |
+| `audio_rms_dbfs` / `audio_peak_dbfs` | signal level from normalized PCM, floored at -120 dBFS (never -inf) |
+| `audio_duration_s` | extracted WAV duration |
+| `audio_error` | technical error message; blank for `no_audio_stream` (structural, not an error) |
+| `ok` | technical processing success (openSMILE ran) |
+
+`ok` and `audio_signal_ok` answer different questions: a valid silent stream is `ok=True` with `audio_signal_ok=False` (openSMILE still runs); a file with no audio stream is a structural absence — `ok=False`, `audio_status=no_audio_stream` — not a missing feature or extraction failure. Silence is measured from PCM, never inferred from zero-valued openSMILE fields.
 
 ## Audio Extraction
 
@@ -70,10 +83,11 @@ Supported input formats: `.mp4`, `.mov`, `.avi`, `.mkv`, `.webm`, `.wav`, `.mp3`
 
 ## Edge Cases
 
-- **Silent/no-audio files**: openSMILE may produce zero or near-zero values; row saved with `ok=True` but features may not be meaningful
-- **Image files passed as input**: FFmpeg fails to extract audio, row saved with `ok=False`
+- **Silent streams**: classified `silent_or_near_silent` via the PCM RMS threshold; openSMILE still runs, `ok=True`
+- **No audio stream**: detected by ffprobe before extraction; `audio_status=no_audio_stream`, `ok=False`, `audio_error` blank
+- **Image files passed as input**: `unsupported_format`, `ok=False`
 - **Very short audio** (<100ms): May produce unreliable functionals
-- **FFmpeg not found**: Script exits with error message
+- **ffmpeg or ffprobe not found**: preflight exits with an error message
 - **Missing opensmile package**: ImportError at startup
 
 ## Performance

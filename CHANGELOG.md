@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.3.0] - 2026-08-19
+
+### Changed
+
+- **q-multimodal**: feature outputs are now asset-specific. The file column (`--file-col`) is always retained in checkpoints and merged outputs, even when `--id-cols` is supplied, so every row identifies the exact media asset it describes. Checkpoint merges deduplicate on `id_cols + file column` (frames add `frame_number`) — never on an id alone, so multi-asset posts keep one row per file.
+- **q-multimodal**: `opensmile/audio_features.py` now preflights ffmpeg + ffprobe, detects audio streams with ffprobe, and measures RMS/peak/duration from the normalized 16 kHz PCM samples. New diagnostics columns: `audio_stream_present`, `audio_signal_ok`, `audio_status` (`ok` / `silent_or_near_silent` / `no_audio_stream` / technical statuses), `audio_rms_dbfs`, `audio_peak_dbfs`, `audio_duration_s`, `audio_error`. `ok` means technical success — a valid silent stream is `ok=True` with `audio_signal_ok=False`; a file with no audio stream is structural (`ok=False`, blank `audio_error`), not an extraction failure. Silence threshold configurable via `--silence-threshold-dbfs` (default -80.0); dBFS values floor at -120 instead of negative infinity.
+
 ## [2.2.0] - 2026-06-22
 
 ### Added

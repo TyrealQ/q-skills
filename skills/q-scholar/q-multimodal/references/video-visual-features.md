@@ -13,7 +13,7 @@ Extracts frames from videos via PySceneDetect (default) or FFmpeg, then runs Pil
 | `--output-dir` | `output/pillow_video` | Checkpoint output directory |
 | `--file-col` | `file_path` | Column containing file paths |
 | `--group-col` | (auto) | Column to group by subject; default: parent directory of file path |
-| `--id-cols` | file column only | Source columns to keep in output (default: file column only) |
+| `--id-cols` | — | Extra source columns to keep in output; the file column is always retained regardless |
 | `--features` | `rgb,hsv,texture,shape,spatial,quality` | Comma-separated feature categories (default: all except exif) |
 | `--extractor` | `scenedetect` | Frame extraction strategy: `scenedetect` or `ffmpeg` |
 | `--frame-mode` | `middle` | scenedetect only: `middle`, `boundaries`, or `evenly-spaced` |
@@ -62,7 +62,7 @@ Supported video formats: `.mp4`, `.mov`, `.avi`, `.mkv`, `.webm`
 
 Path: `<output-dir>/frames/checkpoints/<subject>.xlsx`
 
-One row per extracted frame. Columns: `file_path | frame_number | second | scene_id | scene_start | scene_end | feature columns | ok`
+One row per extracted frame. Columns: `id_cols + file column (always retained) | frame_number | second | scene_id | scene_start | scene_end | feature columns | ok`
 
 The `frame_number` and `second` columns identify when in the video the frame was captured. `scene_id` is the 1-indexed detected-scene number; `scene_start` and `scene_end` are the scene's start/end timestamps in seconds. These three scene columns are populated when `--extractor scenedetect` and `NaN` when `--extractor ffmpeg`.
 
@@ -70,7 +70,7 @@ The `frame_number` and `second` columns identify when in the video the frame was
 
 Path: `<output-dir>/videos/checkpoints/<subject>.xlsx`
 
-One row per video. Columns: `file_path | aggregated features | frame_count | ok_ratio | ok`
+One row per video. Columns: `id_cols + file column (always retained) | aggregated features | frame_count | ok_ratio | ok`
 
 **Aggregation logic:**
 - Numeric features: `mean`, `std`, `min`, `max` (4 columns per feature, e.g., `brightness_mean`, `brightness_std`, `brightness_min`, `brightness_max`)
