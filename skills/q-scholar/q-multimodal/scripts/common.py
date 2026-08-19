@@ -118,11 +118,11 @@ def merge_checkpoints(checkpoint_dir, output_path, file_col="file_path",
         print(f"  No checkpoints found in {checkpoint_dir}", flush=True)
         return pd.DataFrame(), empty_stats
 
-    # Fail closed: a skipped checkpoint or partial key would silently drop or
-    # collapse assets.
+    # Fail closed: a skipped checkpoint, partial key, or schema union would
+    # silently drop, collapse, or null-pad assets.
     key_cols = dedup_cols if dedup_cols is not None else [file_col]
     conv = {c: str for c in key_cols if c != "frame_number"}
-    dfs, errors = [], []
+    dfs, errors, schema = [], [], None
     for f in files:
         try:
             df = pd.read_excel(f, converters=conv)
@@ -132,11 +132,22 @@ def merge_checkpoints(checkpoint_dir, output_path, file_col="file_path",
         dupes = df.columns[df.columns.duplicated()].tolist()
         if dupes:
             errors.append(f"{f.name}: duplicate column names {dupes}")
+            continue
         missing = [c for c in key_cols if c not in df.columns]
         if missing:
             errors.append(f"{f.name}: missing key column(s) {missing}")
-        if not dupes and not missing:
-            dfs.append(df)
+            continue
+        cols = list(df.columns)
+        if schema is None:
+            schema = (f.name, cols)
+        elif cols != schema[1]:
+            lacks = [c for c in schema[1] if c not in cols]
+            extra = [c for c in cols if c not in schema[1]]
+            detail = (f"missing {lacks}, extra {extra}" if lacks or extra
+                      else "same columns in a different order")
+            errors.append(f"{f.name}: schema differs from {schema[0]} ({detail})")
+            continue
+        dfs.append(df)
     if errors:
         raise RuntimeError(
             "checkpoint merge aborted; fix these checkpoints and re-run:\n  "

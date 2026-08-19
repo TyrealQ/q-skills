@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.2.3] - 2026-08-19
+
+### Changed
+
+- **q-multimodal**: checkpoint merges also validate the full column schema. Every checkpoint must match the first valid checkpoint's ordered column list; mismatches are reported per file with missing and extra columns instead of letting `pd.concat` union the schemas and silently pad rows with nulls.
+
 ## [2.2.2] - 2026-08-19
 
 ### Changed
