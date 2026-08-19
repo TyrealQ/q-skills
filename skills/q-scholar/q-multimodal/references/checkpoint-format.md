@@ -22,6 +22,8 @@ Column order: `id_cols + file column | feature columns | (audio diagnostics) | o
 
 The file column is always retained, so every row is asset-specific — output filenames and ids survive checkpoints and merges. Audio checkpoints append the diagnostics block (`audio_stream_present`, `audio_signal_ok`, `audio_status`, `audio_rms_dbfs`, `audio_peak_dbfs`, `audio_duration_s`, `audio_error`) before `ok`; see `audio-features.md`.
 
+Id and file columns are read as **text** end-to-end (`read_input(str_cols=...)` and string converters on checkpoint reads). This is load-bearing for long numeric ids: a 19-digit TikTok post id inferred as a number is silently rounded when written back to xlsx (pandas serializes int64 as float — …208031 becomes …207744). Never re-read an output with plain `pd.read_excel` and write it back without string converters on id columns.
+
 ### Excel Formatting
 
 Input is read via `read_input()` from `scripts/common.py`, which auto-detects format by extension (xlsx, csv, json, parquet, tsv). Output checkpoints use `save_excel()`:
@@ -84,6 +86,7 @@ All local pipelines support `--merge` to compile per-subject checkpoints into a 
 **Behavior:**
 - Concatenates all `*.xlsx` in the checkpoint directory (sorted alphabetically)
 - Deduplicates on the asset-level key: `id_cols + file column` (image, audio, video-level); frame-level adds `frame_number`. Never on an id alone — multi-asset posts keep one row per file.
+- Key columns are re-read as text during merge, so long numeric ids (e.g. 19-digit TikTok post ids) survive the round-trip exactly
 - Files starting with `_` are excluded from merge input (prevents self-inclusion on re-merge)
 - Uses `save_excel()` formatting (bold headers, auto-fit widths, frozen panes)
 

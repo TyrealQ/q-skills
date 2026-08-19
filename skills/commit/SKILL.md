@@ -86,6 +86,7 @@ git commit -m "<message>"
 Rules:
 - Specify files explicitly — never use `git add .` or `git add -A`
 - Exclude temp files (`*.bak-*`, `.DS_Store`, `node_modules/`)
+- Exclude test scaffolding (`tests/`, `test_*.py`) from repos that ship as shared/public artifacts unless the user asks to include it
 
 ### Step 6: Cleanup temp files
 

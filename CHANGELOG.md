@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.2.2] - 2026-08-19
+
+### Changed
+
+- **q-multimodal**: checkpoint merges fail closed. An unreadable checkpoint, a duplicate column name, or a checkpoint missing any requested key column aborts the merge with one exception listing every problem — no partial merged output, and no silent fallback to a subset of the key. The merged file is staged and atomically replaced so a failed merge cannot clobber the last valid result.
+
 ## [2.2.1] - 2026-08-19
 
 ### Changed

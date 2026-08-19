@@ -118,27 +118,40 @@ def merge_checkpoints(checkpoint_dir, output_path, file_col="file_path",
         print(f"  No checkpoints found in {checkpoint_dir}", flush=True)
         return pd.DataFrame(), empty_stats
 
+    # Fail closed: a skipped checkpoint or partial key would silently drop or
+    # collapse assets.
     key_cols = dedup_cols if dedup_cols is not None else [file_col]
     conv = {c: str for c in key_cols if c != "frame_number"}
-    dfs = []
+    dfs, errors = [], []
     for f in files:
         try:
-            dfs.append(pd.read_excel(f, converters=conv))
+            df = pd.read_excel(f, converters=conv)
         except Exception as e:
-            print(f"  Warning: failed to read {f.name}: {e}", flush=True)
+            errors.append(f"{f.name}: unreadable ({e})")
+            continue
+        dupes = df.columns[df.columns.duplicated()].tolist()
+        if dupes:
+            errors.append(f"{f.name}: duplicate column names {dupes}")
+        missing = [c for c in key_cols if c not in df.columns]
+        if missing:
+            errors.append(f"{f.name}: missing key column(s) {missing}")
+        if not dupes and not missing:
+            dfs.append(df)
+    if errors:
+        raise RuntimeError(
+            "checkpoint merge aborted; fix these checkpoints and re-run:\n  "
+            + "\n  ".join(errors))
 
     if not dfs:
         return pd.DataFrame(), empty_stats
 
     merged = pd.concat(dfs, ignore_index=True)
     before = len(merged)
-    cols = dedup_cols if dedup_cols is not None else [file_col]
-    valid_cols = [c for c in cols if c in merged.columns]
-    if valid_cols:
-        merged = merged.drop_duplicates(subset=valid_cols, keep="last")
-    else:
-        print(f"  Warning: dedup columns {cols} not found, skipping deduplication", flush=True)
+    merged = merged.drop_duplicates(subset=key_cols, keep="last")
     deduped = before - len(merged)
 
-    save_excel(merged, output_path)
+    out = Path(output_path)
+    tmp = out.with_name(out.name + ".tmp")
+    save_excel(merged, tmp)
+    os.replace(tmp, out)
     return merged, {"files": len(dfs), "rows": len(merged), "deduped": deduped}
