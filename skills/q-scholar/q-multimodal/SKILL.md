@@ -50,7 +50,7 @@ Read the relevant reference file **before** executing a pipeline. These contain 
 |----------|----------------|--------|
 | Image visual | `Pillow`, `numpy`, `pandas`, `tqdm`, `openpyxl` | — |
 | Video visual | (same as image) + `scenedetect[opencv]` | `ffmpeg` on PATH (for `--extractor ffmpeg`) |
-| Audio | `opensmile`, `pandas`, `tqdm`, `openpyxl` | `ffmpeg` on PATH |
+| Audio | `opensmile`, `pandas`, `tqdm`, `openpyxl` | `ffmpeg` + `ffprobe` on PATH (preflight-checked; both ship with any FFmpeg install) |
 | Music | `librosa`, `numpy`, `scipy`, `soundfile`, `pandas`, `tqdm`, `openpyxl` | `ffmpeg` on PATH (compressed/video formats, via audioread) |
 | Gemini | `google-genai`, `python-dotenv` (+ above) | `.env` with `GOOGLE_API_KEY1`-`4` |
 
