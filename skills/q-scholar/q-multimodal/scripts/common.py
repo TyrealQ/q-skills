@@ -113,7 +113,9 @@ def merge_checkpoints(checkpoint_dir, output_path, file_col="file_path",
         print(f"  No checkpoint directory: {checkpoint_dir}", flush=True)
         return pd.DataFrame(), empty_stats
 
-    files = sorted(f for f in ckpt_path.glob("*.xlsx") if not f.name.startswith(exclude_prefix))
+    # "~$" files are Excel owner-lock stubs, not workbooks
+    files = sorted(f for f in ckpt_path.glob("*.xlsx")
+                   if not f.name.startswith(exclude_prefix) and not f.name.startswith("~$"))
     if not files:
         print(f"  No checkpoints found in {checkpoint_dir}", flush=True)
         return pd.DataFrame(), empty_stats

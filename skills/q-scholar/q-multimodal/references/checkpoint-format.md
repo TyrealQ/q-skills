@@ -89,5 +89,6 @@ All local pipelines support `--merge` to compile per-subject checkpoints into a 
 - Key columns are re-read as text during merge, so long numeric ids (e.g. 19-digit TikTok post ids) survive the round-trip exactly
 - Fails closed: an unreadable checkpoint, duplicate column names, a missing key column, or a column list that differs from the first valid checkpoint aborts the merge with one exception listing every problem — mismatched schemas are never unioned and null-padded, and no partial merged file is written
 - Files starting with `_` are excluded from merge input (prevents self-inclusion on re-merge)
+- Files starting with `~$` (Excel owner-lock stubs left while a workbook is open) are also excluded — they are not checkpoints and would otherwise abort the fail-closed merge as unreadable
 - Uses `save_excel()` formatting (bold headers, auto-fit widths, frozen panes)
 

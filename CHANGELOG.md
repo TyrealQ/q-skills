@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.2.4] - 2026-09-23
+
+### Fixed
+
+- **q-multimodal**: checkpoint merges skip files whose names start with `~$`. Excel writes these owner-lock stubs beside a workbook while it is open; they are not checkpoints, and the fail-closed merge previously aborted on them as unreadable.
+
 ## [2.2.3] - 2026-08-19
 
 ### Changed
