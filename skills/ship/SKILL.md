@@ -195,3 +195,5 @@ find . -not -path '*/.git/*' -type d \( -name '__pycache__' -o -name '.pytest_ca
 Run: `git log --oneline -3`
 
 Display the commit hash and message to confirm success.
+
+If the repository is a Claude Code plugin marketplace (it has `.claude-plugin/marketplace.json`), tell the user that the installed copy updates only after `claude plugin marketplace update <marketplace>` and `claude plugin update <plugin>@<marketplace>`, followed by a restart.

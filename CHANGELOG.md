@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.3.1] - 2026-09-23
+
+### Changed
+
+- **ship**: when the repository is a Claude Code plugin marketplace, the confirmation step names the commands that refresh the installed copy (`claude plugin marketplace update`, `claude plugin update`) and the restart.
+- Skill template length guideline widened to about 65 to 160 lines, with step-only detail kept in `references/`.
+
 ## [2.3.0] - 2026-09-23
 
 ### Changed

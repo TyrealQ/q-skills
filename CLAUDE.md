@@ -45,7 +45,7 @@ The filesystem is flat, but skills group conceptually:
 
 ## Skill Guidelines
 
-Each skill follows the standard SKILL.md template (~65-97 lines):
+Each skill follows the standard SKILL.md template (~65-160 lines; detail a model needs only while running a step moves to `references/`):
 - YAML frontmatter (`name`, `description` — imperative verb lead, concise triggers)
 - Plan Mode Guard (script-based skills only)
 - `## Script Directory` / `## Dependencies` (if scripts exist)
