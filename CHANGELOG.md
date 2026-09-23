@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.3.0] - 2026-09-23
+
+### Changed
+
+- **organize**: audits project documentation as well as layout. New detectors for stale facts, history clauses, duplication, document structure, and prose; a conventions reference covering snake_case names with acronym capitals, dated `YYYY-MM-DD_slug` items, a root map with one README per folder, five document types, and current-state documentation. Superseded tracked content is deleted and left to git history; only untracked content moves to `_archive/`.
+- **All skills**: closing checklists removed; the six items not already stated elsewhere moved into the step they check. The skill template no longer includes a Checklist section.
+
 ## [2.2.4] - 2026-09-23
 
 ### Fixed

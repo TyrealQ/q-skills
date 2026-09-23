@@ -135,7 +135,7 @@ Then re-copy the skills to your skills directory (see Manual install above).
 | [commit](#commit)       | Stage and commit with smart file grouping and conventional commits       |
 | [handoff](#handoff)     | Wrap up a session into plan files, memory, and CLAUDE.md for clean resume |
 | [learn](#learn)         | Persist user preferences and styles across sessions                      |
-| [organize](#organize)   | Audit structure, align to conventions, archive superseded content        |
+| [organize](#organize)   | Audit structure and documentation, align to conventions                  |
 | [ship](#ship)           | Full ship cycle: update docs, commit, and push to remote                 |
 
 ---
@@ -446,23 +446,23 @@ Persist user preferences, styles, and behavioral patterns to `~/CLAUDE.md`, `~/.
 
 ### organize
 
-Audit project structure, align it to documented conventions, and archive superseded content under `_archive/`. Works on any project type (research, content, software, data). Writes a plan file, asks on ambiguous calls, and hands off to `/commit` or `/ship`.
+Audit a project's layout and its project documentation (READMEs, `CLAUDE.md`, `AGENTS.md`, indexes) against one set of conventions. Works on any project type (research, content, software, data). Writes a plan file, asks on ambiguous calls, applies approved groups, and hands off to `/commit` or `/ship`.
 
 **Triggers:**
 
 - `/organize`
 - "Clean up this repo"
 - "Standardize folder structure"
-- "Archive old versions"
+- "Fix stale docs"
+- "Streamline the READMEs"
 
 **Features:**
 
-- Four-detector audit: case drift, superseded generations, orphan files, tracked per-machine state
-- Project-agnostic target structure (folder roles, naming rules, `_archive/` convention, `.gitignore` baseline)
-- Plan-first workflow — no moves until approved
-- Sync-safe moves (`shutil.copytree` + retry) for cloud-synced paths
-- Refreshes project-level docs file (structure diagram, conventions)
-- Hands off to `/commit` or `/ship`; never commits directly
+- Nine detectors: name drift, superseded generations, orphan files, tracked per-machine state, stale facts, history clauses, duplication, document structure, and prose
+- Conventions reference: snake_case names with acronym capitals, dated `YYYY-MM-DD_slug` items, a root map with one README per folder, five document types, and documentation that states the current state only
+- Superseded content split by tracking: tracked files are deleted and left to git history; untracked files move to `_archive/`
+- Plan-first workflow with approval by group; project documentation only, never deliverable prose
+- Sync-safe moves for cloud-synced paths; never commits directly
 
 ---
 

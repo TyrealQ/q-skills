@@ -26,7 +26,7 @@ q-skills/
 |   |-- commit/                        # Git commit with smart file grouping
 |   |-- handoff/                       # Capture session decisions for clean resume
 |   |-- learn/                         # Persist user preferences across sessions
-|   |-- organize/                      # Audit structure, align to conventions, archive
+|   |-- organize/                      # Audit structure and docs, align to conventions
 |   `-- ship/                          # Full ship cycle: docs, commit, push
 |-- README.md
 |-- CHANGELOG.md
@@ -41,7 +41,7 @@ The filesystem is flat, but skills group conceptually:
 | -------------- | ------------------------------- | -------------------------------------------------- |
 | Academic       | q-scholar, q-educator           | Manuscript writing, data analysis, teaching        |
 | Visual content | q-infographics, q-presentations | Document-to-visual generation                      |
-| Utility        | commit, handoff, learn, organize, ship | Git workflow, session handoff, preference persistence, structure audit |
+| Utility        | commit, handoff, learn, organize, ship | Git workflow, session handoff, preference persistence, structure and documentation audit |
 
 ## Skill Guidelines
 
