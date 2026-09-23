@@ -459,9 +459,9 @@ Audit a project's layout and its project documentation (READMEs, `CLAUDE.md`, `A
 **Features:**
 
 - Nine detectors: name drift, superseded generations, orphan files, tracked per-machine state, stale facts, history clauses, duplication, document structure, and prose
-- Conventions reference: snake_case names with acronym capitals, dated `YYYY-MM-DD_slug` items, a root map with one README per folder, five document types, and documentation that states the current state only
+- Conventions reference: snake_case names with acronym capitals and owner files in capitals, dated `YYYY-MM-DD_slug` items, a root map with one README per folder, five document types, and documentation that states the current state only
 - Superseded content split by tracking: tracked files are deleted and left to git history; untracked files move to `_archive/`
-- Plan-first workflow with approval by group; project documentation only, never deliverable prose
+- Plan-first workflow with approval by group, where a rule written in the project's docs takes precedence over the conventions, and an `audit` argument that stops at the plan; project documentation only, never deliverable prose
 - Sync-safe moves for cloud-synced paths; never commits directly
 
 ---

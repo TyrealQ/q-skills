@@ -9,12 +9,13 @@ Every name is lowercase snake_case unless a row below says otherwise.
 | Element | Convention | Examples |
 |---|---|---|
 | Folders | lowercase snake_case | `data/`, `topic_models/`, `video_captions/` |
-| Markdown files | lowercase snake_case | `outline.md`, `design_notes.md`, `glossary.md` |
+| Markdown files | lowercase snake_case, except owner files | `outline.md`, `meeting_notes.md`, `glossary.md` |
 | Scripts | lowercase snake_case | `run_pipeline.py`, `build_report.R`, `fetch_records.sh` |
 | Generated data files | stage name, then identifier, then an optional date, joined by underscores | `cleaning_batch_001.jsonl`, `models_batch_001_2026-04-14.parquet` |
 | Dated items (correspondence, meeting notes, shared drafts, returned material) | `YYYY-MM-DD_slug` | `2026-09-23_budget_request.md`, `2026-08-14_draft_review.docx` |
 | Date tokens | ISO `YYYY-MM-DD` only | `snapshot_2026-03-09.xlsx` |
-| `README.md`, `CLAUDE.md`, `AGENTS.md`, `STYLE.md`, `CHANGELOG.md`, `LICENSE`, and other files that a tool reads by a fixed uppercase name | uppercase name, lowercase extension when there is one | `README.md`, `CLAUDE.md`, `AGENTS.md`, `STYLE.md`, `CHANGELOG.md`, `LICENSE` |
+| Unit folders keyed by the date of their run | `<unit>_YYYY-MM-DD/` | `row_counts_2026-03-09/` |
+| Files a tool reads by a fixed name (`README.md`, `CLAUDE.md`, `AGENTS.md`, `CHANGELOG.md`, `LICENSE`) and owner files (defined below) | uppercase name, lowercase extension when there is one | `README.md`, `LICENSE`, `STYLE.md`, `DECISIONS.md` |
 | Acronyms | write the acronym in capitals inside a snake_case name when the project's own docs write it in capitals; otherwise lowercase | `IRB_protocol/`, `NSF_budget.xlsx`, `2026-09-23_IRB_amendment.md` |
 
 Names that break the convention, and the names they take:
@@ -22,17 +23,18 @@ Names that break the convention, and the names they take:
 | Found | Corrected |
 |---|---|
 | `Topic-Models/` | `topic_models/` |
-| `DesignNotes.md` | `design_notes.md` |
+| `MeetingNotes.md` | `meeting_notes.md` |
 | `Run Pipeline.py` | `run_pipeline.py` |
 | `readme.md` | `README.md` |
+| `decisions.md` (a decision record) | `DECISIONS.md` |
 | `Irb_protocol/` (the project's docs write IRB) | `IRB_protocol/` |
 | `meeting_09-23-2026.md` | `2026-09-23_meeting.md` |
 | `snapshot_20260309.xlsx` | `snapshot_2026-03-09.xlsx` |
 | `review_09Mar2026.docx` | `2026-03-09_review.docx` |
 
-Any other Markdown file is lowercase, including `notes.md` and `todo.md`.
+An owner file holds one topic for the whole project or for one folder, and other files point to it for that topic. A file is an owner file when a doc points to it as the owner of a topic, in the pointer form given in § Documentation model, or when it is the project's decision record, design, plan, or style guide, such as `STYLE.md`, `DECISIONS.md`, `DESIGN.md`, `PIPELINE.md`, or `PLAN.md`. A row in a file table does not make a file an owner file, and a dated item keeps its `YYYY-MM-DD_slug` name. Any other Markdown file is lowercase, including `notes.md` and `todo.md`.
 
-The date leads the name for dated items and trails it for generated data files. When a name lacks the year or another part of the date, do not supply it; list the file for the user to date.
+The date leads the name for dated items and trails it for generated data files and date-keyed unit folders. When a name lacks the year or another part of the date, do not supply it; list the file under Open questions.
 
 Collections of like items sit in one flat folder, with each item keyed by a unique identifier such as a record ID, a DOI, or a date. Do not nest a collection into subfolders by meaning (by theme, by status, by year) when an identifier already tells the items apart; a flat folder can be listed, sorted, and joined against a table without knowing the grouping scheme.
 
@@ -45,7 +47,7 @@ records/                     not    records/
 
 ## Layout
 
-The top level of a project holds the role folders below, the root documentation files, and configuration files, with no wrapper folder (such as `work/` or `project/`) around the role folders. Each folder below fills one role, and a project uses only the roles it needs.
+The top level of a project holds the role folders below, the root documentation files (`CLAUDE.md`, `README.md`, `CHANGELOG.md`, `LICENSE`, and project-wide owner files), and configuration files, with no wrapper folder (such as `work/` or `project/`) around the role folders. No other file sits directly at the root, whether tracked or gitignored. Each folder below fills one role, and a project uses only the roles it needs.
 
 | Folder | Role |
 |---|---|
@@ -93,7 +95,7 @@ Reusable tools live in a shared scripts repository, and the project calls them b
 
 ## Documentation model
 
-The root `CLAUDE.md` is a short map: what lives where, the rules that hold across the whole project, and a pointer to each top-level folder's README. Each top-level folder and each unit folder has a `README.md` that gives the full account of that folder. Each topic has one owning file, and every other file that mentions the topic points to the owner.
+The root `CLAUDE.md` is a short map: what lives where, the rules that hold across the whole project, and a pointer to each top-level folder's README. Each top-level folder and each unit folder has a `README.md` that gives the full account of that folder; a top-level folder that is gitignored as a whole needs none, because its root map entry describes it. Each topic has one owning file, and every other file that mentions the topic points to the owner.
 
 Each document type has a fixed job and fixed parts, in this order:
 
@@ -101,9 +103,9 @@ Each document type has a fixed job and fixed parts, in this order:
 |---|---|---|
 | Root `CLAUDE.md` (the map) | What lives where, and the rules that hold everywhere | What the project is (one paragraph: purpose, deliverable, current stage); project-wide rules and known errors to avoid; layout, one entry per top-level folder with what it holds and a pointer to its README; external paths (one paragraph); documentation and git rules |
 | Folder `README.md` (full account) | Everything about one folder | Opening paragraph (what the folder holds and what it is for); authority order, only if sources compete; file table (file, content), or one section per subfolder that has no README of its own; how to run or rebuild; inputs and outputs |
-| Index `README.md` | List repeated units | A table only: one row per unit with its latest result, next action, and link |
-| Unit `README.md` (a check, a figure, a stage) | Report one unit | Current result with the date obtained; findings; limits; the run line |
-| Owner file (`STYLE.md`, `AGENTS.md`, decision record) | The one file that holds a topic | Whatever the topic needs; other files point to it |
+| Index `README.md` | List repeated units | A table only, with one row per unit giving its latest result, next action, and link, plus at most one line pointing to the rules for the units |
+| Unit `README.md` (a check, a figure, a stage) | Report one unit | Current result with the date obtained, or, for a unit that builds an artifact (a figure, a table), what it builds and the build line; findings or choices; limits; the run line |
+| Owner file (§ Naming; `STYLE.md`, `DECISIONS.md`) | The one file that holds a topic | Whatever the topic needs; other files point to it |
 
 A pointer names the owning file and says in one clause what that file covers, for example: "`STYLE.md` owns prose style: banned words, voice, fixed terms." A pointer never repeats the owner's content, so that a change to the rule is made in one file only.
 
@@ -111,7 +113,7 @@ A folder README that restates the owner copies the rule itself ("Use the active 
 
 ## Current-state rule
 
-Docs describe the current state. When something changes, rewrite the passage rather than append to it. A passage breaks the rule when it describes an earlier state of the project: a date on a change, or a clause with "added," "changed from," "replaced," "previously," "now," "no longer," "used to," "until," or "instead of" that contrasts the current state with an earlier one. The same words used for present behavior ("the script replaces missing values") do not break it. Git holds the history. Exceptions: `CHANGELOG.md`, a dated decision record, a run log, and a date that states when a result was obtained.
+Docs describe the current state. When something changes, rewrite the passage rather than append to it. A passage breaks the rule when it describes an earlier state of the project: a date on a change, or a clause with "added," "changed from," "replaced," "previously," "now," "no longer," "used to," "until," or "instead of" that contrasts the current state with an earlier one. The same words used for present behavior ("the script replaces missing values") do not break it. Git holds the history. Exceptions: `CHANGELOG.md`, a dated decision record, a run log, a date that states when a result was obtained, the findings of a check or audit report with their resolution status, an archive index that states what replaced each archived item, the recorded reason for a choice, and a known-error line that names the wrong value so that a reader can avoid it.
 
 A passage that breaks the rule reads: "The cleaning script, added in March, now writes to `outputs/cleaning/` instead of `data/clean/`." The same passage written to the rule reads: "The cleaning script writes to `outputs/cleaning/`."
 
@@ -122,7 +124,7 @@ What happens to an old version depends on whether git tracks it.
 - Tracked content: delete the old version and let git hold the history. Do not keep version archives, snapshot folders, or numbered recheck reports (`report_v2.md`, `recheck_3.md`) beside the current file.
 - Untracked or gitignored content: move the old version into a sibling `_archive/` folder at the level where it was produced, for example `outputs/models/_archive/`. The first generation sits directly in `_archive/`. When a second arrives, each generation moves into a subfolder named for the date it was produced, such as `_archive/2026-04-14/`. Each generation keeps its own name inside the date folder, for example `_archive/2026-04-14/run_2026-04-14/`. Do not leave `*_old`, `*_backup`, or `*_v1` folders elsewhere in the tree.
 
-A dated folder is superseded when a later sibling replaces it: the docs and scripts read only the later one. Dated siblings that are all read, such as a series of snapshots analyzed together, form a collection (see Naming) and stay in place.
+A dated folder is superseded when a later sibling replaces it: the docs and scripts read only the later one. Dated siblings that are all read, such as a series of snapshots analyzed together, form a collection (see Naming) and stay in place; a sibling counts as read when a current doc names it as kept, for example for comparison between rounds, or when a script's default or a command given in the docs selects it by name. A script that accepts any date does not by itself make a sibling read. Material received from others that the project's docs mark as superseded stays where the docs put it.
 
 | Found | Tracked by git | Action |
 |---|---|---|
