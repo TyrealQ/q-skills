@@ -1,273 +1,150 @@
 ---
 name: organize
-description: Audit project structure, align layout to conventions, and archive superseded content. Use for cleaning up folders, standardizing layout, or preparing a workspace before committing.
+description: Audit project structure and documentation, align names and layout to conventions, remove or archive superseded content, and refine READMEs and CLAUDE.md. Use for cleaning up folders, standardizing layout, fixing stale docs, or streamlining documentation before a commit.
 ---
 
 # Organize Skill
 
-Audits any project directory, aligns it to a consistent structural convention, and archives superseded content under `_archive/`. Detects drift between docs and disk, flags stale or orphan content, and proposes a reversible cleanup. Hands off to `/commit` or `/ship`.
+Audits a repository's layout and its project documentation against one set of conventions, using nine detectors, a plan file, and approval by group, and then hands off to `/commit` or `/ship`.
+
+## References
+
+- `references/conventions.md`: the target state the detectors check against. It covers naming, layout, reusable versus project code, the documentation model, the current-state rule, superseded content, and the `.gitignore` categories.
 
 ## Core Principles
 
-- **Plan before act.** Write every proposed operation to a plan file and confirm before moving anything.
-- **Reversible moves only.** Archive superseded content; never delete without explicit approval.
-- **Match disk to docs.** Where a project-level docs file exists, treat it as the source of truth and reconcile drift.
-- **Sync-safe moves.** Use `shutil.copytree` + retry for folder moves on cloud-synced paths (Dropbox, OneDrive, iCloud); never `os.rename` / `mv`.
-- **Conservative by default.** Naming, docs, and archiving only. Do not restructure pipelines, scripts, or generated artifacts without explicit scope.
-- **Hand off, don't chain.** End with a clean working tree; `/commit` or `/ship` handles commit and push.
-
-## Target Structure
-
-These are the structural conventions the skill enforces. They are project-agnostic and can be adapted to any type of work (research, content production, software, data pipelines).
-
-### Folder layout
-
-Each project root has a flat top level with these roles, as needed:
-
-| Folder | Purpose |
-|---|---|
-| `data/` or `source/` | Canonical raw inputs (often gitignored when large) |
-| `scripts/` | Code or automation |
-| `output/` or `results/` | Generated artifacts (often gitignored when large) |
-| `refs/` | Reference material, source documents, citations |
-| `assets/` | Media, images, logos |
-| `docs/` or `manuscript/` | Written deliverables, reports |
-| `_archive/` | Superseded content at any level (see below) |
-
-Not every project needs every folder. Create folders only when at least two items belong there.
-
-### Naming rules
-
-| Element | Convention | Examples |
-|---|---|---|
-| Folder names (asset / content subfolders) | lowercase, hyphens for word-breaks | `refs/`, `video-captions/`, `topic-models/` |
-| Folder names (nested by identifier) | lowercase, underscores when grouping by id | `player_<handle>/`, `study_01/` |
-| Top-level documentation markdown | `UPPER_SNAKE_CASE.md` | `README.md`, `CHANGELOG.md`, `CLAUDE.md`, `VIDEO_SCRIPT.md` |
-| Other markdown under folders | kebab-case or lowercase | `outline.md`, `design-notes.md` |
-| Scripts | snake_case | `run_pipeline.py`, `generate_report.py` |
-| Generated data files | stage/prefix + identifier + optional date | `summary_2026-04-14.parquet`, `batch_001.jsonl` |
-| Date tokens in filenames | ISO `YYYY-MM-DD` or compact `YYYYMMDD` | `snapshot_2026-03-09.xlsx` |
-
-Root-level folders for distinct projects or subprojects: lowercase kebab-case (`video-one/`, `data-pipeline/`).
-
-### The `_archive/` convention
-
-When a folder produces a superseded version of something (regenerated images, old pipeline output, abandoned drafts), move the old content into a sibling `_archive/` folder **at the same level it was produced**. Do not scatter `*_old`, `*_backup`, `*_v1` folders around the tree.
-
-- Preserves history without polluting the active workspace
-- Date-stamp inside `_archive/` when multiple generations accumulate: `_archive/2026-04-14/`, `_archive/v1/`
-- Archived content stays gitignored only if the originals were; otherwise it remains tracked for historical diffing
-
-### Docs-as-anchor
-
-One project-level documentation file (conventionally `CLAUDE.md` at the repo root) serves as the single source of truth:
-
-- Contains a structure diagram listing every non-ignored top-level folder and the purpose of each
-- Documents naming conventions, pipeline order, and any project-specific identifiers
-- Is updated whenever folders are added, renamed, or archived
-
-If no such file exists, the skill proposes creating a minimal one.
-
-### `.gitignore` baseline
-
-Every project should ignore at least these categories:
-
-```
-# Secrets
-.env
-.env.local
-*.pem
-credentials*.json
-token*.json
-
-# Large media (project-specific — adjust)
-*.mp3
-*.mp4
-*.mov
-
-# OS / editor noise
-.DS_Store
-Thumbs.db
-*.swp
-
-# Coding-agent harness state (per-machine)
-.claude/settings.local.json
-**/.claude/settings.local.json
-```
-
-Specific plugin- or tool-managed directories that live in the project root (non-standard `.<tool>/` folders with per-user config) should also be ignored if the tool treats them as per-user. The skill identifies these by the presence of `EXTEND.md`, `settings.local.*`, or similar per-user marker files.
+- **Plan before acting.** Write every finding and every proposed operation to the plan file. Change no file until the user has approved the group that contains it; the one exception is a group labeled "fixes a written rule" (see Plan file), which is applied without asking.
+- **Take each answer from its source.** Disk and `git ls-files` decide what exists; `conventions.md` § Naming decides what a thing is called; the project's docs decide what a thing is for and which project rules hold. List every mismatch between these sources in the plan; the user decides which side changes, except in a group labeled "fixes a written rule".
+- **Ask for approval per group.** The user approves or rejects each group of operations in the plan. A clear violation of a rule already written in the project's own docs is fixed without asking. New files and consolidations of duplicated content always wait for approval.
+- **List every move and deletion for approval.** Every move and every deletion appears in the plan as its own operation, and none is applied before the user approves it.
+- **Edit project documentation only.** Among Markdown files, edit only those whose job is describing the repository. Deliverable prose is outside this skill; see Scope.
+- **Move files safely on synced paths.** Copy the file or folder with retry, confirm the copy, then remove the source. Never rename a folder in place on a cloud-synced path such as Dropbox, OneDrive, or iCloud. Let git detect renames after the move; do not use `git mv`. A rename that changes only case uses the same method twice, through the temporary name that detector A gives.
 
 ## Workflow
 
-### Step 1: Audit disk vs. docs
+| Step | Action | Reference |
+|---|---|---|
+| 1. Audit | Resolve the repository root with `git rev-parse --show-toplevel`, and limit the pass to a path argument when one is given. Record `git status --short` as the baseline for Step 7. List `git ls-files` and the gitignored paths (`git ls-files --others --ignored --exclude-standard --directory`), and walk the disk with those paths included so that detector B can see untracked generations. Read the root `CLAUDE.md` first, then every `README.md` in the tree and every owner file the docs point to. | `conventions.md` § Documentation model |
+| 2. Layout detectors | Run detectors A to D. | Detectors A to D; `conventions.md` § Naming, § Layout, § Superseded content, § .gitignore categories |
+| 3. Documentation detectors | Run detectors E to I. | Detectors E to I; `conventions.md` § Documentation model, § Current-state rule, § Layout, § Naming |
+| 4. Plan file | Write the plan to `~/.claude/plans/organize-<repo>-<YYYYMMDD>.md` with six sections: context; findings grouped by detector; operations, with new files drafted in full; out of scope; verification; rollback. | Plan file, below |
+| 5. Clarify | Ask with `AskUserQuestion` for each decision the audit cannot settle: the date of a name that lacks part of its date, the destination of an orphan file, and the owner of duplicated content. | Detectors A, C, and G |
+| 6. Apply | Apply the approved groups and the groups labeled "fixes a written rule", one group at a time in plan order, and stop at the first error. Within a group, make the moves and deletions before the documentation edits. | Core Principles; Plan file, below |
+| 7. Verify | Run `git status --short` and walk the final tree. Confirm that every folder the root map names exists; every top-level folder and unit folder has a README, and the root map points to each top-level README; no approved finding is left open; the paths untracked under detector D are gone from `git ls-files`; and `git status --short` shows only the baseline and the changes the plan lists. Report any check that fails and leave it open. | Plan file, below (Verification) |
+| 8. Hand off | Summarize what moved, what was deleted, what was untracked, which documentation files changed, and which findings were left out of scope. Name `/commit` for a single commit, or `/ship` to also update `CHANGELOG.md` and push. | Scope |
 
-Resolve the repo root:
+### Plan file
 
-```
-git rev-parse --show-toplevel
-```
+The plan file has six sections, in this order:
 
-If a path argument is provided, scope to that subtree; otherwise scan the whole repo. Enumerate every folder and file under root, skipping `.git/`, gitignored paths, and any folder already named `_archive`.
+1. **Context:** what started the pass, what the repository holds, and the path scope, if any.
+2. **Findings:** grouped under the detector letters A to I, each with its path and the line or name at issue.
+3. **Operations:** numbered and grouped for approval. Each group lists its moves, deletions, `git rm --cached` calls, and documentation edits. A documentation edit shows the old and the new text. A new file, such as a missing README, is drafted in full. Each move or rename carries, in the same group, the edit to every project document that names the old path, and to any note in the project's memory folder (`~/.claude/projects/<project>/memory/*.md`) that names it.
+4. **Out of scope:** each finding that will not be acted on, with the reason.
+5. **Verification:** the checks from Step 7 that apply to this plan.
+6. **Rollback:** how to reverse each group. A deleted tracked file or an edited document comes back with `git checkout HEAD -- <path>` before a commit; a path untracked with `git rm --cached` is tracked again with `git add <path>`; an archived folder moves back from `_archive/`.
 
-If a project-level docs file exists (`CLAUDE.md`, `README.md`), parse any structure diagram it contains and compare against actual disk state.
-
-### Step 2: Detect anti-patterns
-
-Run all four detectors and collect findings:
-
-#### A. Case drift
-Compare folder names in the docs structure diagram to disk. On case-insensitive filesystems (Windows, macOS default), disk wins silently. Flag each mismatch.
-
-Default resolution: keep lowercase on disk (Target Structure convention) and update the docs. Only rename folders on disk if the user explicitly asks.
-
-#### B. Superseded generations next to current
-Flag any of these living outside an `_archive/` folder:
-
-- Folders named `v1/`, `v2/`, ..., `old/`, `backup/`, `bak/`, `deprecated/`, `legacy/`
-- Siblings with suffix patterns: `<name>_v1/`, `<name>_old/`, `<name>_backup/`, `<name>.bak/`
-- Dated folders sitting next to current content (e.g., `2024-03-09/`, `MAR09/`) with no `_archive/` parent
-
-Verify each candidate by diffing contents against the current canonical folder. If the candidate genuinely supersedes current content, propose moving it under a sibling `_archive/`. Watch for misnamed folders (e.g., a folder named `prompts-v1/` whose content actually matches current PNGs in the parent — propose rename to `prompts/`, not archive).
-
-#### C. Orphan files
-A file is an orphan if no reference to it appears in:
-
-- The project-level docs file (if any)
-- Any `README.md` in the repo
-- Any script in the repo (grep for filename and basename across `*.py`, `*.ts`, `*.r`, `*.R`, `*.sh`, `*.js`)
-- Any other markdown under the repo (`git ls-files '*.md'`)
-
-Common orphans: ad-hoc PDFs, one-off datasets, test images, manual downloads, screenshots. Propose a destination (`refs/`, `assets/`, `data/`) based on file type, or ask the user for intent. Never delete an orphan without explicit confirmation.
-
-#### D. Tracked per-machine or per-user state
-Check `git ls-files` for patterns that should be local-only:
-
-- `**/.env` (allow `.env.example` through)
-- `**/.claude/settings.local.json`
-- Any folder named like `.<tool>/` at the repo root whose contents look per-user (marker files such as `EXTEND.md`, `settings.local.*`, `preferences.json`)
-- `**/.DS_Store`, `**/Thumbs.db`, `**/*.swp`
-
-For any hits, propose `git rm --cached <path>` plus the matching `.gitignore` entry. The file stays on disk — only the index entry is removed.
-
-### Step 3: Write plan file
-
-Write all proposed operations to `~/.claude/plans/organize-<repo>-<YYYYMMDD>.md` with this structure:
-
-- **Context** — what triggered this pass, what the repo is, one-sentence goal
-- **Findings** — grouped by the four detectors, each with file paths
-- **Operations** — numbered list of moves, renames, `git rm --cached` calls, and docs edits
-- **Out of scope** — what was flagged but deliberately not touched, with a reason
-- **Verification** — git status walk, tree walk, cross-check
-- **Rollback** — reverse-move instructions; confirm no destructive ops
-
-### Step 4: Clarify ambiguous calls
-
-Use `AskUserQuestion` for decisions that cannot be inferred:
-
-- Case convention when docs and disk disagree: keep disk + update docs (default), or rename on disk
-- Archive vs. delete for superseded content: archive (default), delete only with explicit confirmation
-- Destination for orphan files: propose 2-3 existing folders (`refs/`, `assets/`, `data/`); suggest creating a new one only if none fit and user confirms
-- Scope: conservative (naming + docs + `_archive/`) vs. expanded (include pipeline or script reorganization)
-
-### Step 5: Apply approved operations
-
-Use a single Python block for all moves, with retries for cloud-sync locks:
-
-```python
-import shutil, time
-from pathlib import Path
-
-def safe_move(src: Path, dst: Path, retries: int = 5, delay: float = 1.0):
-    if not src.exists():
-        return
-    if dst.exists():
-        raise FileExistsError(dst)
-    dst.parent.mkdir(parents=True, exist_ok=True)
-    for _ in range(retries):
-        try:
-            shutil.copytree(src, dst) if src.is_dir() else shutil.copy2(src, dst)
-            break
-        except (PermissionError, OSError):
-            time.sleep(delay)
-    else:
-        raise
-    for _ in range(retries):
-        try:
-            shutil.rmtree(src) if src.is_dir() else src.unlink()
-            break
-        except (PermissionError, OSError):
-            time.sleep(delay)
-    else:
-        raise
-```
-
-Rules:
-
-- Never `os.rename` / `mv` a folder in a cloud-synced path
-- Let git detect renames automatically after the move completes; do not `git mv`
-- For tracked harness/plugin state, run `git rm --cached <path>` (file stays on disk, just untracked)
-
-### Step 6: Refresh docs
-
-After operations succeed:
-
-- Update the project-level docs file's structure diagram to match final disk state
-- Append convention notes if missing: `_archive/` placement rule, subfolder casing rule, gitignored-local-state list
-- Update any session-persistent memory files if their path references changed
-
-### Step 7: Verify
-
-Run, in order:
+An operations group reads like this:
 
 ```
-git status --short
-git ls-files --others --ignored --exclude-standard
+### Group 2: superseded generations (detector B), needs approval
+
+2.1  delete   report_v1.md                         tracked; report.md is current
+2.2  move     outputs/models/run_2026-04-14/  ->  outputs/models/_archive/run_2026-04-14/
+2.3  edit     outputs/README.md, line 12
+     old: "Results are in run_2026-04-14/ and run_2026-05-02/."
+     new: "Results are in run_2026-05-02/."
 ```
 
-Walk the final tree and confirm:
+Label each group "needs approval" or "fixes a written rule". Use the second label only for a group of documentation edits with no move, deletion, new file, or consolidation, and give the file and line where the project states the rule.
 
-- Every folder named in the docs structure diagram exists on disk
-- Every top-level folder on disk is named in the docs (except `.git/` and gitignored paths)
-- Paths newly gitignored by Detector D no longer appear in `git ls-files`
+## Detectors
 
-### Step 8: Hand off
+Run every detector over the whole tree, gitignored paths included, and record each finding in the plan file under its letter. The target state that each detector checks against is in `references/conventions.md`.
 
-Report a concise structural summary:
+### A. Name drift
 
-- Folders archived / renamed / moved (counts and paths)
-- Files untracked via `git rm --cached`
-- Docs edited
-- Anything out-of-scope flagged for a follow-up pass
+- **Looks for:** folder and file names that break `conventions.md` § Naming, and names that differ in case or spelling between the docs and disk.
+- **Verify:** compare `git ls-files` and a walk of the disk against every name the root map and the READMEs give.
+- **Resolve:** propose the rename and the matching docs edit as one operation. On a case-insensitive filesystem, rename in two steps through a temporary name (`Data/` to `data_tmp/` to `data/`) so that git and the sync client both record the change. When a name lacks part of its date, list it for the user instead of proposing a name.
+- **Never flag:** names that `conventions.md` § Naming writes in capitals (the listed documentation files and acronyms the project's docs write in capitals).
 
-Tell the user: run `/commit` for a single conventional-commits commit (`chore: standardize <repo> structure`), or `/ship` to also update `CHANGELOG.md` and push.
+### B. Superseded generations
+
+- **Looks for:** folders named `v1/`, `v2/`, `old/`, `backup/`, `bak/`, `deprecated/`, or `legacy/`; siblings named `<name>_old`, `<name>_backup`, `<name>_v1`, or `<name>_v2`; and dated siblings of current content. Search everywhere outside `_archive/`, including inside gitignored paths such as `outputs/`.
+- **Verify:** for dated siblings, apply the test in `conventions.md` § Superseded content: a sibling is superseded only when the docs and scripts read the later one alone. Diff each remaining candidate against the current folder beside it; when it holds the current content under a wrong name, propose a rename, not a removal.
+- **Resolve:** delete the old version or move it to `_archive/`, following the tracking split in `conventions.md` § Superseded content.
+- **Never flag:** anything already inside `_archive/`, or dated siblings that form a collection under `conventions.md` § Superseded content.
+
+### C. Orphan files
+
+- **Looks for:** files outside gitignored paths whose name and path appear in no root map, README, script, or tracked Markdown file, and which do not sit inside a folder that the root map or a README describes.
+- **Verify:** search for the basename and the relative path across `git ls-files '*.md'` and the scripts (`*.py`, `*.R`, `*.sh`, `*.js`, `*.ts`). Then check the file's own folder; the file counts as covered when the root map or a README describes that folder.
+- **Resolve:** propose a destination among the existing folders based on file type, or ask the user what the file is for. Never delete an orphan without approval.
+- **Never flag:** documentation and owner files listed in `conventions.md` § Naming, decision records, or deliverables.
+
+### D. Tracked per-machine state
+
+- **Looks for:** tracked paths that match a pattern in `conventions.md` § .gitignore categories, tracked per-user files inside a root `.<tool>/` folder as that section defines them, and a `.gitignore` missing one of that section's categories.
+- **Verify:** confirm each path appears in `git ls-files`, and check whether `.gitignore` already has a line covering it.
+- **Resolve:** propose `git rm --cached <path>`, plus the matching `.gitignore` line when none exists. The file stays on disk; only the index entry is removed.
+- **Never flag:** `.env.example` or other templates meant to be shared.
+
+### E. Stale facts
+
+- **Looks for:** every path, filename, folder, command, and count named in project documentation.
+- **Verify:** check each path and name against disk and `git ls-files`, and each count against the file or script that produces it. For a command, confirm the script exists and read its argument parser to confirm it accepts the flags named.
+- **Resolve:** correct the doc to match disk. Never change a number without its source; when the source cannot be found, list the count under out of scope.
+- **Never flag:** placeholder patterns such as `<name>_old` or `YYYY-MM-DD_slug`, or external paths that the root map names as outside the repository.
+
+### F. History clauses
+
+- **Looks for:** a date on a change, and the phrases listed in `conventions.md` § Current-state rule.
+- **Verify:** for every date and every phrase found, read the whole sentence and flag it only when it contrasts the current state with an earlier one. The same words used for present behavior ("runs until the queue is empty") describe a current fact.
+- **Resolve:** rewrite the sentence to state the current fact, as in the example in `conventions.md` § Current-state rule.
+- **Never flag:** the exceptions listed in `conventions.md` § Current-state rule, or the date in a `YYYY-MM-DD_slug` filename.
+
+### G. Duplication
+
+- **Looks for:** the same rule or fact stated in two or more files.
+- **Verify:** compare the statements and confirm they give the same content rather than two related rules.
+- **Resolve:** choose the owner, the file whose type in the table in `conventions.md` § Documentation model matches the topic, and ask the user when more than one type fits. Keep the statement in the owner and replace every other statement with a pointer in the form that `conventions.md` § Documentation model gives.
+- **Never flag:** a pointer that names its owner, or the one-line entry the root map gives a folder whose README holds the full account.
+
+### H. Structure
+
+- **Looks for:** a document missing the fixed parts of its type; a top-level folder or unit folder without a README; a top-level folder README the root map does not point to, or a unit README the index does not link; an index written as prose; detail in the root map that belongs in a folder README; a unit README whose result has no date; sibling unit folders with different inside layouts; a root folder whose subfolders do not mirror the project's existing split, or that holds different kinds of file (scripts, documents, media) directly with no subfolders; a section with fewer than two substantive sentences; a wrapper folder around the role folders; a folder holding one item (unit folders and the role folders in `conventions.md` § Layout excepted); a collection nested by meaning; `outputs/` subfolders that do not match the stages under `scripts/`.
+- **Verify:** name each document's type from the table in `conventions.md` § Documentation model and check its fixed parts in order; compare folders against `conventions.md` § Layout and collections against § Naming.
+- **Resolve:** propose the missing README, table, or date, drafted in full in the plan file; move root-map detail to the folder README that owns it and leave a pointer; propose the moves that give each folder the layout in § Layout.
+- **Never flag:** folders below a gitignored top-level folder or inside `_archive/`, item folders in a collection keyed by identifier, which the collection's own README covers, or an index README, a table, a code block, or a run line under the two-sentence rule.
+
+### I. Prose
+
+- **Looks for:** sentences that announce what follows, restatement of a point already made, padding, and figures of speech.
+- **Verify:** check each candidate against the user's global writing rules (for example, files under `~/.claude/rules/` and `~/CLAUDE.md`) when they exist. The user's writing rules take precedence over the categories above.
+- **Resolve:** propose the rewrite, with the old and new sentence side by side in the plan file.
+- **Never flag:** quoted text, code, command lines, or a banned phrase quoted to state a rule.
+
+### Scope of E to I
+
+Detectors E, F, G, and I, and the document checks in H, read only Markdown whose job is describing the repository: the root map, folder READMEs, index and unit READMEs, and owner files. Anything the root map lists as a deliverable is outside their scope, and so are correspondence and reports written for readers. Detectors A to D still check the names and locations of those files.
 
 ## Scope
 
 **Include**
 
-- Subfolder casing alignment (docs and disk)
-- Archiving superseded generations under `_archive/`
-- Moving orphan files to `refs/` / `assets/` / `data/` (with user confirmation on destination)
-- Untracking per-machine or per-user state; extending `.gitignore`
-- Refreshing the project-level docs file (structure diagram and conventions)
-- Refreshing session-persistent memory path references
+- Layout and naming alignment between disk, docs, and `conventions.md`
+- Removal of tracked superseded content and archiving of untracked superseded content
+- Placement of orphan files
+- Untracking per-machine state and extending `.gitignore`
+- Refining and restructuring project documentation: creating missing READMEs, consolidating duplicated content into one owner, and moving detail from the root map into folder READMEs
+- Updating path references in the project's memory notes (`~/.claude/projects/<project>/memory/`), listed in the plan with the move they follow
 
 **Exclude**
 
-- Splitting or merging pipeline, data, or script folders
-- Consolidating parallel generation outputs (e.g., two folders holding the same artifacts)
-- Deleting files (archive-only unless user explicitly confirms deletion)
-- Running `/commit` or `/ship` (explicit hand-off)
-- Renaming folders across casing conventions on disk (only on explicit request)
-- Reorganizing anything inside `.git/` or gitignored paths
-
-## Checklist
-
-- [ ] Audit walked disk and parsed the project-level docs structure diagram
-- [ ] All four detectors ran (case drift, superseded, orphans, tracked local state)
-- [ ] Plan file written to `~/.claude/plans/organize-<repo>-<date>.md`
-- [ ] Ambiguous calls resolved via `AskUserQuestion`, not assumed
-- [ ] Moves used sync-safe `copytree` + retry pattern, not `rename` / `mv`
-- [ ] Project-level docs file reflects final disk state
-- [ ] `.gitignore` covers any per-machine or per-user state flagged by Detector D
-- [ ] Hand-off message tells the user to run `/commit` or `/ship`
+- Deliverable prose: anything the root map lists as a deliverable, correspondence, and reports written for readers
+- Splitting or merging pipeline, data, or script folders without an explicit request
+- Running workbook, build, or pipeline scripts
+- Anything inside `.git/`
+- Changes inside gitignored paths other than moves into `_archive/`; a finding there from detectors A, C, or D goes under Out of scope
+- Committing or pushing
