@@ -78,10 +78,3 @@ export $(cat /path/to/.env | xargs)
 
 **Include:** Document-to-story conversion, infographic generation, logo branding.
 **Exclude:** Slide decks (use q-presentations), data visualization, chart generation.
-
-## Checklist
-
-- [ ] Source document converted to markdown
-- [ ] Story reviewed and approved by user before infographic generation
-- [ ] Infographic generated with correct naming convention
-- [ ] Logo overlay applied

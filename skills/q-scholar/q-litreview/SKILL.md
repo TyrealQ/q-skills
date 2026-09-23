@@ -56,7 +56,7 @@ RQs should feel earned by the argument, connected to the preceding analysis rath
 
 | Step | Action | Reference |
 |------|--------|-----------|
-| 1 | Interview: if an introduction exists, read it first to identify literature it previews | references/interview_questions.md |
+| 1 | Interview: if an introduction exists, read it first to identify literature it previews. Ask what literature review length is typical for the target venue, and scale the eight-paragraph structure to fit. | references/interview_questions.md |
 | 2 | Outline: map progressive argument across 8 paragraphs (4 per subsection) | Architecture above |
 | 3 | Draft: write flowing paragraphs of 6-10 sentences | references/literature_review_template.md |
 | 4 | Coordination (if intro exists): verify intro compresses, lit review elaborates; theory defined here; concrete examples here; coined phrases in one section only; RQ framing differs | — |
@@ -65,12 +65,3 @@ RQs should feel earned by the argument, connected to the preceding analysis rath
 ## Scope
 
 **Include:** Theoretical framework (origins, dimensions, mechanisms, extensions), synthesis of prior research with specific contributions, gaps as narrative consequences, conceptual motivation for the analytical approach, earned research questions.
-
-## Checklist
-
-- [ ] Purely conceptual (no measurement methodology or analytical procedures)
-- [ ] RQs feel earned by the argument (not restated from intro)
-- [ ] Dense citations woven into narrative (not cataloged)
-- [ ] No standalone intro paragraphs or single-sentence paragraphs
-- [ ] Cross-section coordination verified (if intro exists)
-- [ ] Appropriate length for venue

@@ -21,6 +21,7 @@ Draft results sections following APA 7th edition standards with narrative flow a
 - Organize by research questions or analytical stages, not by statistical test
 - Tables support the narrative, not replace it
 - Report findings objectively without interpretation (save for discussion)
+- Observational connectors such as "consistent with" or "suggesting" may still be used to link related findings, as long as they do not assert a mechanism or cause.
 - No unnecessary bold or italic emphasis in running text
 - Wrap all formulas and operator-heavy expressions in inline code backticks, in both prose and table cells (see ../references/apa_style_guide.md, "Equations, Formulas, and Set Notation")
 - Focus the main text on core findings that directly address the research questions; move peripheral, supplementary, or exhaustive detail to appendices
@@ -71,11 +72,3 @@ The main text tells the story of the findings; appendices provide the evidence t
 ## Scope
 
 **Include:** Statistical findings, pattern discoveries, comparative analyses, distribution results. **Reserve:** Theoretical interpretation, implications, causal explanations (discussion).
-
-## Checklist
-
-- [ ] Tables referenced before they appear; formatted per ../references/table_formatting.md
-- [ ] No interpretation beyond observational connectors ("consistent with," "suggesting")
-- [ ] Statistics formatted per ../references/apa_style_guide.md (italicized symbols, no leading zeros on bounded values)
-- [ ] Core findings in main text; peripheral detail in appendices with cross-references
-- [ ] Appendix cross-references at point of first relevance

@@ -90,11 +90,3 @@ Detection priority: `--lang` flag > EXTEND.md > user conversation language > sou
 
 **Include:** Slide deck generation from content with logo branding and video-overlay-aware layouts.
 **Exclude:** Slide editing in PowerPoint, animation, speaker notes.
-
-## Checklist
-
-- [ ] Style and audience confirmed with user
-- [ ] Layout selection compatible with video_overlay_side
-- [ ] Logo overlay applied (or explicitly set to none)
-- [ ] PPTX and PDF outputs generated
-- [ ] Output summary displayed to user

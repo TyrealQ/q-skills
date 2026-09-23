@@ -78,15 +78,3 @@ Files are omitted when no columns of that type exist. Output directory: `tables-
 **Include:** Any .xlsx/.csv dataset — academic, business, or general. Outputs feed directly into q-methods and q-results.
 
 **Exclude:** Confirmatory statistics, visualization, hypothesis testing, data cleaning beyond script internals.
-
-## Checklist
-
-- [ ] Column classification table presented and confirmed by user
-- [ ] If corrections were requested, full updated classification table re-presented alongside Stage A context and explicitly approved before script invocation
-- [ ] Confirmed types passed via `--col_types`; grouping columns via `--group`
-- [ ] Each detected column type has at least one output file
-- [ ] `EXPLORATORY_SUMMARY.md` follows references/summary_template.md structure
-- [ ] Descriptive tables use core + detail split-table format
-- [ ] Every content section cites its source CSV in the heading
-- [ ] Numbers in the summary match the source CSVs exactly
-- [ ] No ad-hoc Python used to derive findings outside the script pipeline

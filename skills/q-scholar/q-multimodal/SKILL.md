@@ -25,6 +25,7 @@ Do this once when adopting the skill in a new project. The canonical layout is a
 - **Scan input columns** (adapt reader to file format):
   `python -c "import pandas as pd; print(list(pd.read_<FORMAT>('INPUT', nrows=1).columns))"`
 - **Confirm** `--id-cols` with the user. The file column (`--file-col`) is always retained in output — every row identifies its exact media asset — and `--id-cols` adds further columns (e.g. a post id) carried through checkpoints and merges.
+- **Confirm** `--features` with the user as well, so the feature categories a pipeline extracts match what the analysis needs.
 
 ## References
 
@@ -73,6 +74,8 @@ Shared utilities: `common.py` — `read_input()`, `save_excel()`, `derive_subjec
 
 **Command pattern**: `python <script> --input <file> --base-dir <root> [--features ...] [--id-cols ...] [--subjects ...] [--preview] [--merge]`
 
+After a run finishes, check the output for rows with `ok=False` and confirm the failure count is zero or has an understood cause before treating the extraction as complete.
+
 ### Gemini Pipelines (config-driven)
 
 Both pipelines read a `pipeline_config.py` file that defines paths, schema, metadata formatting, and validation rules. Copy `scripts/gemini/pipeline_config.py` to your project and customize.
@@ -116,11 +119,3 @@ python 5review.py --config /path/to/config.py --merge
 **Include**: Image/video/audio feature extraction, Gemini visual semantic analysis, batch job management, checkpoint merging, multi-key quota management.
 
 **Exclude**: ML model training, deep learning inference, real-time streaming analysis.
-
-## Checklist
-
-- [ ] Read project CLAUDE.md for paths and column names
-- [ ] Confirm `--id-cols` and `--features` with user
-- [ ] `--preview` dry run confirms expected subjects and counts
-- [ ] Extraction completed with 0 or acceptable failures
-- [ ] For Gemini: `.env` with API keys, system prompt file created

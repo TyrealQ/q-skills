@@ -59,11 +59,3 @@ The main text presents the analytical logic at a level accessible to the target 
 ## Scope
 
 **Include:** Sample and corpus descriptive overview, preprocessing procedures, analytical methods, validation protocols.
-
-## Checklist
-
-- [ ] Conceptual language throughout (no library names or code-level details in main text)
-- [ ] Each workflow stage has appendix cross-references for technical parameters
-- [ ] No analysis findings reported (reserved for results)
-- [ ] Placeholders marked for pending contributions
-- [ ] Appendix structure follows ../references/appendix_template.md

@@ -87,6 +87,7 @@ Rules:
 - Specify files explicitly — never use `git add .` or `git add -A`
 - Exclude temp files (`*.bak-*`, `.DS_Store`, `node_modules/`)
 - Exclude test scaffolding (`tests/`, `test_*.py`) from repos that ship as shared/public artifacts unless the user asks to include it
+- Exclude files that likely contain secrets, such as `.env` or `credentials.json`, from staging unless the user explicitly asks to include them
 
 ### Step 6: Cleanup temp files
 
@@ -105,13 +106,3 @@ find . -not -path '*/.git/*' -type d \( -name '__pycache__' -o -name '.pytest_ca
 ### Step 7: Confirm
 
 Run: `git log --oneline -3`
-
-## Checklist
-
-- [ ] All modified files reviewed and classified
-- [ ] Cascade check completed for script/data changes
-- [ ] CLAUDE.md updated if project structure or dependencies changed
-- [ ] Commit message follows conventional commits format
-- [ ] No temp files or sensitive files staged
-- [ ] Commit completed successfully
-- [ ] Temp files cleaned after commit

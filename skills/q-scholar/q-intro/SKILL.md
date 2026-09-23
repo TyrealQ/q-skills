@@ -29,6 +29,8 @@ The templates describe what goes where; this section describes why and how parag
 
 ### Paragraph Roles
 
+A full introduction is typically 3 to 5 paragraphs; P1 to P5 may combine or split depending on venue length.
+
 **P1 (Phenomenon and Stakes):** Establish the broader trend, signal the specific context, end with what is at risk or unknown. The final sentence should implicitly raise a question P2 will address.
 
 **P2 (Literature and Gaps):** Begin from the target discipline's core traditions. Progress outward as the discipline's tools prove insufficient. Reframe the central question. Let gaps emerge as consequences of the trajectory, not disconnected items.
@@ -64,15 +66,3 @@ Literature streams enter because the previous stream raised a question it cannot
 **Include:** Phenomenon contextualization, prior literature and gaps (narrative arc), theoretical framework (motivated), research questions (progressive scope) with brief method preview, contributions, roadmap.
 
 **When a standalone lit review exists:** Compress the intro's literature to 1-2 sentences per stream with parenthetical citations. Introduce theory by stating what it does, not its full definition. Place concrete examples in the lit review. Integrate gaps as narrative consequences, not enumerated lists.
-
-## Checklist
-
-- [ ] Opening establishes phenomenon before specific context
-- [ ] Literature traces a single arc from the target discipline outward
-- [ ] Theory introduction motivated by preceding need, not introduced abruptly
-- [ ] Cross-paragraph bridges are explicit
-- [ ] Gaps emerge from the trajectory (typically 2-4)
-- [ ] RQs address identified gaps with scope progression
-- [ ] Contributions enumerated with parallel structure
-- [ ] Appropriate length for venue (typically 3-5 paragraphs)
-- [ ] If standalone lit review: intro compresses, lit review elaborates

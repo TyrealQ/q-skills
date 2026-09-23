@@ -54,12 +54,3 @@ Produce course materials for graduate-level, projects-first courses through an i
 ## Scope
 
 **Include:** Lecture outlines, demo outlines, follow-up emails, assignment prompts, per-group feedback for graduate-level projects-first courses.
-
-## Checklist
-
-- [ ] Interview completed before drafting (references/interview_protocol.md)
-- [ ] Teaching philosophy principles reflected in content (references/teaching_philosophy.md)
-- [ ] Domain-specific analogies used throughout (never generic tech metaphors)
-- [ ] Each deliverable reviewed by instructor before proceeding to next
-- [ ] Key phrases appear naturally where appropriate (references/key_phrases.md)
-- [ ] Deliverable follows its template structure and design rules

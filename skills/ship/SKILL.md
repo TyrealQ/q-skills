@@ -195,14 +195,3 @@ find . -not -path '*/.git/*' -type d \( -name '__pycache__' -o -name '.pytest_ca
 Run: `git log --oneline -3`
 
 Display the commit hash and message to confirm success.
-
-## Checklist
-
-- [ ] All modified files reviewed and classified
-- [ ] Cascade check completed for script/data changes
-- [ ] CHANGELOG.md updated with today's date section
-- [ ] CLAUDE.md and README files updated if project structure or described content changed
-- [ ] Stale and missing references resolved (deleted files, renamed paths)
-- [ ] Commit messages follow conventional commits format
-- [ ] Push completed successfully
-- [ ] Temp files cleaned after push

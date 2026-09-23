@@ -75,11 +75,3 @@ Adapt scripts by updating FINAL_TOPICS, FINAL_LABELS, and theme categories. See 
 ## Scope
 **Include:** Topic consolidation, theoretical classification, Excel label updates, outlier reclassification.
 **Exclude:** Topic modeling itself (BERTopic/LDA/NMF execution), visualization, statistical analysis.
-
-## Checklist
-- [ ] All non-outlier topics assigned to at least one category
-- [ ] Multi-category topics explicitly tracked
-- [ ] Overlap reconciliation verified
-- [ ] Domain-specific topics preserved separately
-- [ ] Category subtotals match grand total
-- [ ] Output file has new classification columns

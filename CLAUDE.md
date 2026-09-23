@@ -53,7 +53,6 @@ Each skill follows the standard SKILL.md template (~65-97 lines):
 - `## Core Principles` — 5-7 terse, actionable bullets
 - `## Workflow` — `| Step | Action | Reference |` table format
 - `## Scope` (optional) — Include / Exclude
-- `## Checklist` — 4-8 verification items
 
 Supporting folders:
 - `scripts/` — Python scripts for automation
